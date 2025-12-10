@@ -34,8 +34,8 @@
     # Pre-commit hooks
     pre-commit
 
-    # Infrastructure tools
-    terraform
+    # Infrastructure tools (using binary releases)
+    opentofu      # Open source Terraform fork (binary)
     terragrunt
   ];
 
