@@ -1,0 +1,130 @@
+# Claude Code Project Guidelines
+
+This is a Nix Flakes-based configuration for NixOS and Home Manager.
+
+## Project Overview
+
+- **Purpose**: Manage NixOS systems and Home Manager environments
+- **User**: Louis King (louis / jinglemansweep@gmail.com)
+- **Approach**: Nix Flakes only (no legacy nix-channel)
+
+## Key Files
+
+| File | Purpose |
+|------|---------|
+| `flake.nix` | Main entry point, defines all outputs |
+| `hosts/common/default.nix` | Shared NixOS configuration |
+| `hosts/<hostname>/default.nix` | Host-specific NixOS config |
+| `hosts/<hostname>/hardware-configuration.nix` | Hardware-specific config (generated) |
+| `home/common/default.nix` | Shared Home Manager config |
+| `home/nixos.nix` | NixOS Home Manager entry (includes desktop) |
+| `home/standalone.nix` | ChromeOS/WSL Home Manager entry (no desktop) |
+
+## Directory Structure
+
+```
+hosts/           # NixOS system configurations
+  common/        # Shared across all NixOS hosts
+  dell-latitude-7420/
+  hp-elitedesk-800g2/
+
+modules/         # NixOS modules
+  desktop/       # Gnome, i3
+  docker.nix
+
+home/            # Home Manager entry points
+  common/        # Shared home config
+
+home-modules/    # Home Manager modules
+  shell/         # bash, git, tmux, starship, CLI tools
+  dev/           # Python, Node, Go, AI CLI tools
+  tools/         # AWS, kubectl, helm, infisical
+  desktop/       # Firefox, VSCode, apps (NixOS only)
+```
+
+## Configuration Targets
+
+| Target | Command |
+|--------|---------|
+| Dell Latitude 7420 | `sudo nixos-rebuild switch --flake .#dell-latitude-7420` |
+| HP EliteDesk 800 G2 | `sudo nixos-rebuild switch --flake .#hp-elitedesk-800g2` |
+| Standalone (WSL/ChromeOS) | `home-manager switch --flake .#louis` |
+
+## Adding New Features
+
+### New NixOS Module
+1. Create file in `modules/`
+2. Import in `hosts/common/default.nix` or specific host
+
+### New Home Manager Module
+1. Create file in `home-modules/<category>/`
+2. Import in the category's `default.nix`
+3. For desktop-only: import in `home-modules/desktop/default.nix`
+4. For all environments: import in `home/common/default.nix`
+
+### New Host
+1. Create `hosts/<hostname>/default.nix`
+2. Generate `hardware-configuration.nix` on target hardware
+3. Add to `flake.nix` nixosConfigurations
+
+## Important Conventions
+
+- **Locale**: en_GB.UTF-8, Europe/London timezone
+- **User**: louis (in wheel, docker, podman groups)
+- **Shell**: bash with starship prompt
+- **Tmux prefix**: Ctrl+a (not Ctrl+b)
+- **Git**: pull.rebase = false
+- **Docker**: Default container runtime (Podman also available)
+
+## Package Locations
+
+| Category | Location | Notes |
+|----------|----------|-------|
+| System packages | `hosts/common/default.nix` | Minimal (vim, git, wget, curl, VPN tools) |
+| Shell tools | `home-modules/shell/default.nix` | bat, fzf, ripgrep, etc. |
+| Dev languages | `home-modules/dev/*.nix` | Python, Node, Go |
+| AI CLI tools | `home-modules/dev/default.nix` | claude-code, gemini-cli, opencode |
+| DevOps tools | `home-modules/tools/*.nix` | AWS, kubectl, helm |
+| Desktop apps | `home-modules/desktop/*.nix` | Only on NixOS |
+
+## Firefox Extensions
+
+Managed via NUR (Nix User Repository) in `home-modules/desktop/browsers.nix`:
+- uBlock Origin
+- Bitwarden
+
+## VSCode Extensions
+
+Managed in `home-modules/desktop/vscode.nix`:
+- Remote containers/SSH
+- Docker
+- Terraform
+- YAML
+
+## Testing Changes
+
+```bash
+# Check flake syntax
+nix flake check
+
+# Build without switching
+nix build .#nixosConfigurations.dell-latitude-7420.config.system.build.toplevel
+
+# Test in VM
+nix build .#nixosConfigurations.dell-latitude-7420.config.system.build.vm
+./result/bin/run-*-vm
+```
+
+## Common Issues
+
+### Firefox Extensions Not Loading
+The NUR input may need to be added to flake.nix if Firefox extensions fail:
+```nix
+inputs.nur.url = "github:nix-community/NUR";
+```
+
+### VSCode Extension SHA Mismatch
+Update the sha256 in `home-modules/desktop/vscode.nix` when extension versions change.
+
+### Hardware Config Missing
+Generate on target machine: `nixos-generate-config --show-hardware-config`
