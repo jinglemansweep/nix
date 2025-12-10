@@ -2,11 +2,9 @@
 
 {
   # Enable X11 and Gnome
-  services.xserver = {
-    enable = true;
-    displayManager.gdm.enable = true;
-    desktopManager.gnome.enable = true;
-  };
+  services.xserver.enable = true;
+  services.displayManager.gdm.enable = true;
+  services.desktopManager.gnome.enable = true;
 
   # Gnome-specific packages
   environment.gnome.excludePackages = with pkgs; [
