@@ -20,20 +20,7 @@
       # YAML
       redhat.vscode-yaml
     ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
-      # Claude Code (from marketplace)
-      {
-        name = "claude-dev";
-        publisher = "saoudrizwan";
-        version = "3.2.2";
-        sha256 = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
-      }
-      # Remote Server
-      {
-        name = "remote-server";
-        publisher = "ms-vscode";
-        version = "1.5.2024051409";
-        sha256 = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
-      }
+
     ];
 
     userSettings = {
