@@ -81,26 +81,15 @@ sudo mkdir -p /mnt/boot
 sudo mount /dev/disk/by-label/boot /mnt/boot
 sudo swapon /dev/disk/by-label/swap
 
-# Generate hardware configuration
-sudo nixos-generate-config --root /mnt
-
 # Clone this repository
-sudo git clone https://github.com/yourusername/nix-config.git /mnt/etc/nixos
-
-# Copy generated hardware-configuration.nix to the appropriate host directory
-# For Dell Latitude:
-sudo cp /mnt/etc/nixos/hardware-configuration.nix /mnt/etc/nixos/hosts/latitude/
-
-# For HP EliteDesk:
-# sudo cp /mnt/etc/nixos/hardware-configuration.nix /mnt/etc/nixos/hosts/elitedesk/
+git clone https://github.com/jinglemansweep/nix.git /tmp/nix
 
 # Install NixOS
-sudo nixos-install --flake /mnt/etc/nixos#latitude
+sudo nixos-install --flake /tmp/nix#latitude
 # or
-# sudo nixos-install --flake /mnt/etc/nixos#elitedesk
+# sudo nixos-install --flake /tmp/nix#elitedesk
 
-# Set root password when prompted
-# Reboot
+# Set root password when prompted, then reboot
 sudo reboot
 ```
 
@@ -112,9 +101,9 @@ After rebooting:
 # Set user password
 sudo passwd louis
 
-# Clone config to home directory for easier management
-git clone https://github.com/yourusername/nix-config.git ~/nix-config
-cd ~/nix-config
+# Clone config to home directory for future updates
+git clone https://github.com/jinglemansweep/nix.git ~/nix
+cd ~/nix
 
 # Future updates
 sudo nixos-rebuild switch --flake .#latitude
@@ -125,7 +114,7 @@ sudo nixos-rebuild switch --flake .#latitude
 ### NixOS
 
 ```bash
-cd ~/nix-config
+cd ~/nix
 
 # Update flake inputs
 nix flake update
@@ -139,7 +128,7 @@ sudo nixos-rebuild switch --flake .#elitedesk
 ### Standalone Home Manager
 
 ```bash
-cd ~/nix-config
+cd ~/nix
 
 # Update flake inputs
 nix flake update
