@@ -249,12 +249,12 @@ nix build .#nixosConfigurations.latitude.config.system.build.vm
 ./result/bin/run-*-vm
 ```
 
-#### Using VirtualBox
-
-1. Build an OVA image:
+#### Using Proxmox
 
 ```bash
-nix build .#nixosConfigurations.latitude.config.system.build.virtualBoxOVA
-```
+# Build a QCOW2 image
+nix build .#nixosConfigurations.latitude.config.system.build.qcow
 
-2. Import `result/*.ova` into VirtualBox
+# Copy to Proxmox storage
+scp result/nixos.qcow2 proxmox:/var/lib/vz/images/
+```
