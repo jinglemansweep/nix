@@ -24,6 +24,23 @@
     neofetch
   ];
 
+  # XDG user directories (lowercase, consolidated)
+  xdg = {
+    enable = true;
+    userDirs = {
+      enable = true;
+      createDirectories = true;
+      desktop = "${config.home.homeDirectory}/desktop";
+      documents = "${config.home.homeDirectory}/data/documents";
+      download = "${config.home.homeDirectory}/tmp/downloads";
+      music = "${config.home.homeDirectory}/data/media/music";
+      pictures = "${config.home.homeDirectory}/data/media/pictures";
+      videos = "${config.home.homeDirectory}/data/media/videos";
+      templates = null;  # Disabled
+      publicShare = null;  # Disabled
+    };
+  };
+
   # This value determines the Home Manager release
   home.stateVersion = "24.05";
 }
