@@ -26,4 +26,8 @@
 
   # Enable dconf for Gnome settings
   programs.dconf.enable = true;
+
+  # Disable GNOME's SSH agent (using keychain instead)
+  programs.ssh.startAgent = false;
+  services.gnome.gnome-keyring.enable = lib.mkForce false;
 }
