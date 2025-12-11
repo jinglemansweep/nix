@@ -35,11 +35,11 @@
       # NixOS configurations
       nixosConfigurations = {
         # Dell Latitude 7420
-        dell-latitude-7420 = nixpkgs.lib.nixosSystem {
+        latitude = nixpkgs.lib.nixosSystem {
           inherit system;
           specialArgs = { inherit inputs userConfig; };
           modules = [
-            ./hosts/dell-latitude-7420
+            ./hosts/latitude
             ./hosts/common
             { nixpkgs.overlays = [ nur.overlays.default ]; }
             home-manager.nixosModules.home-manager
@@ -53,11 +53,11 @@
         };
 
         # HP EliteDesk 800 G2 Mini
-        hp-elitedesk-800g2 = nixpkgs.lib.nixosSystem {
+        elitedesk = nixpkgs.lib.nixosSystem {
           inherit system;
           specialArgs = { inherit inputs userConfig; };
           modules = [
-            ./hosts/hp-elitedesk-800g2
+            ./hosts/elitedesk
             ./hosts/common
             { nixpkgs.overlays = [ nur.overlays.default ]; }
             home-manager.nixosModules.home-manager

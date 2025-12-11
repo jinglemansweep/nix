@@ -6,7 +6,7 @@
     inputs.nixos-hardware.nixosModules.dell-latitude-7420
   ];
 
-  networking.hostName = "dell-latitude-7420";
+  networking.hostName = "latitude";
 
   # Power management for laptop
   services.tlp = {

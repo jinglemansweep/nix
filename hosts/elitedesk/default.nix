@@ -5,7 +5,7 @@
     ./hardware-configuration.nix
   ];
 
-  networking.hostName = "hp-elitedesk-800g2";
+  networking.hostName = "elitedesk";
 
   # Desktop-optimized power settings (no power saving needed)
   powerManagement.cpuFreqGovernor = "performance";

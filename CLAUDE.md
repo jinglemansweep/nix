@@ -25,8 +25,8 @@ This is a Nix Flakes-based configuration for NixOS and Home Manager.
 ```
 hosts/           # NixOS system configurations
   common/        # Shared across all NixOS hosts
-  dell-latitude-7420/
-  hp-elitedesk-800g2/
+  latitude/
+  elitedesk/
 
 modules/         # NixOS modules
   desktop/       # Gnome, i3
@@ -46,8 +46,8 @@ home-modules/    # Home Manager modules
 
 | Target | Command |
 |--------|---------|
-| Dell Latitude 7420 | `sudo nixos-rebuild switch --flake .#dell-latitude-7420` |
-| HP EliteDesk 800 G2 | `sudo nixos-rebuild switch --flake .#hp-elitedesk-800g2` |
+| Dell Latitude 7420 | `sudo nixos-rebuild switch --flake .#latitude` |
+| HP EliteDesk 800 G2 | `sudo nixos-rebuild switch --flake .#elitedesk` |
 | Standalone (WSL/ChromeOS) | `home-manager switch --flake .#louis` |
 
 ## Adding New Features
@@ -108,10 +108,10 @@ Managed in `home-modules/desktop/vscode.nix`:
 nix flake check
 
 # Build without switching
-nix build .#nixosConfigurations.dell-latitude-7420.config.system.build.toplevel
+nix build .#nixosConfigurations.latitude.config.system.build.toplevel
 
 # Test in VM
-nix build .#nixosConfigurations.dell-latitude-7420.config.system.build.vm
+nix build .#nixosConfigurations.latitude.config.system.build.vm
 ./result/bin/run-*-vm
 ```
 
