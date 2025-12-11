@@ -42,7 +42,7 @@
         "workbench.colorTheme" = "Default Dark+";
         "git.autofetch" = true;
         "claudeCode.preferredLocation" = "panel";
-        "claudeCode.claudeProcessWrapper" = "/etc/profiles/per-user/${config.home.username}/bin/claude";
+        "claudeCode.claudeProcessWrapper" = "claude";
       };
     };
   };
