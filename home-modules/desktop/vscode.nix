@@ -41,6 +41,7 @@
         "terminal.integrated.fontSize" = 13;
         "terminal.integrated.suggest.enabled" = false;
         "workbench.colorTheme" = "Default Dark+";
+        "workbench.startupEditor" = "none";
         "git.autofetch" = true;
         "claudeCode.preferredLocation" = "panel";
         "claudeCode.claudeProcessWrapper" = "/etc/profiles/per-user/${config.home.username}/bin/claude";
