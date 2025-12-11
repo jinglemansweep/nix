@@ -21,5 +21,8 @@
     claude-code
     gemini-cli
     opencode
+
+    # MQTT
+    mosquitto
   ];
 }
