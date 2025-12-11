@@ -5,7 +5,7 @@
     ./hardware-configuration.nix
   ];
 
-  networking.hostName = "elitedesk";
+  networking.hostName = "lounge";
 
   # Enable desktop environments
   desktop.gnome.enable = true;

@@ -51,12 +51,12 @@
           ];
         };
 
-        # HP EliteDesk 800 G2 Mini
-        elitedesk = nixpkgs.lib.nixosSystem {
+        # HP EliteDesk 800 G2 Mini (Lounge)
+        lounge = nixpkgs.lib.nixosSystem {
           inherit system;
           specialArgs = { inherit inputs userConfig; };
           modules = [
-            ./hosts/elitedesk
+            ./hosts/lounge
             ./hosts/common
             { nixpkgs.overlays = [ nur.overlays.default ]; }
             home-manager.nixosModules.home-manager
