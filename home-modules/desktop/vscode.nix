@@ -12,9 +12,6 @@
         ms-vscode-remote.remote-ssh
         ms-vscode-remote.remote-ssh-edit
 
-        # AI
-        anthropic.claude-code
-
         # Docker
         ms-azuretools.vscode-docker
 
@@ -24,7 +21,12 @@
         # YAML
         redhat.vscode-yaml
       ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
-
+        {
+          name = "claude-code";
+          publisher = "anthropic";
+          version = "2.0.65";
+          sha256 = "07xjzf7691l067bbaw77595w88bpnmh3h4v2wsb4ax18ds063rwa";
+        }
       ];
 
       userSettings = {
