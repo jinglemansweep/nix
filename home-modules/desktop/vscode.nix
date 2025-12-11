@@ -39,6 +39,7 @@
         "files.autoSave" = "afterDelay";
         "files.autoSaveDelay" = 1000;
         "terminal.integrated.fontSize" = 13;
+        "terminal.integrated.suggest.enabled" = false;
         "workbench.colorTheme" = "Default Dark+";
         "git.autofetch" = true;
         "claudeCode.preferredLocation" = "panel";
