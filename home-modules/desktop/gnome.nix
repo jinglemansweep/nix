@@ -14,5 +14,25 @@
         "org.gnome.Nautilus.desktop"
       ];
     };
+
+    # Custom keybindings
+    "org/gnome/settings-daemon/plugins/media-keys" = {
+      custom-keybindings = [
+        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/"
+        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/"
+      ];
+    };
+
+    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
+      name = "Firefox";
+      command = "firefox";
+      binding = "<Super>b";
+    };
+
+    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1" = {
+      name = "Terminal";
+      command = "gnome-terminal";
+      binding = "<Super>Return";
+    };
   };
 }
