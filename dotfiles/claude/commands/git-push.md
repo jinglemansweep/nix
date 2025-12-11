@@ -1,1 +1,1 @@
-Commit current changes and push to remote.
+Run the "/git-commit" command and then push to remote.
