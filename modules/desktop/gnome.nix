@@ -6,6 +6,9 @@
   services.displayManager.gdm.enable = true;
   services.desktopManager.gnome.enable = true;
 
+  # Hide root from GDM login screen
+  users.users.root.isSystemUser = lib.mkForce true;
+
   # Gnome-specific packages
   environment.gnome.excludePackages = with pkgs; [
     gnome-tour
