@@ -7,10 +7,13 @@
 
     profiles.default = {
       extensions = with pkgs.vscode-extensions; [
-        # Remote Development
+        # Remote
         ms-vscode-remote.remote-containers
         ms-vscode-remote.remote-ssh
         ms-vscode-remote.remote-ssh-edit
+
+        # AI
+        anthropic.claude-code
 
         # Docker
         ms-azuretools.vscode-docker
