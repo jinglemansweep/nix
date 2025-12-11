@@ -41,6 +41,7 @@
         "terminal.integrated.fontSize" = 13;
         "workbench.colorTheme" = "Default Dark+";
         "git.autofetch" = true;
+        "claudeCode.preferredLocation" = "panel";
       };
     };
   };
