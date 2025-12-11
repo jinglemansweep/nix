@@ -6,6 +6,13 @@
       color-scheme = "prefer-dark";
     };
 
+    # Wallpaper (uncomment and set path when ready)
+    # "org/gnome/desktop/background" = {
+    #   picture-uri = "file://${config.home.homeDirectory}/.wallpapers/wallpaper.jpg";
+    #   picture-uri-dark = "file://${config.home.homeDirectory}/.wallpapers/wallpaper.jpg";
+    #   picture-options = "zoom";
+    # };
+
     "org/gnome/shell" = {
       favorite-apps = [
         "firefox.desktop"
