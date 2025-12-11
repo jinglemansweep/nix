@@ -6,8 +6,8 @@ A Nix Flakes-based configuration supporting full NixOS installations and standal
 
 | System | Type | Configuration |
 |--------|------|---------------|
-| Dell Latitude 7420 | Laptop (i7-1185G7) | `nixosConfigurations.dell-latitude-7420` |
-| HP EliteDesk 800 G2 Mini | Desktop | `nixosConfigurations.hp-elitedesk-800g2` |
+| Dell Latitude 7420 | Laptop (i7-1185G7) | `nixosConfigurations.latitude` |
+| HP EliteDesk 800 G2 Mini | Desktop | `nixosConfigurations.elitedesk` |
 | ChromeOS/WSL | Terminal only | `homeConfigurations.louis` |
 
 ## Prerequisites
@@ -89,15 +89,15 @@ sudo git clone https://github.com/yourusername/nix-config.git /mnt/etc/nixos
 
 # Copy generated hardware-configuration.nix to the appropriate host directory
 # For Dell Latitude:
-sudo cp /mnt/etc/nixos/hardware-configuration.nix /mnt/etc/nixos/hosts/dell-latitude-7420/
+sudo cp /mnt/etc/nixos/hardware-configuration.nix /mnt/etc/nixos/hosts/latitude/
 
 # For HP EliteDesk:
-# sudo cp /mnt/etc/nixos/hardware-configuration.nix /mnt/etc/nixos/hosts/hp-elitedesk-800g2/
+# sudo cp /mnt/etc/nixos/hardware-configuration.nix /mnt/etc/nixos/hosts/elitedesk/
 
 # Install NixOS
-sudo nixos-install --flake /mnt/etc/nixos#dell-latitude-7420
+sudo nixos-install --flake /mnt/etc/nixos#latitude
 # or
-# sudo nixos-install --flake /mnt/etc/nixos#hp-elitedesk-800g2
+# sudo nixos-install --flake /mnt/etc/nixos#elitedesk
 
 # Set root password when prompted
 # Reboot
@@ -182,10 +182,10 @@ sudo nixos-generate-config --root /mnt
 sudo git clone https://github.com/yourusername/nix-config.git /mnt/etc/nixos
 
 # Copy generated hardware-configuration.nix
-sudo cp /mnt/etc/nixos/hardware-configuration.nix /mnt/etc/nixos/hosts/dell-latitude-7420/
+sudo cp /mnt/etc/nixos/hardware-configuration.nix /mnt/etc/nixos/hosts/latitude/
 
 # Install NixOS
-sudo nixos-install --flake /mnt/etc/nixos#dell-latitude-7420
+sudo nixos-install --flake /mnt/etc/nixos#latitude
 
 # Reboot
 sudo reboot
@@ -295,7 +295,7 @@ git clone https://github.com/yourusername/nix-config.git ~/nix-config
 cd ~/nix-config
 
 # Future updates
-sudo nixos-rebuild switch --flake .#dell-latitude-7420
+sudo nixos-rebuild switch --flake .#latitude
 ```
 
 ## Updating
@@ -309,9 +309,9 @@ cd ~/nix-config
 nix flake update
 
 # Rebuild system
-sudo nixos-rebuild switch --flake .#dell-latitude-7420
+sudo nixos-rebuild switch --flake .#latitude
 # or
-sudo nixos-rebuild switch --flake .#hp-elitedesk-800g2
+sudo nixos-rebuild switch --flake .#elitedesk
 ```
 
 ### Standalone Home Manager
@@ -332,7 +332,7 @@ home-manager switch --flake .#louis
 
 ```bash
 # Build a VM image
-nix build .#nixosConfigurations.dell-latitude-7420.config.system.build.vm
+nix build .#nixosConfigurations.latitude.config.system.build.vm
 
 # Run the VM
 ./result/bin/run-*-vm
@@ -343,7 +343,7 @@ nix build .#nixosConfigurations.dell-latitude-7420.config.system.build.vm
 1. Build an OVA image:
 
 ```bash
-nix build .#nixosConfigurations.dell-latitude-7420.config.system.build.virtualBoxOVA
+nix build .#nixosConfigurations.latitude.config.system.build.virtualBoxOVA
 ```
 
 2. Import `result/*.ova` into VirtualBox
@@ -410,8 +410,8 @@ nixosConfigurations = {
 ├── flake.lock                # Flake lock file
 ├── hosts/                    # NixOS host configurations
 │   ├── common/               # Shared NixOS configuration
-│   ├── dell-latitude-7420/   # Dell Latitude specific
-│   └── hp-elitedesk-800g2/   # HP EliteDesk specific
+│   ├── latitude/             # Dell Latitude specific
+│   └── elitedesk/            # HP EliteDesk specific
 ├── home/                     # Home Manager configurations
 │   ├── common/               # Shared home configuration
 │   ├── nixos.nix             # NixOS-specific home config
