@@ -5,5 +5,6 @@
     ./browsers.nix
     ./vscode.nix
     ./apps.nix
+    ./gnome.nix
   ];
 }
