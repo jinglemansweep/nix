@@ -3,6 +3,7 @@
     "allow": [
       "Bash(git add:*)",
       "Bash(git commit:*)",
+      "Bash(git log:*)",
       "Bash(git push:*)",
       "Bash(git tag:*)",
       "Bash(tree:*)",
