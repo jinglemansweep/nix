@@ -37,6 +37,9 @@
     # Infrastructure tools (using binary releases)
     opentofu      # Open source Terraform fork (binary)
     terragrunt
+
+    # SSH key management
+    keychain
   ];
 
   # Starship prompt
@@ -57,6 +60,10 @@
       "..." = "cd ../..";
       terraform = "tofu";
     };
+    initExtra = ''
+      # Initialize keychain for SSH key management (all private keys)
+      eval $(keychain --eval --quiet ~/.ssh/id_*)
+    '';
   };
 
   # fzf integration
