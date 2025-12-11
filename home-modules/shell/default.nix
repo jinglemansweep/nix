@@ -55,8 +55,7 @@
       l = "ls -CF";
       ".." = "cd ..";
       "..." = "cd ../..";
-      cat = "bat --paging=never";
-      grep = "rg";
+      terraform = "tofu";
     };
   };
 
