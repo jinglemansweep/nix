@@ -11,7 +11,7 @@
         ms-vscode-remote.remote-containers
         ms-vscode-remote.remote-ssh
         ms-vscode-remote.remote-ssh-edit
-        ms-vscode-remote.remote-server
+        ms-vscode-remote.remote-explorer
 
         # Docker
         ms-azuretools.vscode-docker
