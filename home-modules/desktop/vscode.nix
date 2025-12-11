@@ -42,7 +42,7 @@
         "workbench.colorTheme" = "Default Dark+";
         "git.autofetch" = true;
         "claudeCode.preferredLocation" = "panel";
-        "claudeCode.claudeProcessWrapper" = "claude";
+        "claudeCode.claudeProcessWrapper" = "bash -lc claude";
       };
     };
   };
