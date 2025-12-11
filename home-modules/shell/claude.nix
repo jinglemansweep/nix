@@ -15,7 +15,7 @@
       source = ../../dotfiles/claude/skills;
       recursive = true;
     };
-    # Global CLAUDE.md goes in the root
     ".claude/CLAUDE.md".source = ../../dotfiles/claude/CLAUDE.md;
+    ".claude/settings.json".source = ../../dotfiles/claude/settings.json;
   };
 }
