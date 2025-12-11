@@ -8,6 +8,10 @@
 
   networking.hostName = "latitude";
 
+  # Enable desktop environments
+  desktop.gnome.enable = true;
+  desktop.i3.enable = true;
+
   # Power management for laptop
   services.tlp = {
     enable = false;

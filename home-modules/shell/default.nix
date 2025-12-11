@@ -4,6 +4,7 @@
   imports = [
     ./git.nix
     ./tmux.nix
+    ./claude.nix
   ];
 
   # Shell packages

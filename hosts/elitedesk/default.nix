@@ -7,6 +7,10 @@
 
   networking.hostName = "elitedesk";
 
+  # Enable desktop environments
+  desktop.gnome.enable = true;
+  desktop.i3.enable = true;
+
   # Desktop-optimized power settings (no power saving needed)
   powerManagement.cpuFreqGovernor = "performance";
 
