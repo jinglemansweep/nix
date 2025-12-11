@@ -35,8 +35,8 @@ Download the NixOS ISO from [nixos.org](https://nixos.org/download.html).
 
 ```bash
 # Clone this repository
-git clone https://github.com/yourusername/nix-config.git
-cd nix-config
+git clone https://github.com/jinglemansweep/nix.git ~/nix
+cd ~/nix
 
 # Initial Home Manager setup
 nix run home-manager -- switch --flake .#louis
