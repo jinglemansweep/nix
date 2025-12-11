@@ -21,7 +21,6 @@
       pkgs = import nixpkgs {
         inherit system;
         config.allowUnfree = true;
-        overlays = [ nur.overlays.default ];
       };
 
       # Common user configuration
