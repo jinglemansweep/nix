@@ -36,10 +36,16 @@ home/            # Home Manager entry points
   common/        # Shared home config
 
 home-modules/    # Home Manager modules
-  shell/         # bash, git, tmux, starship, CLI tools
+  shell/         # bash, git, tmux, starship, CLI tools, claude.nix
   dev/           # Python, Node, Go, AI CLI tools
   tools/         # AWS, kubectl, helm, infisical
   desktop/       # Firefox, VSCode, apps (NixOS only)
+
+dotfiles/        # Dotfiles deployed to home directory
+  claude/        # Claude Code configuration (synced via shell/claude.nix)
+
+scripts/         # Utility scripts
+  partition.sh   # Disk partitioning helper
 ```
 
 ## Configuration Targets
@@ -75,6 +81,7 @@ home-modules/    # Home Manager modules
 - **Tmux prefix**: Ctrl+a (not Ctrl+b)
 - **Git**: pull.rebase = false
 - **Docker**: Default container runtime (Podman also available)
+- **Claude Code**: Dotfiles in `dotfiles/claude/` are automatically symlinked to `~/.claude/` via `home-modules/shell/claude.nix`
 
 ## Package Locations
 

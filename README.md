@@ -232,11 +232,19 @@ nixosConfigurations = {
 │   │   ├── gnome.nix
 │   │   └── i3.nix
 │   └── docker.nix
-└── home-modules/             # Reusable Home Manager modules
-    ├── shell/
-    ├── dev/
-    ├── tools/
-    └── desktop/
+├── home-modules/             # Reusable Home Manager modules
+│   ├── shell/                # Shell tools, git, tmux, claude.nix
+│   ├── dev/                  # Development languages and tools
+│   ├── tools/                # DevOps and cloud tools
+│   └── desktop/              # Desktop applications (NixOS only)
+├── dotfiles/                 # Dotfiles deployed to home directory
+│   └── claude/               # Claude Code configuration
+│       ├── CLAUDE.md         # Global Claude instructions
+│       ├── commands/         # Custom slash commands
+│       ├── agents/           # Custom agent definitions
+│       └── skills/           # Custom skills
+└── scripts/                  # Utility scripts
+    └── partition.sh          # Disk partitioning helper for installation
 ```
 
 ## Desktop Environments
