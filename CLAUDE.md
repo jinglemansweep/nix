@@ -26,7 +26,7 @@ This is a Nix Flakes-based configuration for NixOS and Home Manager.
 hosts/           # NixOS system configurations
   common/        # Shared across all NixOS hosts
   latitude/
-  elitedesk/
+  lounge/
 
 modules/         # NixOS modules
   desktop/       # Gnome, i3
@@ -53,7 +53,7 @@ scripts/         # Utility scripts
 | Target | Command |
 |--------|---------|
 | Dell Latitude 7420 | `sudo nixos-rebuild switch --flake .#latitude` |
-| HP EliteDesk 800 G2 | `sudo nixos-rebuild switch --flake .#elitedesk` |
+| HP EliteDesk 800 G2 Mini (Lounge) | `sudo nixos-rebuild switch --flake .#lounge` |
 | Standalone (WSL/ChromeOS) | `home-manager switch --flake .#louis` |
 
 ## Adding New Features
@@ -88,9 +88,10 @@ scripts/         # Utility scripts
 | Category | Location | Notes |
 |----------|----------|-------|
 | System packages | `hosts/common/default.nix` | Minimal (vim, git, wget, curl, VPN tools) |
-| Shell tools | `home-modules/shell/default.nix` | bat, fzf, ripgrep, etc. |
+| Shell tools | `home-modules/shell/default.nix` | bat, fzf, ripgrep, restic, rclone, etc. |
 | Dev languages | `home-modules/dev/*.nix` | Python, Node, Go |
 | AI CLI tools | `home-modules/dev/default.nix` | claude-code, gemini-cli, opencode |
+| MQTT tools | `home-modules/dev/default.nix` | mosquitto |
 | DevOps tools | `home-modules/tools/*.nix` | AWS, kubectl, helm |
 | Desktop apps | `home-modules/desktop/*.nix` | Only on NixOS |
 

@@ -27,7 +27,7 @@ cd ~/nix
 
 # Apply configuration
 sudo nixos-rebuild switch --flake .#latitude
-# or: sudo nixos-rebuild switch --flake .#elitedesk
+# or: sudo nixos-rebuild switch --flake .#lounge
 ```
 
 ## Updating
@@ -57,7 +57,7 @@ home-manager switch --flake .#louis
 ├── hosts/                    # NixOS host configurations
 │   ├── common/               # Shared NixOS configuration
 │   ├── latitude/             # Dell Latitude specific
-│   └── elitedesk/            # HP EliteDesk specific
+│   └── lounge/               # HP EliteDesk specific
 ├── home/                     # Home Manager configurations
 │   ├── common/               # Shared home configuration
 │   ├── nixos.nix             # NixOS-specific home config
@@ -85,10 +85,10 @@ home-manager switch --flake .#louis
 ## Included Software
 
 ### Shell Tools
-bat, fzf, gh, git, htop, pre-commit, rclone, ripgrep, rsync, screen, starship, terraform, terragrunt, tmux, vim
+bat, fzf, gh, git, htop, pre-commit, rclone, restic, ripgrep, rsync, screen, starship, terraform, terragrunt, tmux, vim
 
 ### Development
-Python, Node.js, Go, gcc, make, cmake, claude-code, gemini-cli, opencode
+Python, Node.js, Go, gcc, make, cmake, claude-code, gemini-cli, mosquitto, opencode
 
 ### DevOps
 AWS CLI, kubectl, helm, k9s, infisical
@@ -165,7 +165,7 @@ git clone https://github.com/jinglemansweep/nix.git /tmp/nix
 
 # Install NixOS
 sudo nixos-install --flake /tmp/nix#latitude
-# or: sudo nixos-install --flake /tmp/nix#elitedesk
+# or: sudo nixos-install --flake /tmp/nix#lounge
 
 # Set root password when prompted, then reboot
 sudo reboot
