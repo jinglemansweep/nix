@@ -28,6 +28,7 @@
 
     # Cloud/sync tools
     rclone
+    restic
 
     # GitHub CLI
     gh
