@@ -94,8 +94,11 @@
       terraform = "tofu";
     };
     initExtra = ''
-      # Initialize keychain for SSH key management (all private keys, excluding .pub)
-      eval $(keychain --eval --quiet $(find ~/.ssh -maxdepth 1 -name "id_*" ! -name "*.pub" 2>/dev/null))
+      # Initialize keychain for SSH key management (only for non-GNOME sessions)
+      # GNOME uses gnome-keyring/gcr for SSH agent
+      if [[ "$XDG_CURRENT_DESKTOP" != "GNOME" ]]; then
+        eval $(keychain --eval --quiet $(find ~/.ssh -maxdepth 1 -name "id_*" ! -name "*.pub" 2>/dev/null))
+      fi
     '';
   };
 

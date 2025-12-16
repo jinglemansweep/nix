@@ -37,8 +37,8 @@
       touchpad.naturalScrolling = true;
     };
 
-    # Disable GNOME's SSH agent (using keychain instead)
-    programs.ssh.startAgent = false;
-    services.gnome.gnome-keyring.enable = lib.mkForce false;
+    # Enable GNOME's SSH agent via gnome-keyring
+    programs.ssh.startAgent = false;  # Let gnome-keyring handle it
+    services.gnome.gnome-keyring.enable = true;
   };
 }
