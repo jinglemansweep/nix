@@ -42,6 +42,12 @@
 
     # SSH key management
     keychain
+
+    # Database clients
+    postgresql      # psql
+    mariadb         # mysql client (compatible)
+    redis           # redis-cli
+    mongosh         # MongoDB shell
   ];
 
   # Starship prompt (Minimal style)
