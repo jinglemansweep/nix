@@ -9,7 +9,7 @@
   networking.hostName = "latitude";
   networking.firewall = {
     allowedTCPPorts = [ 22 80 443 3000 8000 8080 8081 8443 ];
-  }
+  };
 
   # Enable desktop environments
   desktop.gnome.enable = true;
