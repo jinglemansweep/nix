@@ -65,6 +65,7 @@
     description = userConfig.fullName;
     extraGroups = [ "networkmanager" "wheel" "docker" "podman" ];
     shell = pkgs.bash;
+    initialHashedPassword = "$6$/ZGKJRex3fGzQF7r$u/wtRd8LWjlpsSSSt1NcpNQCzI2Y0oLaVCgqUHCZY2HBTpnQrProXQo8ueiMHA/Nv8bdCmg2Ftp0AUaxHuvFA1";
   };
 
   # OpenSSH
