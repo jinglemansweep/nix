@@ -7,25 +7,28 @@
     # i3 window manager as an alternative session
     services.xserver.windowManager.i3 = {
       enable = true;
-      extraPackages = with pkgs; [
-        i3status
-        i3lock
-        dmenu
-        rofi
+      extraPackages = [
+        pkgs.i3status
+        pkgs.i3lock
+        pkgs.dmenu
+        pkgs.rofi
       ];
     };
 
+    # Disable system SSH agent (let keychain handle it)
+    programs.ssh.startAgent = false;
+
     # Additional packages useful with i3
-    environment.systemPackages = with pkgs; [
-      rxvt-unicode
-      feh # Wallpaper setter
-      picom # Compositor
-      dunst # Notification daemon
-      arandr # Display configuration
-      pavucontrol # Audio control
-      networkmanagerapplet # Network tray icon
-      xclip # Clipboard
-      maim # Screenshots
+    environment.systemPackages = [
+      pkgs.rxvt-unicode
+      pkgs.feh # Wallpaper setter
+      pkgs.picom # Compositor
+      pkgs.dunst # Notification daemon
+      pkgs.arandr # Display configuration
+      pkgs.pavucontrol # Audio control
+      pkgs.networkmanagerapplet # Network tray icon
+      pkgs.xclip # Clipboard
+      pkgs.maim # Screenshots
     ];
   };
 }

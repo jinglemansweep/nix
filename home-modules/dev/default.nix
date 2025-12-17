@@ -8,21 +8,21 @@
   ];
 
   # Build tools
-  home.packages = with pkgs; [
-    gnumake
-    gcc
-    pkg-config
-    cmake
-    autoconf
-    automake
-    libtool
+  home.packages = [
+    pkgs.gnumake
+    pkgs.gcc
+    pkgs.pkg-config
+    pkgs.cmake
+    pkgs.autoconf
+    pkgs.automake
+    pkgs.libtool
 
     # AI Coding Assistants (CLI)
-    claude-code
-    gemini-cli
-    opencode
+    pkgs.claude-code
+    pkgs.gemini-cli
+    pkgs.opencode
 
     # MQTT
-    mosquitto
+    pkgs.mosquitto
   ];
 }

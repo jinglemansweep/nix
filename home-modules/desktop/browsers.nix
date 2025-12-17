@@ -6,9 +6,9 @@
     enable = true;
     profiles.default = {
       isDefault = true;
-      extensions.packages = with pkgs.nur.repos.rycee.firefox-addons; [
-        ublock-origin
-        bitwarden
+      extensions.packages = [
+        pkgs.nur.repos.rycee.firefox-addons.ublock-origin
+        pkgs.nur.repos.rycee.firefox-addons.bitwarden
       ];
       bookmarks = {
         force = true;
@@ -65,8 +65,8 @@
   };
 
   # Google Chrome
-  home.packages = with pkgs; [
-    google-chrome
+  home.packages = [
+    pkgs.google-chrome
   ];
 
   # Set Firefox as default browser

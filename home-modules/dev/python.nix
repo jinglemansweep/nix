@@ -1,11 +1,11 @@
 { config, pkgs, lib, ... }:
 
 {
-  home.packages = with pkgs; [
-    python3
-    python3Packages.pip
-    python3Packages.virtualenv
-    python3Packages.pipx
+  home.packages = [
+    pkgs.python3
+    pkgs.python3Packages.pip
+    pkgs.python3Packages.virtualenv
+    pkgs.python3Packages.pipx
   ];
 
   # Add pipx bin to PATH

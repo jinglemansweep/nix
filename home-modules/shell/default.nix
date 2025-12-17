@@ -8,46 +8,46 @@
   ];
 
   # Shell packages
-  home.packages = with pkgs; [
+  home.packages = [
     # Core utilities
-    bat
-    fzf
-    htop
-    ripgrep
-    rsync
-    screen
-    vim
+    pkgs.bat
+    pkgs.fzf
+    pkgs.htop
+    pkgs.ripgrep
+    pkgs.rsync
+    pkgs.screen
+    pkgs.vim
 
     # Compression tools
-    zip
-    unzip
-    gnutar
-    xz
-    gzip
-    p7zip
+    pkgs.zip
+    pkgs.unzip
+    pkgs.gnutar
+    pkgs.xz
+    pkgs.gzip
+    pkgs.p7zip
 
     # Cloud/sync tools
-    rclone
-    restic
+    pkgs.rclone
+    pkgs.restic
 
     # GitHub CLI
-    gh
+    pkgs.gh
 
     # Pre-commit hooks
-    pre-commit
+    pkgs.pre-commit
 
     # Infrastructure tools (using binary releases)
-    opentofu      # Open source Terraform fork (binary)
-    terragrunt
+    pkgs.opentofu      # Open source Terraform fork (binary)
+    pkgs.terragrunt
 
     # SSH key management
-    keychain
+    pkgs.keychain
 
     # Database clients
-    postgresql      # psql
-    mariadb         # mysql client (compatible)
-    redis           # redis-cli
-    mongosh         # MongoDB shell
+    pkgs.postgresql      # psql
+    pkgs.mariadb         # mysql client (compatible)
+    pkgs.redis           # redis-cli
+    pkgs.mongosh         # MongoDB shell
   ];
 
   # Starship prompt (Minimal style)
@@ -94,8 +94,9 @@
       terraform = "tofu";
     };
     initExtra = ''
-      # Initialize keychain for SSH key management (only for non-GNOME sessions)
-      # GNOME uses gnome-keyring/gcr for SSH agent
+      # Initialize keychain for SSH key management
+      # Used in: i3 sessions on NixOS, standalone Home Manager (WSL/ChromeOS)
+      # NOT used in: GNOME sessions (gnome-keyring handles SSH agent instead)
       if [[ "$XDG_CURRENT_DESKTOP" != "GNOME" ]]; then
         eval $(keychain --eval --quiet $(find ~/.ssh -maxdepth 1 -name "id_*" ! -name "*.pub" 2>/dev/null))
       fi

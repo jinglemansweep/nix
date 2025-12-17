@@ -15,16 +15,16 @@
     };
 
     # Gnome-specific packages
-    environment.gnome.excludePackages = with pkgs; [
-      gnome-tour
-      epiphany # Web browser (we use Firefox)
-      geary # Email client
+    environment.gnome.excludePackages = [
+      pkgs.gnome-tour
+      pkgs.epiphany # Web browser (we use Firefox)
+      pkgs.geary # Email client
     ];
 
-    environment.systemPackages = with pkgs; [
-      gnome-tweaks
-      gnome-terminal
-      dconf-editor
+    environment.systemPackages = [
+      pkgs.gnome-tweaks
+      pkgs.gnome-terminal
+      pkgs.dconf-editor
     ];
 
     # Enable dconf for Gnome settings

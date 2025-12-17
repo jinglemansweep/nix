@@ -20,11 +20,11 @@
   # Intel graphics (HP EliteDesk 800 G2 has Intel HD Graphics 530)
   hardware.graphics = {
     enable = true;
-    extraPackages = with pkgs; [
-      intel-media-driver
-      intel-vaapi-driver
-      libva-vdpau-driver
-      libvdpau-va-gl
+    extraPackages = [
+      pkgs.intel-media-driver
+      pkgs.intel-vaapi-driver
+      pkgs.libva-vdpau-driver
+      pkgs.libvdpau-va-gl
     ];
   };
 
