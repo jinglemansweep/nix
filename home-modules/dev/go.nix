@@ -1,10 +1,10 @@
 { config, pkgs, lib, ... }:
 
 {
-  home.packages = with pkgs; [
-    go
-    gopls # Go language server
-    gotools # Additional Go tools
+  home.packages = [
+    pkgs.go
+    pkgs.gopls # Go language server
+    pkgs.gotools # Additional Go tools
   ];
 
   # Go environment variables

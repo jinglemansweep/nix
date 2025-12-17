@@ -12,8 +12,8 @@
   };
 
   # Docker CLI tools
-  environment.systemPackages = with pkgs; [
-    docker-compose
-    docker-buildx
+  environment.systemPackages = [
+    pkgs.docker-compose
+    pkgs.docker-buildx
   ];
 }

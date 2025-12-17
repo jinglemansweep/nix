@@ -1,10 +1,10 @@
 { config, pkgs, lib, ... }:
 
 {
-  home.packages = with pkgs; [
-    kubectl
-    kubernetes-helm
-    k9s # Terminal UI for Kubernetes
+  home.packages = [
+    pkgs.kubectl
+    pkgs.kubernetes-helm
+    pkgs.k9s # Terminal UI for Kubernetes
   ];
 
   # kubectl completion

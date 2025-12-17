@@ -118,15 +118,15 @@
   # Fonts
   fonts = {
     enableDefaultPackages = true;
-    packages = with pkgs; [
-      noto-fonts
-      noto-fonts-cjk-sans
-      noto-fonts-color-emoji
-      liberation_ttf
-      fira-code
-      fira-code-symbols
-      jetbrains-mono
-      source-code-pro
+    packages = [
+      pkgs.noto-fonts
+      pkgs.noto-fonts-cjk-sans
+      pkgs.noto-fonts-color-emoji
+      pkgs.liberation_ttf
+      pkgs.fira-code
+      pkgs.fira-code-symbols
+      pkgs.jetbrains-mono
+      pkgs.source-code-pro
     ];
     fontconfig = {
       defaultFonts = {
@@ -138,13 +138,13 @@
   };
 
   # System packages (minimal - most go in Home Manager)
-  environment.systemPackages = with pkgs; [
-    vim
-    git
-    wget
-    curl
-    openvpn
-    wireguard-tools
+  environment.systemPackages = [
+    pkgs.vim
+    pkgs.git
+    pkgs.wget
+    pkgs.curl
+    pkgs.openvpn
+    pkgs.wireguard-tools
   ];
 
   # This value determines the NixOS release

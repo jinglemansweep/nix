@@ -1,15 +1,15 @@
 { config, pkgs, lib, ... }:
 
 {
-  home.packages = with pkgs; [
+  home.packages = [
     # Office suite
-    libreoffice
+    pkgs.libreoffice
 
     # Graphics editors
-    mtpaint
-    gimp
+    pkgs.mtpaint
+    pkgs.gimp
 
     # Terminal emulators (additional to gnome-terminal)
-    rxvt-unicode
+    pkgs.rxvt-unicode
   ];
 }

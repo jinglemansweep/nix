@@ -1,16 +1,12 @@
 { config, pkgs, lib, ... }:
 
 {
-  # Disable GNOME Keyring SSH agent (using keychain instead)
-  services.gnome-keyring.enable = false;
-
-  # Disable GCR SSH agent socket/service
-  systemd.user.services.gcr-ssh-agent = {
-    Unit.Description = "Disabled GCR SSH Agent";
-    Service.ExecStart = "${pkgs.coreutils}/bin/true";
-  };
-  systemd.user.sockets.gcr-ssh-agent = {
-    Install.WantedBy = lib.mkForce [];
+  # Enable GNOME Keyring SSH agent for GNOME sessions
+  # Note: This is used when running GNOME on NixOS
+  # For i3 or standalone Home Manager, keychain is used instead (see home-modules/shell/default.nix)
+  services.gnome-keyring = {
+    enable = true;
+    components = [ "ssh" "secrets" "pkcs11" ];
   };
 
   dconf.settings = {

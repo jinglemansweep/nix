@@ -1,8 +1,8 @@
 { config, pkgs, lib, ... }:
 
 {
-  home.packages = with pkgs; [
-    nodejs
+  home.packages = [
+    pkgs.nodejs
     # npm and npx are included with nodejs
   ];
 

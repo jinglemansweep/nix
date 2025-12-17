@@ -17,7 +17,7 @@
 
   # Power management for laptop
   services.tlp = {
-    enable = false;
+    enable = true;
     settings = {
       CPU_SCALING_GOVERNOR_ON_AC = "performance";
       CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
@@ -36,11 +36,11 @@
   # Intel graphics
   hardware.graphics = {
     enable = true;
-    extraPackages = with pkgs; [
-      intel-media-driver
-      intel-vaapi-driver
-      libva-vdpau-driver
-      libvdpau-va-gl
+    extraPackages = [
+      pkgs.intel-media-driver
+      pkgs.intel-vaapi-driver
+      pkgs.libva-vdpau-driver
+      pkgs.libvdpau-va-gl
     ];
   };
 
