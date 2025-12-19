@@ -15,7 +15,8 @@
   desktop.gnome.enable = true;
   desktop.i3.enable = true;
 
-  # Power management for laptop
+  # Power management for laptop (disable power-profiles-daemon which conflicts with TLP)
+  services.power-profiles-daemon.enable = false;
   services.tlp = {
     enable = true;
     settings = {
