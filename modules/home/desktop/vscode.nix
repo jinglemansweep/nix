@@ -11,9 +11,17 @@
         ms-vscode-remote.remote-containers
         ms-vscode-remote.remote-ssh
         ms-vscode-remote.remote-ssh-edit
+        ms-vscode-remote.remote-wsl
+
+        # Ansible
+        redhat.ansible
 
         # Docker
         ms-azuretools.vscode-docker
+
+        # Python
+        ms-python.python
+        ms-python.black-formatter
 
         # Terraform
         hashicorp.terraform
