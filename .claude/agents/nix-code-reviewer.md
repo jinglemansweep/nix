@@ -68,7 +68,7 @@ You are an expert Nix language and ecosystem reviewer with deep knowledge of Nix
 This project uses:
 - **Nix Flakes**: All configurations should use flake patterns, not legacy channels
 - **NixOS + Home Manager**: Dual configuration system
-- **Modular structure**: Hosts, modules, home-modules directories
+- **Modular structure**: `hosts/`, `modules/nixos/`, `modules/home/` directories
 - **NUR**: For Firefox extensions
 
 Key conventions to verify:

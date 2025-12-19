@@ -25,22 +25,31 @@ This is a Nix Flakes-based configuration for NixOS and Home Manager.
 ```
 hosts/           # NixOS system configurations
   common/        # Shared across all NixOS hosts
-  latitude/
-  lounge/
+  latitude/      # Dell Latitude 7420
+  lounge/        # HP EliteDesk 800 G2 Mini
 
 modules/         # All modules
   nixos/         # NixOS modules
     desktop/     # Gnome, i3
     docker.nix
   home/          # Home Manager modules
-    shell/       # bash, git, tmux, starship, CLI tools, dev languages, devops
-    desktop/     # Firefox, VSCode, apps (NixOS only)
+    shell/       # Core tools, dev languages, devops tools
+      default.nix   # Git, tmux, bash, starship, neovim, core CLI tools
+      dev.nix       # Python, Node, Go, AI CLI, Claude dotfiles
+      devops.nix    # AWS, kubectl, helm, k9s, infisical
+    desktop/     # Desktop applications (NixOS only)
+      default.nix   # LibreOffice, GIMP, mtPaint
+      browsers.nix  # Firefox, Chrome with extensions
+      vscode.nix    # VSCode with extensions
+      gnome.nix     # Gnome-specific settings
 
 home/            # Home Manager entry points
-  common/        # Shared home config
+  common/        # Shared home config (imports shell modules)
+  nixos.nix      # NixOS entry (adds desktop modules)
+  standalone.nix # Standalone entry (shell only)
 
 dotfiles/        # Dotfiles deployed to home directory
-  claude/        # Claude Code configuration (synced via modules/home/shell/claude.nix)
+  claude/        # Claude Code configuration (synced via modules/home/shell/dev.nix)
 
 scripts/         # Utility scripts
   partition.sh   # Disk partitioning helper
@@ -86,11 +95,13 @@ scripts/         # Utility scripts
 | Category | Location | Notes |
 |----------|----------|-------|
 | System packages | `hosts/common/default.nix` | Minimal (vim, git, wget, curl, VPN tools) |
-| Shell tools | `modules/home/shell/default.nix` | bat, fzf, ripgrep, restic, rclone, etc. |
-| Dev languages | `modules/home/shell/dev.nix` | Python, Node, Go, build tools |
-| AI CLI tools | `modules/home/shell/dev.nix` | claude-code, gemini-cli, opencode |
-| DevOps tools | `modules/home/shell/devops.nix` | AWS, kubectl, helm, k9s, infisical |
-| Desktop apps | `modules/home/desktop/*.nix` | Only on NixOS |
+| Core CLI tools | `modules/home/shell/default.nix` | bat, eza, fzf, ripgrep, restic, rclone, database clients, tofu/terragrunt |
+| Dev languages | `modules/home/shell/dev.nix` | Python, Node.js, Go, build tools (gcc, cmake, make) |
+| AI CLI tools | `modules/home/shell/dev.nix` | claude-code, codex, gemini-cli, opencode |
+| DevOps tools | `modules/home/shell/devops.nix` | AWS CLI, kubectl, helm, k9s, infisical |
+| Desktop apps | `modules/home/desktop/default.nix` | LibreOffice, GIMP, mtPaint (NixOS only) |
+| Browsers | `modules/home/desktop/browsers.nix` | Firefox, Chrome with extensions (NixOS only) |
+| VSCode | `modules/home/desktop/vscode.nix` | VSCode with extensions (NixOS only) |
 
 ## Firefox Extensions
 

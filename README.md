@@ -56,44 +56,51 @@ home-manager switch --flake .#louis
 ├── flake.lock                # Flake lock file
 ├── hosts/                    # NixOS host configurations
 │   ├── common/               # Shared NixOS configuration
-│   ├── latitude/             # Dell Latitude specific
-│   └── lounge/               # HP EliteDesk specific
-├── home/                     # Home Manager configurations
+│   ├── latitude/             # Dell Latitude 7420
+│   └── lounge/               # HP EliteDesk 800 G2 Mini
+├── home/                     # Home Manager entry points
 │   ├── common/               # Shared home configuration
-│   ├── nixos.nix             # NixOS-specific home config
-│   └── standalone.nix        # Standalone (ChromeOS/WSL) config
+│   ├── nixos.nix             # NixOS home config (includes desktop)
+│   └── standalone.nix        # Standalone (ChromeOS/WSL, no desktop)
 ├── modules/                  # Reusable modules
-│   ├── nixos/                # NixOS modules
-│   │   ├── desktop/
-│   │   │   ├── gnome.nix
-│   │   │   └── i3.nix
+│   ├── nixos/                # NixOS system modules
+│   │   ├── desktop/          # Gnome, i3
 │   │   └── docker.nix
 │   └── home/                 # Home Manager modules
-│       ├── shell/            # Shell, dev languages, devops tools
+│       ├── shell/            # Shell environment and dev tools
+│       │   ├── default.nix   # Core CLI tools, git, tmux, bash, starship, neovim
+│       │   ├── dev.nix       # Languages (Python, Node, Go), AI CLI, Claude dotfiles
+│       │   └── devops.nix    # AWS, kubectl, helm, k9s, infisical
 │       └── desktop/          # Desktop applications (NixOS only)
+│           ├── default.nix   # LibreOffice, GIMP, mtPaint
+│           ├── browsers.nix  # Firefox, Chrome with extensions
+│           ├── vscode.nix    # VSCode with extensions
+│           └── gnome.nix     # Gnome settings
 ├── dotfiles/                 # Dotfiles deployed to home directory
 │   └── claude/               # Claude Code configuration
-│       ├── CLAUDE.md         # Global Claude instructions
+│       ├── CLAUDE.md         # Project-specific instructions
 │       ├── commands/         # Custom slash commands
 │       ├── agents/           # Custom agent definitions
 │       └── skills/           # Custom skills
 └── scripts/                  # Utility scripts
-    └── partition.sh          # Disk partitioning helper for installation
+    └── partition.sh          # Disk partitioning helper
 ```
 
 ## Included Software
 
 ### Shell Tools
-bat, fzf, gh, git, htop, pre-commit, rclone, restic, ripgrep, rsync, screen, starship, terraform, terragrunt, tmux, vim
+bat, eza, fzf, gh, git, htop, keychain, neovim, opentofu, pre-commit, rclone, restic, ripgrep, rsync, screen, starship, terragrunt, tmux, vim
+
+Database clients: psql (PostgreSQL), mysql (MariaDB), redis-cli, mongosh
 
 ### Development
-Python, Node.js, Go, gcc, make, cmake, claude-code, gemini-cli, mosquitto, opencode
+Python, Node.js, Go, gcc, make, cmake, claude-code, codex, gemini-cli, mosquitto, opencode
 
 ### DevOps
 AWS CLI, kubectl, helm, k9s, infisical
 
 ### Desktop (NixOS only)
-Firefox, Chrome, VSCode, LibreOffice, GIMP, mtPaint
+Firefox (with uBlock Origin, Bitwarden), Google Chrome, VSCode, LibreOffice, GIMP, mtPaint, rxvt-unicode
 
 ## Configuration
 
