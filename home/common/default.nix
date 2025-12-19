@@ -3,7 +3,6 @@
 {
   imports = [
     ../../modules/home/shell
-    ../../modules/home/dev
     ../../modules/home/tools
   ];
 

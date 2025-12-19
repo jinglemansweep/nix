@@ -69,8 +69,7 @@ home-manager switch --flake .#louis
 │   │   │   └── i3.nix
 │   │   └── docker.nix
 │   └── home/                 # Home Manager modules
-│       ├── shell/            # Shell tools, git, tmux, claude.nix
-│       ├── dev/              # Development languages and tools
+│       ├── shell/            # Shell tools, git, tmux, dev languages, AI tools
 │       ├── tools/            # DevOps and cloud tools
 │       └── desktop/          # Desktop applications (NixOS only)
 ├── dotfiles/                 # Dotfiles deployed to home directory

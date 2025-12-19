@@ -5,6 +5,7 @@
     ./git.nix
     ./tmux.nix
     ./claude.nix
+    ./dev.nix
   ];
 
   # Shell packages
