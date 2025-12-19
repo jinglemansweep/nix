@@ -62,16 +62,17 @@ home-manager switch --flake .#louis
 │   ├── common/               # Shared home configuration
 │   ├── nixos.nix             # NixOS-specific home config
 │   └── standalone.nix        # Standalone (ChromeOS/WSL) config
-├── modules/                  # Reusable NixOS modules
-│   ├── desktop/
-│   │   ├── gnome.nix
-│   │   └── i3.nix
-│   └── docker.nix
-├── home-modules/             # Reusable Home Manager modules
-│   ├── shell/                # Shell tools, git, tmux, claude.nix
-│   ├── dev/                  # Development languages and tools
-│   ├── tools/                # DevOps and cloud tools
-│   └── desktop/              # Desktop applications (NixOS only)
+├── modules/                  # Reusable modules
+│   ├── nixos/                # NixOS modules
+│   │   ├── desktop/
+│   │   │   ├── gnome.nix
+│   │   │   └── i3.nix
+│   │   └── docker.nix
+│   └── home/                 # Home Manager modules
+│       ├── shell/            # Shell tools, git, tmux, claude.nix
+│       ├── dev/              # Development languages and tools
+│       ├── tools/            # DevOps and cloud tools
+│       └── desktop/          # Desktop applications (NixOS only)
 ├── dotfiles/                 # Dotfiles deployed to home directory
 │   └── claude/               # Claude Code configuration
 │       ├── CLAUDE.md         # Global Claude instructions

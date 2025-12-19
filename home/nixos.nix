@@ -3,9 +3,9 @@
 {
   imports = [
     ./common
-    ../home-modules/desktop
+    ../modules/home/desktop
   ];
 
   # NixOS-specific home configuration
-  # Desktop applications are included via home-modules/desktop
+  # Desktop applications are included via modules/home/desktop
 }

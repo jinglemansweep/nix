@@ -28,21 +28,21 @@ hosts/           # NixOS system configurations
   latitude/
   lounge/
 
-modules/         # NixOS modules
-  desktop/       # Gnome, i3
-  docker.nix
+modules/         # All modules
+  nixos/         # NixOS modules
+    desktop/     # Gnome, i3
+    docker.nix
+  home/          # Home Manager modules
+    shell/       # bash, git, tmux, starship, CLI tools, claude.nix
+    dev/         # Python, Node, Go, AI CLI tools
+    tools/       # AWS, kubectl, helm, infisical
+    desktop/     # Firefox, VSCode, apps (NixOS only)
 
 home/            # Home Manager entry points
   common/        # Shared home config
 
-home-modules/    # Home Manager modules
-  shell/         # bash, git, tmux, starship, CLI tools, claude.nix
-  dev/           # Python, Node, Go, AI CLI tools
-  tools/         # AWS, kubectl, helm, infisical
-  desktop/       # Firefox, VSCode, apps (NixOS only)
-
 dotfiles/        # Dotfiles deployed to home directory
-  claude/        # Claude Code configuration (synced via shell/claude.nix)
+  claude/        # Claude Code configuration (synced via modules/home/shell/claude.nix)
 
 scripts/         # Utility scripts
   partition.sh   # Disk partitioning helper
@@ -59,13 +59,13 @@ scripts/         # Utility scripts
 ## Adding New Features
 
 ### New NixOS Module
-1. Create file in `modules/`
+1. Create file in `modules/nixos/`
 2. Import in `hosts/common/default.nix` or specific host
 
 ### New Home Manager Module
-1. Create file in `home-modules/<category>/`
+1. Create file in `modules/home/<category>/`
 2. Import in the category's `default.nix`
-3. For desktop-only: import in `home-modules/desktop/default.nix`
+3. For desktop-only: import in `modules/home/desktop/default.nix`
 4. For all environments: import in `home/common/default.nix`
 
 ### New Host
@@ -81,29 +81,29 @@ scripts/         # Utility scripts
 - **Tmux prefix**: Ctrl+a (not Ctrl+b)
 - **Git**: pull.rebase = false
 - **Docker**: Default container runtime (Podman also available)
-- **Claude Code**: Dotfiles in `dotfiles/claude/` are automatically symlinked to `~/.claude/` via `home-modules/shell/claude.nix`
+- **Claude Code**: Dotfiles in `dotfiles/claude/` are automatically symlinked to `~/.claude/` via `modules/home/shell/claude.nix`
 
 ## Package Locations
 
 | Category | Location | Notes |
 |----------|----------|-------|
 | System packages | `hosts/common/default.nix` | Minimal (vim, git, wget, curl, VPN tools) |
-| Shell tools | `home-modules/shell/default.nix` | bat, fzf, ripgrep, restic, rclone, etc. |
-| Dev languages | `home-modules/dev/*.nix` | Python, Node, Go |
-| AI CLI tools | `home-modules/dev/default.nix` | claude-code, gemini-cli, opencode |
-| MQTT tools | `home-modules/dev/default.nix` | mosquitto |
-| DevOps tools | `home-modules/tools/*.nix` | AWS, kubectl, helm |
-| Desktop apps | `home-modules/desktop/*.nix` | Only on NixOS |
+| Shell tools | `modules/home/shell/default.nix` | bat, fzf, ripgrep, restic, rclone, etc. |
+| Dev languages | `modules/home/dev/*.nix` | Python, Node, Go |
+| AI CLI tools | `modules/home/dev/default.nix` | claude-code, gemini-cli, opencode |
+| MQTT tools | `modules/home/dev/default.nix` | mosquitto |
+| DevOps tools | `modules/home/tools/*.nix` | AWS, kubectl, helm |
+| Desktop apps | `modules/home/desktop/*.nix` | Only on NixOS |
 
 ## Firefox Extensions
 
-Managed via NUR (Nix User Repository) in `home-modules/desktop/browsers.nix`:
+Managed via NUR (Nix User Repository) in `modules/home/desktop/browsers.nix`:
 - uBlock Origin
 - Bitwarden
 
 ## VSCode Extensions
 
-Managed in `home-modules/desktop/vscode.nix`:
+Managed in `modules/home/desktop/vscode.nix`:
 - Remote containers/SSH
 - Docker
 - Terraform
@@ -132,7 +132,7 @@ inputs.nur.url = "github:nix-community/NUR";
 ```
 
 ### VSCode Extension SHA Mismatch
-Update the sha256 in `home-modules/desktop/vscode.nix` when extension versions change.
+Update the sha256 in `modules/home/desktop/vscode.nix` when extension versions change.
 
 ### Hardware Config Missing
 Generate on target machine: `nixos-generate-config --show-hardware-config`

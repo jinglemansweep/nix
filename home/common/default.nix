@@ -2,9 +2,9 @@
 
 {
   imports = [
-    ../../home-modules/shell
-    ../../home-modules/dev
-    ../../home-modules/tools
+    ../../modules/home/shell
+    ../../modules/home/dev
+    ../../modules/home/tools
   ];
 
   # Home Manager needs a bit of information about you and the paths it should manage

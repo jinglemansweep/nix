@@ -3,7 +3,7 @@
 {
   # Enable GNOME Keyring SSH agent for GNOME sessions
   # Note: This is used when running GNOME on NixOS
-  # For i3 or standalone Home Manager, keychain is used instead (see home-modules/shell/default.nix)
+  # For i3 or standalone Home Manager, keychain is used instead (see modules/home/shell/default.nix)
   services.gnome-keyring = {
     enable = true;
     components = [ "ssh" "secrets" "pkcs11" ];

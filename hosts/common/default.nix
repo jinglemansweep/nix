@@ -2,9 +2,9 @@
 
 {
   imports = [
-    ../../modules/docker.nix
-    ../../modules/desktop/gnome.nix
-    ../../modules/desktop/i3.nix
+    ../../modules/nixos/docker.nix
+    ../../modules/nixos/desktop/gnome.nix
+    ../../modules/nixos/desktop/i3.nix
   ];
 
   # Nix settings
