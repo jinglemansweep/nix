@@ -3,7 +3,6 @@
 {
   imports = [
     ../../modules/home/shell
-    ../../modules/home/tools
   ];
 
   # Home Manager needs a bit of information about you and the paths it should manage

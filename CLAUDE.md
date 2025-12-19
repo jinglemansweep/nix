@@ -33,8 +33,7 @@ modules/         # All modules
     desktop/     # Gnome, i3
     docker.nix
   home/          # Home Manager modules
-    shell/       # bash, git, tmux, starship, CLI tools, dev languages, AI tools
-    tools/       # AWS, kubectl, helm, infisical
+    shell/       # bash, git, tmux, starship, CLI tools, dev languages, devops
     desktop/     # Firefox, VSCode, apps (NixOS only)
 
 home/            # Home Manager entry points
@@ -90,7 +89,7 @@ scripts/         # Utility scripts
 | Shell tools | `modules/home/shell/default.nix` | bat, fzf, ripgrep, restic, rclone, etc. |
 | Dev languages | `modules/home/shell/dev.nix` | Python, Node, Go, build tools |
 | AI CLI tools | `modules/home/shell/dev.nix` | claude-code, gemini-cli, opencode |
-| DevOps tools | `modules/home/tools/*.nix` | AWS, kubectl, helm |
+| DevOps tools | `modules/home/shell/devops.nix` | AWS, kubectl, helm, k9s, infisical |
 | Desktop apps | `modules/home/desktop/*.nix` | Only on NixOS |
 
 ## Firefox Extensions

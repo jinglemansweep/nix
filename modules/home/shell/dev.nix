@@ -47,8 +47,27 @@
     "$HOME/go/bin"          # go
   ];
 
-  # npm global config
-  home.file.".npmrc".text = ''
-    prefix=~/.npm-global
-  '';
+  # Config files
+  home.file = {
+    # npm global config
+    ".npmrc".text = ''
+      prefix=~/.npm-global
+    '';
+
+    # Claude Code dotfiles
+    ".claude/commands" = {
+      source = ../../../dotfiles/claude/commands;
+      recursive = true;
+    };
+    ".claude/agents" = {
+      source = ../../../dotfiles/claude/agents;
+      recursive = true;
+    };
+    ".claude/skills" = {
+      source = ../../../dotfiles/claude/skills;
+      recursive = true;
+    };
+    ".claude/CLAUDE.md".source = ../../../dotfiles/claude/CLAUDE.md;
+    ".claude/settings.json".source = ../../../dotfiles/claude/settings.json;
+  };
 }
