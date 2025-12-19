@@ -19,7 +19,9 @@
 
     # AI Coding Assistants (CLI)
     pkgs.claude-code
+    pkgs.codex
     pkgs.gemini-cli
+    pkgs.github-copilot-cli
     pkgs.opencode
 
     # MQTT

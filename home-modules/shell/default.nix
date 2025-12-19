@@ -11,6 +11,9 @@
   home.packages = [
     # Core utilities
     pkgs.bat
+    pkgs.delta
+    pkgs.eza
+    pkgs.fd
     pkgs.fzf
     pkgs.htop
     pkgs.ripgrep
@@ -23,17 +26,18 @@
     pkgs.unzip
     pkgs.gnutar
     pkgs.xz
+    pkgs.bzip2
     pkgs.gzip
     pkgs.p7zip
-
+  
     # Cloud/sync tools
+    pkgs.borgbackup
     pkgs.rclone
     pkgs.restic
 
-    # GitHub CLI
+    # Dev
     pkgs.gh
-
-    # Pre-commit hooks
+    pkgs.github-copilot-cli
     pkgs.pre-commit
 
     # Infrastructure tools (using binary releases)
@@ -86,9 +90,11 @@
     enable = true;
     enableCompletion = true;
     shellAliases = {
-      ll = "ls -la";
-      la = "ls -A";
-      l = "ls -CF";
+      ls = "eza";
+      ll = "eza -la";
+      grep = "rg";
+      find = "fd";
+      vim = "nvim";
       ".." = "cd ..";
       "..." = "cd ../..";
       terraform = "tofu";
@@ -103,9 +109,32 @@
     '';
   };
 
-  # fzf integration
   programs.fzf = {
     enable = true;
     enableBashIntegration = true;
   };
+
+  programs.neovim = {
+    enable = true;
+    viAlias = true;
+    vimAlias = true;
+    defaultEditor = true;
+    extraLuaConfig = ''
+      --- Line numbers
+      vim.opt.number = true
+      vim.opt.relativenumber = true
+      --- Indentation
+      vim.opt.tabstop = 2
+      vim.opt.shiftwidth = 2
+      vim.opt.expandtab = true
+      --- Search
+      vim.opt.ignorecase = true
+      vim.opt.smartcase = true
+      --- UI
+      vim.opt.termguicolors = true
+      vim.opt.signcolumn = "yes"
+      vim.opt.cursorline = true
+    '';
+  };
+
 }
