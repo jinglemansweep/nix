@@ -15,10 +15,15 @@
     pkgs.fd
     pkgs.fzf
     pkgs.htop
+    pkgs.jq
+    pkgs.ncdu
+    pkgs.neofetch
     pkgs.ripgrep
     pkgs.rsync
     pkgs.screen
+    pkgs.tree
     pkgs.vim
+    pkgs.yq
 
     # Compression tools
     pkgs.zip

@@ -12,16 +12,6 @@
   # Let Home Manager install and manage itself
   programs.home-manager.enable = true;
 
-  # Packages that should be installed to the user profile
-  home.packages = [
-    # Additional utilities
-    pkgs.tree
-    pkgs.jq
-    pkgs.yq
-    pkgs.ncdu
-    pkgs.neofetch
-  ];
-
   # XDG user directories (lowercase, consolidated)
   xdg = {
     enable = true;
