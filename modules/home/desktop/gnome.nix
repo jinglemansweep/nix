@@ -14,12 +14,11 @@
       color-scheme = "prefer-dark";
     };
 
-    # Wallpaper (uncomment and set path when ready)
-    # "org/gnome/desktop/background" = {
-    #   picture-uri = "file://${config.home.homeDirectory}/.wallpapers/wallpaper.jpg";
-    #   picture-uri-dark = "file://${config.home.homeDirectory}/.wallpapers/wallpaper.jpg";
-    #   picture-options = "zoom";
-    # };
+    "org/gnome/desktop/background" = {
+      picture-uri = "file://${pkgs.gnome-backgrounds}/share/backgrounds/gnome/adwaita-l.jxl";
+      picture-uri-dark = "file://${pkgs.gnome-backgrounds}/share/backgrounds/gnome/adwaita-d.jxl";
+      picture-options = "zoom";
+    };
 
     "org/gnome/shell" = {
       favorite-apps = [
