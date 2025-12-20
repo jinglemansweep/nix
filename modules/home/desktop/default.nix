@@ -8,6 +8,9 @@
   ];
 
   home.packages = [
+    # 3D printing
+    pkgs.cura-appimage
+
     # Office suite
     pkgs.libreoffice
 
