@@ -200,6 +200,13 @@
       enableBashIntegration = true;
     };
 
+    direnv = {
+      enable = true;
+      enableBashIntegration = true;
+      nix-direnv.enable = true;
+      config.global.load_dotenv = true;
+    };
+
     neovim = {
       enable = true;
       viAlias = true;
