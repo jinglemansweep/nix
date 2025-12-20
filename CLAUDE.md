@@ -44,7 +44,7 @@ modules/         # All modules
       dev.nix       # Python, Node, Go, AI CLI, Claude dotfiles
       devops.nix    # AWS, kubectl, helm, k9s, infisical
     desktop/     # Desktop applications (NixOS only)
-      default.nix   # LibreOffice, GIMP, mtPaint, Cura
+      default.nix   # LibreOffice, GIMP, mtPaint, Cura, XScreenSaver (lounge only)
       browsers.nix  # Firefox, Chrome with extensions
       vscode.nix    # VSCode with extensions
       gnome.nix     # Gnome-specific settings
@@ -96,6 +96,7 @@ scripts/         # Utility scripts
 - **Git**: pull.rebase = false
 - **Docker**: Default container runtime (Podman also available)
 - **Claude Code**: Dotfiles in `dotfiles/claude/` are automatically symlinked to `~/.claude/` via `modules/home/shell/dev.nix`
+- **Host-specific configs**: `hostName` parameter passed via `extraSpecialArgs` enables conditional features (e.g., XScreenSaver on lounge only)
 
 ### Nix Code Style
 
@@ -127,6 +128,7 @@ scripts/         # Utility scripts
 | Browsers | `modules/home/desktop/browsers.nix` | Firefox, Chrome with extensions (NixOS only) |
 | VSCode | `modules/home/desktop/vscode.nix` | VSCode with extensions (NixOS only) |
 | Media applications | `modules/home/desktop/media.nix` | Kodi (with NFS media sources), VLC, mpv, ffmpeg (NixOS only) |
+| Screensaver | `modules/home/desktop/default.nix` | XScreenSaver (lounge host only; latitude uses GNOME power management) |
 
 ## Firefox Extensions
 
