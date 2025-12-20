@@ -19,6 +19,9 @@
         # Docker
         ms-azuretools.vscode-docker
 
+        # GitHub
+        github.vscode-github-actions
+
         # Nix
         bbenoist.nix
 
