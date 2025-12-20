@@ -3,8 +3,9 @@
 {
   imports = [
     ./browsers.nix
-    ./vscode.nix
     ./gnome.nix
+    ./media.nix
+    ./vscode.nix
   ];
 
   home.packages = [
