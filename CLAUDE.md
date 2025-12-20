@@ -20,6 +20,7 @@ This is a Nix Flakes-based configuration for NixOS and Home Manager.
 | `hosts/<hostname>/hardware-configuration.nix` | Hardware-specific config (generated) |
 | `home/common/default.nix` | Shared Home Manager config |
 | `home/nixos.nix` | NixOS Home Manager entry (includes desktop) |
+| `home/server.nix` | NixOS server Home Manager entry (no desktop) |
 | `home/standalone.nix` | ChromeOS/WSL Home Manager entry (no desktop) |
 
 ## Directory Structure
@@ -31,6 +32,7 @@ This is a Nix Flakes-based configuration for NixOS and Home Manager.
 
 hosts/           # NixOS system configurations
   common/        # Shared across all NixOS hosts
+  dev/           # Proxmox VM (headless server)
   latitude/      # Dell Latitude 7420
   lounge/        # HP EliteDesk 800 G2 Mini
 
@@ -52,8 +54,9 @@ modules/         # All modules
 
 home/            # Home Manager entry points
   common/        # Shared home config (imports shell modules)
-  nixos.nix      # NixOS entry (adds desktop modules)
-  standalone.nix # Standalone entry (shell only)
+  nixos.nix      # NixOS desktop entry (adds desktop modules)
+  server.nix     # NixOS server entry (shell only, no desktop)
+  standalone.nix # Standalone entry (shell only, for WSL/ChromeOS)
 
 dotfiles/        # Dotfiles deployed to home directory
   claude/        # Claude Code configuration (synced via modules/home/shell/dev.nix)
@@ -68,6 +71,7 @@ scripts/         # Utility scripts
 |--------|---------|
 | Dell Latitude 7420 | `sudo nixos-rebuild switch --flake .#latitude` |
 | HP EliteDesk 800 G2 Mini (Lounge) | `sudo nixos-rebuild switch --flake .#lounge` |
+| Proxmox VM (Dev Server) | `sudo nixos-rebuild switch --flake .#dev` |
 | Standalone (WSL/ChromeOS) | `home-manager switch --flake .#louis` |
 
 ## Adding New Features

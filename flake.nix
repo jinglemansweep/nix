@@ -73,6 +73,25 @@
             }
           ];
         };
+
+        # Proxmox VM (Dev Server)
+        dev = nixpkgs.lib.nixosSystem {
+          inherit system;
+          specialArgs = { inherit inputs userConfig; };
+          modules = [
+            ./hosts/dev
+            ./hosts/common
+            home-manager.nixosModules.home-manager
+            {
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                extraSpecialArgs = { inherit inputs userConfig; hostName = "dev"; };
+                users.${userConfig.username} = import ./home/server.nix;
+              };
+            }
+          ];
+        };
       };
 
       # Standalone Home Manager configuration (for ChromeOS/WSL)
