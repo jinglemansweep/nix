@@ -44,10 +44,11 @@ modules/         # All modules
       dev.nix       # Python, Node, Go, AI CLI, Claude dotfiles
       devops.nix    # AWS, kubectl, helm, k9s, infisical
     desktop/     # Desktop applications (NixOS only)
-      default.nix   # LibreOffice, GIMP, mtPaint
+      default.nix   # LibreOffice, GIMP, mtPaint, Cura
       browsers.nix  # Firefox, Chrome with extensions
       vscode.nix    # VSCode with extensions
       gnome.nix     # Gnome-specific settings
+      media.nix     # Kodi, VLC, mpv, ffmpeg
 
 home/            # Home Manager entry points
   common/        # Shared home config (imports shell modules)
@@ -122,9 +123,10 @@ scripts/         # Utility scripts
 | Dev languages | `modules/home/shell/dev.nix` | Python, Node.js, Go, build tools (gcc, cmake, make) |
 | AI CLI tools | `modules/home/shell/dev.nix` | claude-code, codex, gemini-cli, opencode |
 | DevOps tools | `modules/home/shell/devops.nix` | AWS CLI, kubectl, helm, k9s, infisical |
-| Desktop apps | `modules/home/desktop/default.nix` | LibreOffice, GIMP, mtPaint (NixOS only) |
+| Desktop apps | `modules/home/desktop/default.nix` | LibreOffice, GIMP, mtPaint, Cura (NixOS only) |
 | Browsers | `modules/home/desktop/browsers.nix` | Firefox, Chrome with extensions (NixOS only) |
 | VSCode | `modules/home/desktop/vscode.nix` | VSCode with extensions (NixOS only) |
+| Media applications | `modules/home/desktop/media.nix` | Kodi (with NFS media sources), VLC, mpv, ffmpeg (NixOS only) |
 
 ## Firefox Extensions
 
