@@ -5,6 +5,7 @@
     ../../modules/nixos/docker.nix
     ../../modules/nixos/desktop/gnome.nix
     ../../modules/nixos/desktop/i3.nix
+    ../../modules/nixos/mounts.nix
   ];
 
   # Nix settings
@@ -145,6 +146,8 @@
     pkgs.curl
     pkgs.openvpn
     pkgs.wireguard-tools
+    pkgs.cifs-utils
+    pkgs.nfs-utils
   ];
 
   # This value determines the NixOS release
