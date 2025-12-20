@@ -45,17 +45,17 @@
     pkgs.pre-commit
 
     # Infrastructure tools (using binary releases)
-    pkgs.opentofu      # Open source Terraform fork (binary)
+    pkgs.opentofu # Open source Terraform fork (binary)
     pkgs.terragrunt
 
     # SSH key management
     pkgs.keychain
 
     # Database clients
-    pkgs.postgresql      # psql
-    pkgs.mariadb         # mysql client (compatible)
-    pkgs.redis           # redis-cli
-    pkgs.mongosh         # MongoDB shell
+    pkgs.postgresql # psql
+    pkgs.mariadb # mysql client (compatible)
+    pkgs.redis # redis-cli
+    pkgs.mongosh # MongoDB shell
   ];
 
   programs = {

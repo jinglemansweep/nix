@@ -1,0 +1,22 @@
+repos:
+  - repo: local
+    hooks:
+      - id: nixpkgs-fmt
+        name: nixpkgs-fmt
+        entry: nix run nixpkgs#nixpkgs-fmt --
+        language: system
+        files: \.nix$
+
+      - id: statix
+        name: statix
+        entry: nix run nixpkgs#statix -- check
+        language: system
+        files: \.nix$
+        pass_filenames: false
+
+      - id: deadnix
+        name: deadnix
+        entry: nix run nixpkgs#deadnix -- --fail --no-lambda-pattern-names
+        language: system
+        files: \.nix$
+        pass_filenames: false

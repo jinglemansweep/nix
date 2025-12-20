@@ -43,9 +43,9 @@
 
     # PATH additions
     sessionPath = [
-      "$HOME/.local/bin"      # pipx
+      "$HOME/.local/bin" # pipx
       "$HOME/.npm-global/bin" # npm global
-      "$HOME/go/bin"          # go
+      "$HOME/go/bin" # go
     ];
 
     # Config files

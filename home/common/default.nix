@@ -27,8 +27,8 @@
       music = "${config.home.homeDirectory}/data/media/music";
       pictures = "${config.home.homeDirectory}/data/media/pictures";
       videos = "${config.home.homeDirectory}/data/media/videos";
-      templates = null;  # Disabled
-      publicShare = null;  # Disabled
+      templates = null; # Disabled
+      publicShare = null; # Disabled
     };
   };
 }

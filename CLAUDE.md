@@ -13,6 +13,8 @@ This is a Nix Flakes-based configuration for NixOS and Home Manager.
 | File | Purpose |
 |------|---------|
 | `flake.nix` | Main entry point, defines all outputs |
+| `.github/workflows/nix-check.yml` | CI workflow for linting and flake checks |
+| `.pre-commit-config.yaml` | Pre-commit hooks for local linting |
 | `hosts/common/default.nix` | Shared NixOS configuration |
 | `hosts/<hostname>/default.nix` | Host-specific NixOS config |
 | `hosts/<hostname>/hardware-configuration.nix` | Hardware-specific config (generated) |
@@ -23,6 +25,10 @@ This is a Nix Flakes-based configuration for NixOS and Home Manager.
 ## Directory Structure
 
 ```
+.github/         # CI/CD workflows
+  workflows/
+    nix-check.yml  # Flake check, statix, and deadnix linting
+
 hosts/           # NixOS system configurations
   common/        # Shared across all NixOS hosts
   latitude/      # Dell Latitude 7420
@@ -90,6 +96,23 @@ scripts/         # Utility scripts
 - **Docker**: Default container runtime (Podman also available)
 - **Claude Code**: Dotfiles in `dotfiles/claude/` are automatically symlinked to `~/.claude/` via `modules/home/shell/dev.nix`
 
+### Nix Code Style
+
+- **Use inherit syntax**: Prefer `inherit system;` over `system = system;`
+- **Group repeated attributes**: Use nested sets for repeated attribute prefixes
+  ```nix
+  # Good
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+  };
+
+  # Avoid
+  home-manager.useGlobalPkgs = true;
+  home-manager.useUserPackages = true;
+  ```
+- **Lambda pattern names**: Unused lambda parameters in module signatures are acceptable (e.g., `{ config, pkgs, lib, ... }`)
+
 ## Package Locations
 
 | Category | Location | Notes |
@@ -112,16 +135,31 @@ Managed via NUR (Nix User Repository) in `modules/home/desktop/browsers.nix`:
 ## VSCode Extensions
 
 Managed in `modules/home/desktop/vscode.nix`:
-- Remote containers/SSH
+- Remote (Containers, SSH, WSL)
+- Ansible
+- Claude Code (Anthropic)
 - Docker
+- GitHub Actions
+- Nix
+- Python (with Black formatter)
 - Terraform
 - YAML
 
 ## Testing Changes
 
 ```bash
-# Check flake syntax
+# Install pre-commit hooks (one-time setup)
+pre-commit install
+
+# Run all pre-commit checks manually
+pre-commit run --all-files
+
+# Check flake syntax and evaluations
 nix flake check
+
+# Run linting (same checks as CI)
+nix run nixpkgs#statix -- check .
+nix run nixpkgs#deadnix -- --fail --no-lambda-pattern-names .
 
 # Build without switching
 nix build .#nixosConfigurations.latitude.config.system.build.toplevel
@@ -130,6 +168,22 @@ nix build .#nixosConfigurations.latitude.config.system.build.toplevel
 nix build .#nixosConfigurations.latitude.config.system.build.vm
 ./result/bin/run-*-vm
 ```
+
+## Continuous Integration
+
+GitHub Actions runs on all pushes and pull requests to the main branch:
+
+| Job | Purpose | Commands |
+|-----|---------|----------|
+| `check` | Verify flake syntax and evaluations | `nix flake check` |
+| `lint` | Check Nix code quality | `statix check .`<br>`deadnix --fail --no-lambda-pattern-names .` |
+
+**Linting Tools:**
+- **statix**: Catches common Nix anti-patterns and suggests idiomatic alternatives
+  - W04: Suggests using `inherit` syntax
+  - W20: Recommends grouping repeated attribute keys into nested sets
+- **deadnix**: Detects unused bindings and dead code
+  - Configured with `--no-lambda-pattern-names` to ignore unused module function parameters (standard in NixOS)
 
 ## Common Issues
 

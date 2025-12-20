@@ -54,6 +54,9 @@ home-manager switch --flake .#louis
 
 ```
 .
+├── .github/workflows/        # CI/CD workflows
+│   └── nix-check.yml         # Flake check and linting
+├── .pre-commit-config.yaml   # Pre-commit hooks for local linting
 ├── flake.nix                 # Main flake entry point
 ├── flake.lock                # Flake lock file
 ├── hosts/                    # NixOS host configurations
@@ -265,4 +268,36 @@ nix build .#nixosConfigurations.latitude.config.system.build.qcow
 
 # Copy to Proxmox storage
 scp result/nixos.qcow2 proxmox:/var/lib/vz/images/
+```
+
+### Pre-commit Hooks
+
+Install pre-commit hooks for automatic linting on commit:
+
+```bash
+# Install hooks (one-time setup)
+pre-commit install
+
+# Run all checks manually
+pre-commit run --all-files
+```
+
+The hooks run:
+- **nixpkgs-fmt**: Nix code formatter
+- **statix**: Static analysis for Nix anti-patterns
+- **deadnix**: Detects unused bindings and dead code
+
+### Linting
+
+Run the same checks as CI locally:
+
+```bash
+# Check flake syntax and evaluations
+nix flake check
+
+# Static analysis for Nix anti-patterns
+nix run nixpkgs#statix -- check .
+
+# Detect unused bindings and dead code
+nix run nixpkgs#deadnix -- --fail --no-lambda-pattern-names .
 ```
