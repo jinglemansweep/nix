@@ -1,5 +1,7 @@
 # NixOS and Home Manager Configuration
 
+[![Nix Check](https://github.com/jinglemansweep/nix/actions/workflows/nix-check.yml/badge.svg)](https://github.com/jinglemansweep/nix/actions/workflows/nix-check.yml)
+
 A Nix Flakes-based configuration supporting full NixOS installations and standalone Home Manager environments.
 
 ## Quick Start
