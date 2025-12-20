@@ -25,12 +25,25 @@
   nixpkgs.config.allowUnfree = true;
 
   # Bootloader
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.systemd-boot.configurationLimit = 10;
-  boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader = {
+    systemd-boot = {
+      enable = true;
+      configurationLimit = 10;
+    };
+    efi.canTouchEfiVariables = true;
+  };
 
   # Networking
-  networking.networkmanager.enable = true;
+  networking = {
+    networkmanager.enable = true;
+    firewall = {
+      enable = true;
+      trustedInterfaces = [ "tailscale0" ];
+      allowedTCPPorts = [ 22 80 443 8000 ];
+      allowedUDPPorts = [ config.services.tailscale.port ];
+    };
+    wireguard.enable = true;
+  };
 
   # Locale settings
   i18n = {
@@ -54,10 +67,34 @@
   # Console keymap
   console.keyMap = "uk";
 
-  # X11 keymap
-  services.xserver.xkb = {
-    layout = "gb";
-    variant = "";
+  # Services
+  services = {
+    # X11 keymap
+    xserver.xkb = {
+      layout = "gb";
+      variant = "";
+    };
+    # OpenSSH
+    openssh = {
+      enable = true;
+      settings = {
+        PasswordAuthentication = false;
+        PermitRootLogin = "no";
+      };
+    };
+    # VPN
+    tailscale.enable = true;
+    # OpenVPN
+    openvpn.servers = {
+      # Placeholder - users can add their own configs
+    };
+    # Sound with PipeWire
+    pipewire = {
+      enable = true;
+      alsa.enable = true;
+      alsa.support32Bit = true;
+      pulse.enable = true;
+    };
   };
 
   # User account
@@ -69,15 +106,6 @@
     initialHashedPassword = "$6$/ZGKJRex3fGzQF7r$u/wtRd8LWjlpsSSSt1NcpNQCzI2Y0oLaVCgqUHCZY2HBTpnQrProXQo8ueiMHA/Nv8bdCmg2Ftp0AUaxHuvFA1";
   };
 
-  # OpenSSH
-  services.openssh = {
-    enable = true;
-    settings = {
-      PasswordAuthentication = false;
-      PermitRootLogin = "no";
-    };
-  };
-
   # Podman (alternative container runtime)
   virtualisation.podman = {
     enable = true;
@@ -85,36 +113,8 @@
     defaultNetwork.settings.dns_enabled = true;
   };
 
-  # VPN and networking
-  services.tailscale.enable = true;
-
-  networking.firewall = {
-    enable = true;
-    trustedInterfaces = [ "tailscale0" ];
-    allowedTCPPorts = [ 22 80 443 8000 ];
-    allowedUDPPorts = [ config.services.tailscale.port ];
-  };
-
-  # WireGuard support
-  networking.wireguard.enable = true;
-
-  # OpenVPN
-  services.openvpn.servers = {
-    # Placeholder - users can add their own configs
-    # myVPN = {
-    #   config = "config /path/to/config.ovpn";
-    #   autoStart = false;
-    # };
-  };
-
-  # Sound with PipeWire
+  # Sound
   security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-  };
 
   # Fonts
   fonts = {

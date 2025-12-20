@@ -44,10 +44,12 @@
             { nixpkgs.overlays = [ nur.overlays.default ]; }
             home-manager.nixosModules.home-manager
             {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.extraSpecialArgs = { inherit inputs userConfig; };
-              home-manager.users.${userConfig.username} = import ./home/nixos.nix;
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                extraSpecialArgs = { inherit inputs userConfig; };
+                users.${userConfig.username} = import ./home/nixos.nix;
+              };
             }
           ];
         };
@@ -62,10 +64,12 @@
             { nixpkgs.overlays = [ nur.overlays.default ]; }
             home-manager.nixosModules.home-manager
             {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.extraSpecialArgs = { inherit inputs userConfig; };
-              home-manager.users.${userConfig.username} = import ./home/nixos.nix;
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                extraSpecialArgs = { inherit inputs userConfig; };
+                users.${userConfig.username} = import ./home/nixos.nix;
+              };
             }
           ];
         };

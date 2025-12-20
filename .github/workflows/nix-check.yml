@@ -22,4 +22,4 @@ jobs:
       - uses: DeterminateSystems/nix-installer-action@main
       - uses: DeterminateSystems/magic-nix-cache-action@main
       - run: nix run nixpkgs#statix -- check .
-      - run: nix run nixpkgs#deadnix -- --fail .
+      - run: nix run nixpkgs#deadnix -- --fail --no-lambda-pattern-names .

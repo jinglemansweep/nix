@@ -6,8 +6,11 @@
   ];
 
   # Home Manager needs a bit of information about you and the paths it should manage
-  home.username = userConfig.username;
-  home.homeDirectory = "/home/${userConfig.username}";
+  home = {
+    inherit (userConfig) username;
+    homeDirectory = "/home/${userConfig.username}";
+    stateVersion = "24.05";
+  };
 
   # Let Home Manager install and manage itself
   programs.home-manager.enable = true;
@@ -28,7 +31,4 @@
       publicShare = null;  # Disabled
     };
   };
-
-  # This value determines the Home Manager release
-  home.stateVersion = "24.05";
 }
