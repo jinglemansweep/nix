@@ -104,6 +104,12 @@
     extraGroups = [ "networkmanager" "wheel" "docker" "podman" ];
     shell = pkgs.bash;
     initialHashedPassword = "$6$/ZGKJRex3fGzQF7r$u/wtRd8LWjlpsSSSt1NcpNQCzI2Y0oLaVCgqUHCZY2HBTpnQrProXQo8ueiMHA/Nv8bdCmg2Ftp0AUaxHuvFA1";
+    openssh.authorizedKeys.keyFiles = [
+      (builtins.fetchurl {
+        url = "https://github.com/${userConfig.githubUsername}.keys";
+        sha256 = "0qv6mxw3jpakcvmvgn39yzpfzgs41hvpwv00k0z6pvybmfwb3sqp";
+      })
+    ];
   };
 
   # Podman (alternative container runtime)

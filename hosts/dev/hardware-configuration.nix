@@ -1,5 +1,4 @@
 # Hardware configuration for Proxmox VM (dev)
-# TODO: Replace with output from nixos-generate-config --show-hardware-config on actual VM
 
 { config, lib, pkgs, modulesPath, ... }:
 
@@ -23,7 +22,7 @@
   };
 
   fileSystems."/boot" = {
-    device = "/vda1";
+    device = "/dev/vda1";
     fsType = "vfat";
     options = [ "fmask=0022" "dmask=0022" ];
   };

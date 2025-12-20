@@ -28,6 +28,7 @@
         username = "louis";
         fullName = "Louis King";
         email = "jinglemansweep@gmail.com";
+        githubUsername = "jinglemansweep";
         nfsHost = "ds920p.adm.ptre.es";
       };
     in
