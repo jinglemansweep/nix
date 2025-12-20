@@ -19,6 +19,9 @@
         # Docker
         ms-azuretools.vscode-docker
 
+        # Nix
+        bbenoist.nix
+
         # Python
         ms-python.python
         ms-python.black-formatter
