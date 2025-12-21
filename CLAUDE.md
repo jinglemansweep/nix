@@ -32,7 +32,7 @@ This is a Nix Flakes-based configuration for NixOS and Home Manager.
 
 hosts/           # NixOS system configurations
   common/        # Shared across all NixOS hosts
-  dev/           # Proxmox VM (headless server)
+  dev/           # Proxmox VM (headless server, nix-ld enabled for VS Code Remote SSH)
   latitude/      # Dell Latitude 7420
   lounge/        # HP EliteDesk 800 G2 Mini
 

@@ -30,6 +30,7 @@ cd ~/nix
 # Apply configuration
 sudo nixos-rebuild switch --flake .#latitude
 # or: sudo nixos-rebuild switch --flake .#lounge
+# or: sudo nixos-rebuild switch --flake .#dev
 ```
 
 ## Updating
@@ -61,6 +62,7 @@ home-manager switch --flake .#louis
 ├── flake.lock                # Flake lock file
 ├── hosts/                    # NixOS host configurations
 │   ├── common/               # Shared NixOS configuration
+│   ├── dev/                  # Proxmox VM (headless, nix-ld for VS Code Remote SSH)
 │   ├── latitude/             # Dell Latitude 7420
 │   └── lounge/               # HP EliteDesk 800 G2 Mini
 ├── home/                     # Home Manager entry points
