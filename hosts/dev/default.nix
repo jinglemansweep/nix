@@ -15,6 +15,9 @@
   # Proxmox/QEMU guest support
   services.qemuGuest.enable = true;
 
+  # Enable nix-ld for VS Code Remote SSH support
+  programs.nix-ld.enable = true;
+
   # No desktop environments - headless server
   # desktop.gnome.enable and desktop.i3.enable default to false
 }
