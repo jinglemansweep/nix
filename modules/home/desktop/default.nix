@@ -12,6 +12,9 @@
     # 3D printing
     pkgs.cura-appimage
 
+    # Game dev
+    pkgs.tiled
+
     # Office suite
     pkgs.libreoffice
 
