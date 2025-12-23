@@ -148,12 +148,17 @@
       enable = true;
       enableBashIntegration = true;
       settings = {
-        format = "$directory$git_branch$git_status$character";
+        format = "$hostname$directory$git_branch$git_status$character";
         add_newline = false;
 
         character = {
           success_symbol = "[❯](green)";
           error_symbol = "[❯](red)";
+        };
+
+        hostname = {
+          ssh_only = false;
+          format = "[$hostname](yellow) ";
         };
 
         directory = {
