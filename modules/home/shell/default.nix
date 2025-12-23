@@ -25,6 +25,9 @@
     pkgs.vim
     pkgs.yq
 
+    # Hardware
+    pkgs.usbutils
+
     # Compression tools
     pkgs.zip
     pkgs.unzip
@@ -46,7 +49,7 @@
 
     # Infrastructure tools (using binary releases)
     pkgs.opentofu # Open source Terraform fork (binary)
-    pkgs.terragrunt
+    # pkgs.terragrunt
 
     # SSH key management
     pkgs.keychain

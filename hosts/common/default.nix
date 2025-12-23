@@ -84,6 +84,8 @@
     };
     # VPN
     tailscale.enable = true;
+    # USB device management
+    udisks2.enable = true;
     # OpenVPN
     openvpn.servers = {
       # Placeholder - users can add their own configs

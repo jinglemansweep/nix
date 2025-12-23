@@ -29,6 +29,9 @@
     pkgs.xscreensaver
   ];
 
+  # Automount removable media
+  services.udiskie.enable = true;
+
   # XScreenSaver (lounge only - laptop uses GNOME power management)
   services.xscreensaver = lib.mkIf (hostName == "lounge") {
     enable = true;
