@@ -12,7 +12,8 @@
     # 3D printing
     pkgs.cura-appimage
 
-    # Game dev
+    # Dev
+    pkgs.thonny
     pkgs.tiled
 
     # Office suite
