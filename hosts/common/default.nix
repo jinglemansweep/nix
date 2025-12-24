@@ -97,13 +97,34 @@
       alsa.support32Bit = true;
       pulse.enable = true;
     };
+    # Printing with CUPS
+    printing = {
+      enable = true;
+      drivers = [
+        pkgs.brlaser
+        pkgs.brgenml1lpr
+        pkgs.brgenml1cupswrapper
+      ];
+    };
+    # Network printer discovery (Avahi/mDNS)
+    avahi = {
+      enable = true;
+      nssmdns4 = true;
+      openFirewall = true;
+    };
+  };
+
+  # Scanning with SANE (Brother brscan4 driver)
+  hardware.sane = {
+    enable = true;
+    brscan4.enable = true;
   };
 
   # User account
   users.users.${userConfig.username} = {
     isNormalUser = true;
     description = userConfig.fullName;
-    extraGroups = [ "networkmanager" "wheel" "docker" "podman" "dialout" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" "podman" "dialout" "scanner" "lp" ];
     shell = pkgs.bash;
     initialHashedPassword = "$6$/ZGKJRex3fGzQF7r$u/wtRd8LWjlpsSSSt1NcpNQCzI2Y0oLaVCgqUHCZY2HBTpnQrProXQo8ueiMHA/Nv8bdCmg2Ftp0AUaxHuvFA1";
     openssh.authorizedKeys.keyFiles = [
