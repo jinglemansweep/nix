@@ -34,11 +34,15 @@
 
       # MQTT
       pkgs.mosquitto
+
+      # Testing
+      pkgs.playwright-driver.browsers
     ];
 
     # Environment variables
     sessionVariables = {
       GOPATH = "$HOME/go";
+      PLAYWRIGHT_BROWSERS_PATH = "${pkgs.playwright-driver.browsers}";
     };
 
     # PATH additions
