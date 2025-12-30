@@ -76,6 +76,7 @@
       };
       ".claude/CLAUDE.md".source = ../../../dotfiles/claude/CLAUDE.md;
       ".claude/settings.json".source = ../../../dotfiles/claude/settings.json;
+      ".claude/mcp_settings.json".source = ../../../dotfiles/claude/mcp_settings.json;
     };
   };
 }
