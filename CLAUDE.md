@@ -60,6 +60,7 @@ home/            # Home Manager entry points
 
 dotfiles/        # Dotfiles deployed to home directory
   claude/        # Claude Code configuration (synced via modules/home/shell/dev.nix)
+  direnv/        # Direnv custom functions (synced via modules/home/shell/default.nix)
 
 scripts/         # Utility scripts
   partition.sh   # Disk partitioning helper
@@ -101,6 +102,41 @@ scripts/         # Utility scripts
 - **Docker**: Default container runtime (Podman also available)
 - **Claude Code**: Dotfiles in `dotfiles/claude/` are automatically symlinked to `~/.claude/` via `modules/home/shell/dev.nix`
 - **Host-specific configs**: `hostName` parameter passed via `extraSpecialArgs` enables conditional features (e.g., XScreenSaver on lounge only)
+- **Direnv**: nix-direnv enabled with custom `load_secrets` helpers (dotfile in `dotfiles/direnv/direnvrc`, synced via `modules/home/shell/default.nix`)
+
+### Secrets Management with Direnv
+
+Secrets are managed via direnv with a structured `~/.secrets/` directory:
+
+```
+~/.secrets/           # chmod 700
+├── global.env        # Always loaded by load_secrets
+└── projects/         # Project-specific secrets
+    ├── my-api.env
+    └── homelab.env
+```
+
+**Setup:**
+```bash
+mkdir -p ~/.secrets/projects
+chmod 700 ~/.secrets
+chmod 600 ~/.secrets/*.env ~/.secrets/projects/*.env
+```
+
+**Usage in `.envrc`:**
+```bash
+# Load nix flake environment
+use flake
+
+# Load global secrets + project-specific secrets
+load_secrets my-api
+
+# Or load from a specific file
+load_secrets_file ~/.secrets/custom.env
+
+# Or just load .env files in the project
+dotenv_if_exists .env.local
+```
 
 ### Nix Code Style
 

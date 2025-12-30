@@ -1,0 +1,23 @@
+# Custom direnv functions for secrets management
+# This file is managed by Home Manager and symlinked to ~/.config/direnv/direnvrc
+
+# Load secrets from ~/.secrets directory
+# Usage in .envrc: load_secrets [project-name]
+load_secrets() {
+  # Always load global secrets if they exist
+  dotenv_if_exists "$HOME/.secrets/global.env"
+
+  # Load project-specific secrets if name provided
+  if [[ -n "$1" ]]; then
+    dotenv_if_exists "$HOME/.secrets/projects/$1.env"
+  fi
+}
+
+# Load secrets from a specific file
+# Usage in .envrc: load_secrets_file ~/.secrets/myproject.env
+load_secrets_file() {
+  local secrets_file="${1:-$HOME/.secrets.env}"
+  if [[ -f "$secrets_file" ]]; then
+    dotenv "$secrets_file"
+  fi
+}

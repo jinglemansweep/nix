@@ -6,6 +6,9 @@
     ./devops.nix
   ];
 
+  # Direnv custom functions
+  xdg.configFile."direnv/direnvrc".source = ../../../dotfiles/direnv/direnvrc;
+
   # Shell packages
   home.packages = [
     # Core utilities
@@ -212,7 +215,10 @@
       enable = true;
       enableBashIntegration = true;
       nix-direnv.enable = true;
-      config.global.load_dotenv = true;
+      config.global = {
+        load_dotenv = true;
+        hide_env_diff = true;
+      };
     };
 
     neovim = {
