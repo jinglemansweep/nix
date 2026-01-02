@@ -20,7 +20,7 @@
     pkgs.libreoffice
 
     # Graphics editors
-    pkgs.mtpaint
+    # pkgs.mtpaint  # TODO: Broken in nixpkgs - incompatible with libpng 1.6.52
     pkgs.gimp
 
     # Terminal emulators (additional to gnome-terminal)

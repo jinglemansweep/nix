@@ -61,7 +61,7 @@
     pkgs.postgresql # psql
     pkgs.mariadb # mysql client (compatible)
     pkgs.redis # redis-cli
-    pkgs.mongosh # MongoDB shell
+    # pkgs.mongosh  # TODO: Broken in nixpkgs - npm cache out of sync
   ];
 
   programs = {
