@@ -4,6 +4,22 @@
   options.desktop.gnome.enable = lib.mkEnableOption "GNOME desktop environment";
 
   config = lib.mkIf config.desktop.gnome.enable {
+    # Plymouth boot splash (only on desktop systems)
+    boot = {
+      plymouth.enable = true;
+      consoleLogLevel = 0;
+      initrd.verbose = false;
+      kernelParams = [
+        "quiet"
+        "splash"
+        "boot.shell_on_fail"
+        "loglevel=3"
+        "rd.systemd.show_status=false"
+        "rd.udev.log_level=3"
+        "udev.log_priority=3"
+      ];
+    };
+
     # Enable X11 and Gnome
     services = {
       xserver.enable = true;
