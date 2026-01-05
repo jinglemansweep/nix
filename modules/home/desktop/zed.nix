@@ -21,12 +21,13 @@
       ui_font_size = 16;
       buffer_font_size = 14;
       buffer_font_family = "JetBrainsMono Nerd Font";
-
+      title_bar = {
+        show_menus = true;
+      };
       telemetry = {
         diagnostics = false;
         metrics = false;
       };
-
       vim_mode = false;
     };
   };
