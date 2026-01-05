@@ -209,8 +209,8 @@
 
         # Auto-start tmux: create grouped session or start new base session
         # Uses grouped sessions so each terminal has independent window/pane focus
-        # Skip if: already in tmux, non-interactive shell, or inside VSCode terminal
-        if command -v tmux &> /dev/null && [ -z "$TMUX" ] && [ -n "$PS1" ] && [ -z "$VSCODE_INJECTION" ]; then
+        # Skip if: already in tmux, non-interactive shell, VSCode terminal, or SSH session
+        if command -v tmux &> /dev/null && [ -z "$TMUX" ] && [ -n "$PS1" ] && [ -z "$VSCODE_INJECTION" ] && [ -z "$SSH_TTY" ]; then
           tmux new-session -t main 2>/dev/null || tmux new-session -s main
         fi
       '';
