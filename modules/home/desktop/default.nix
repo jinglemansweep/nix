@@ -16,7 +16,6 @@
     # Dev
     pkgs.thonny
     pkgs.tiled
-    pkgs.zed-editor
 
     # Office suite
     pkgs.libreoffice
