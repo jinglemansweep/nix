@@ -127,8 +127,8 @@
         # Enable mouse mode
         set -g mouse on
 
-        # Don't rename windows automatically
-        set-option -g allow-rename off
+        # Allow windows to be renamed (shows SSH hostname, etc.)
+        set-option -g allow-rename on
 
         # Resize windows based on smallest client viewing that window (not session)
         set-option -g aggressive-resize on
