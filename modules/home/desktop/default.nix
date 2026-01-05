@@ -6,6 +6,7 @@
     ./gnome.nix
     ./media.nix
     ./vscode.nix
+    ./zed.nix
   ];
 
   home.packages = [

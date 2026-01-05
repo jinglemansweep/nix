@@ -32,6 +32,16 @@
       ];
     };
 
+    # Window/app switching - use window-based switching instead of app grouping
+    "org/gnome/desktop/wm/keybindings" = {
+      # Alt+Tab switches between all windows (not grouped by app)
+      switch-windows = [ "<Alt>Tab" ];
+      switch-windows-backward = [ "<Shift><Alt>Tab" ];
+      # Disable the default app-based switcher
+      switch-applications = [ ];
+      switch-applications-backward = [ ];
+    };
+
     # Custom keybindings
     "org/gnome/settings-daemon/plugins/media-keys" = {
       custom-keybindings = [
