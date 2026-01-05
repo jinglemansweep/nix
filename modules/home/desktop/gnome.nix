@@ -24,7 +24,7 @@
       favorite-apps = [
         "firefox.desktop"
         "code.desktop"
-        "org.gnome.Terminal.desktop"
+        "com.mitchellh.ghostty.desktop"
         "org.gnome.Nautilus.desktop"
       ];
     };
@@ -45,8 +45,13 @@
 
     "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1" = {
       name = "Terminal";
-      command = "gnome-terminal";
+      command = "ghostty";
       binding = "<Super>Return";
+    };
+
+    # Default terminal application
+    "org/gnome/desktop/applications/terminal" = {
+      exec = "ghostty";
     };
   };
 }

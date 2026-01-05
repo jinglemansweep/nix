@@ -24,6 +24,7 @@
     pkgs.gimp
 
     # Terminal emulators (additional to gnome-terminal)
+    pkgs.ghostty
     pkgs.rxvt-unicode
 
     # Screensaver
