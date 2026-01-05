@@ -52,7 +52,7 @@
 
     # Infrastructure tools (using binary releases)
     pkgs.opentofu # Open source Terraform fork (binary)
-    # pkgs.terragrunt
+    pkgs.terragrunt
 
     # SSH key management
     pkgs.keychain

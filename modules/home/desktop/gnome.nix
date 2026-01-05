@@ -26,6 +26,7 @@
     "org/gnome/shell" = {
       favorite-apps = [
         "firefox.desktop"
+        "dev.zed.Zed.desktop"
         "code.desktop"
         "com.mitchellh.ghostty.desktop"
         "org.gnome.Nautilus.desktop"

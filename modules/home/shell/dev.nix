@@ -29,7 +29,7 @@
       # AI CLI tools
       pkgs.claude-code
       pkgs.codex
-      # pkgs.gemini-cli  # TODO: Broken in nixpkgs - npm cache out of sync
+      pkgs.gemini-cli
       pkgs.opencode
 
       # MQTT
