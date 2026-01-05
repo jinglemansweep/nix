@@ -59,6 +59,7 @@
         "git.autofetch" = true;
         "claudeCode.preferredLocation" = "panel";
         "claudeCode.claudeProcessWrapper" = "/etc/profiles/per-user/${config.home.username}/bin/claude";
+        "nix.serverPath" = "nil";
       };
     };
   };

@@ -1,4 +1,8 @@
-{ config, pkgs, lib, ... }:
+{ config
+, pkgs
+, lib
+, ...
+}:
 
 {
   home = {
@@ -16,6 +20,21 @@
       pkgs.go
       pkgs.gopls
       pkgs.gotools
+
+      # Nix
+      pkgs.nil
+
+      # Language servers
+      pkgs.pyright # Python
+      pkgs.typescript-language-server # TypeScript/JavaScript
+      pkgs.yaml-language-server # YAML
+      pkgs.terraform-ls # Terraform
+      pkgs.dockerfile-language-server # Docker
+      pkgs.bash-language-server # Bash/Shell
+      pkgs.vscode-langservers-extracted # ESLint, HTML, CSS, JSON
+
+      # Linters
+      pkgs.eslint
 
       # Build tools
       pkgs.gnumake
