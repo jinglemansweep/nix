@@ -130,6 +130,9 @@
         # Don't rename windows automatically
         set-option -g allow-rename off
 
+        # Resize windows based on smallest client viewing that window (not session)
+        set-option -g aggressive-resize on
+
         # Status bar
         set -g status-position bottom
         set -g status-style 'bg=colour234 fg=colour137'
@@ -202,6 +205,13 @@
         # NOT used in: GNOME sessions (gnome-keyring handles SSH agent instead)
         if [[ "$XDG_CURRENT_DESKTOP" != "GNOME" ]]; then
           eval $(keychain --eval --quiet $(find ~/.ssh -maxdepth 1 -name "id_*" ! -name "*.pub" 2>/dev/null))
+        fi
+
+        # Auto-start tmux: create grouped session or start new base session
+        # Uses grouped sessions so each terminal has independent window/pane focus
+        # Skip if: already in tmux, non-interactive shell, or inside VSCode terminal
+        if command -v tmux &> /dev/null && [ -z "$TMUX" ] && [ -n "$PS1" ] && [ -z "$VSCODE_INJECTION" ]; then
+          tmux new-session -t main 2>/dev/null || tmux new-session -s main
         fi
       '';
     };
