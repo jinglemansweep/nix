@@ -200,9 +200,6 @@
         terraform = "tofu";
       };
       initExtra = ''
-        # Update terminal title with user@host:path (enables tmux window rename for SSH)
-        PROMPT_COMMAND='echo -ne "\033]0;''${USER}@''${HOSTNAME}:''${PWD}\007"'
-
         # Initialize keychain for SSH key management
         # Used in: i3 sessions on NixOS, standalone Home Manager (WSL/ChromeOS)
         # NOT used in: GNOME sessions (gnome-keyring handles SSH agent instead)
