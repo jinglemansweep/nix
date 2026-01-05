@@ -154,8 +154,16 @@
       enable = true;
       enableBashIntegration = true;
       settings = {
-        format = "$hostname$directory$git_branch$git_status$character";
+        format = "\${custom.terminal_title}$hostname$directory$git_branch$git_status$character";
         add_newline = false;
+
+        # Set terminal title to user@host:directory
+        custom.terminal_title = {
+          command = "printf '\\033]0;%s@%s:%s\\007' \"$USER\" \"$HOSTNAME\" \"$PWD\"";
+          when = "true";
+          format = "[$output]()";
+          shell = [ "bash" "--noprofile" "--norc" "-c" ];
+        };
 
         character = {
           success_symbol = "[❯](green)";
@@ -198,6 +206,7 @@
         ".." = "cd ..";
         "..." = "cd ../..";
         terraform = "tofu";
+        tmain = "tmux attach -t main";
       };
       initExtra = ''
         # Initialize keychain for SSH key management
@@ -207,11 +216,10 @@
           eval $(keychain --eval --quiet $(find ~/.ssh -maxdepth 1 -name "id_*" ! -name "*.pub" 2>/dev/null))
         fi
 
-        # Auto-start tmux: create grouped session or start new base session
-        # Uses grouped sessions so each terminal has independent window/pane focus
+        # Create tmux session on startup (detached, doesn't auto-attach)
         # Skip if: already in tmux, non-interactive shell, VSCode terminal, or SSH session
         if command -v tmux &> /dev/null && [ -z "$TMUX" ] && [ -n "$PS1" ] && [ -z "$VSCODE_INJECTION" ] && [ -z "$SSH_TTY" ]; then
-          tmux new-session -t main 2>/dev/null || tmux new-session -s main
+          tmux has-session -t main 2>/dev/null || tmux new-session -d -s main
         fi
       '';
     };
