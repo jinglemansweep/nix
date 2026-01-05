@@ -9,6 +9,9 @@
     components = [ "ssh" "secrets" "pkcs11" ];
   };
 
+  # Enable GTK settings management (ensures icon cache is updated)
+  gtk.enable = true;
+
   dconf.settings = {
     "org/gnome/desktop/interface" = {
       color-scheme = "prefer-dark";
