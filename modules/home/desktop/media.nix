@@ -2,8 +2,10 @@
 
 {
   home.packages = [
-    # Media center
-    pkgs.kodi
+    # Media center with PVR addon
+    (pkgs.kodi.withPackages (kodiPkgs: [
+      kodiPkgs.pvr-iptvsimple
+    ]))
 
     # Video players
     pkgs.vlc

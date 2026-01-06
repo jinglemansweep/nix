@@ -20,6 +20,7 @@
     pkgs.htop
     pkgs.jq
     pkgs.ncdu
+    pkgs.psmisc
     pkgs.neofetch
     pkgs.ripgrep
     pkgs.rsync
