@@ -22,6 +22,16 @@
       color-scheme = "prefer-dark";
     };
 
+    # Screen blanking after 30 minutes, no automatic suspend
+    "org/gnome/desktop/session" = {
+      idle-delay = lib.hm.gvariant.mkUint32 1800;
+    };
+
+    "org/gnome/settings-daemon/plugins/power" = {
+      sleep-inactive-ac-type = "nothing";
+      idle-dim = false;
+    };
+
     "org/gnome/desktop/background" = {
       picture-uri = "file://${pkgs.gnome-backgrounds}/share/backgrounds/gnome/adwaita-l.jxl";
       picture-uri-dark = "file://${pkgs.gnome-backgrounds}/share/backgrounds/gnome/adwaita-d.jxl";
