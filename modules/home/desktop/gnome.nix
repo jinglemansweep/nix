@@ -1,6 +1,11 @@
 { config, pkgs, lib, ... }:
 
 {
+  # Install GNOME extensions
+  home.packages = with pkgs.gnomeExtensions; [
+    no-overview # Skip Activities view at startup, go straight to desktop
+  ];
+
   # Enable GNOME Keyring SSH agent for GNOME sessions
   # Note: This is used when running GNOME on NixOS
   # For i3 or standalone Home Manager, keychain is used instead (see modules/home/shell/default.nix)
@@ -29,6 +34,9 @@
         "code.desktop"
         "com.mitchellh.ghostty.desktop"
         "org.gnome.Nautilus.desktop"
+      ];
+      enabled-extensions = [
+        "no-overview@fthx"
       ];
     };
 
