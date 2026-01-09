@@ -208,6 +208,8 @@
         "..." = "cd ../..";
         terraform = "tofu";
         tmain = "tmux attach -t main";
+        # Fix for Ghostty terminfo not available on remote servers
+        ssh = "TERM=xterm-256color ssh";
       };
       initExtra = ''
         # Initialize keychain for SSH key management
