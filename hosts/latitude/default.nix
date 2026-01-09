@@ -32,6 +32,9 @@
         CPU_BOOST_ON_BAT = 0;
         START_CHARGE_THRESH_BAT0 = 40;
         STOP_CHARGE_THRESH_BAT0 = 80;
+        # Disable WiFi power saving for faster reconnect after sleep
+        WIFI_PWR_ON_AC = "off";
+        WIFI_PWR_ON_BAT = "off";
       };
     };
     # Thermald for Intel CPUs
