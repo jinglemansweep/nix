@@ -7,7 +7,7 @@
 {
   home = {
     packages = [
-      # Python
+      # Python (use nix-shell for other versions)
       pkgs.python3
       pkgs.python3Packages.pip
       pkgs.python3Packages.virtualenv
