@@ -48,7 +48,7 @@
               home-manager = {
                 useGlobalPkgs = true;
                 useUserPackages = true;
-                extraSpecialArgs = { inherit inputs userConfig; hostName = "latitude"; };
+                extraSpecialArgs = { inherit inputs userConfig; };
                 users.${userConfig.username} = import ./home/nixos.nix;
               };
             }
@@ -68,7 +68,7 @@
               home-manager = {
                 useGlobalPkgs = true;
                 useUserPackages = true;
-                extraSpecialArgs = { inherit inputs userConfig; hostName = "lounge"; };
+                extraSpecialArgs = { inherit inputs userConfig; };
                 users.${userConfig.username} = import ./home/nixos.nix;
               };
             }
@@ -87,7 +87,7 @@
               home-manager = {
                 useGlobalPkgs = true;
                 useUserPackages = true;
-                extraSpecialArgs = { inherit inputs userConfig; hostName = "dev"; };
+                extraSpecialArgs = { inherit inputs userConfig; };
                 users.${userConfig.username} = import ./home/server.nix;
               };
             }

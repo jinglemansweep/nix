@@ -2,7 +2,7 @@
 
 {
   programs.zed-editor = {
-    enable = true;
+    enable = false; # Temporarily disabled - config preserved
 
     extensions = [
       "nix"
