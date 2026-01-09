@@ -173,6 +173,7 @@
     pkgs.git
     pkgs.wget
     pkgs.curl
+    pkgs.lsof
     pkgs.openvpn
     pkgs.wireguard-tools
     pkgs.cifs-utils
