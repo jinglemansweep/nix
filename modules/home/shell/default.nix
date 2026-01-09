@@ -19,6 +19,7 @@
     pkgs.fzf
     pkgs.htop
     pkgs.jq
+    pkgs.lsof
     pkgs.ncdu
     pkgs.psmisc
     pkgs.neofetch
