@@ -265,5 +265,44 @@
         vim.opt.cursorline = true
       '';
     };
+
+    # SSH configuration
+    ssh = {
+      enable = true;
+      enableDefaultConfig = false;
+      matchBlocks = {
+        # Default settings for all hosts
+        "*" = {
+          identitiesOnly = true;
+          extraOptions = {
+            AddKeysToAgent = "yes";
+          };
+        };
+        # Proxmox VMs (pvm1, pvm2, etc.)
+        "pvm?" = {
+          user = "root";
+        };
+        # Service hosts
+        "*.svc.ptre.es" = {
+          user = "user";
+        };
+        # Forward SSH agent to personal infrastructure
+        "*.ptre.*" = {
+          forwardAgent = true;
+        };
+        "*.ipnt.uk" = {
+          forwardAgent = true;
+        };
+        # Synology NAS
+        "ds920p.*" = {
+          user = "NASAdmin";
+          port = 50051;
+        };
+        # Dev server
+        "dev" = {
+          forwardAgent = true;
+        };
+      };
+    };
   };
 }
