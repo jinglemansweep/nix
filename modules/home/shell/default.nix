@@ -18,6 +18,7 @@
     pkgs.fd
     pkgs.fzf
     pkgs.htop
+    pkgs.imagemagick
     pkgs.jq
     pkgs.lsof
     pkgs.ncdu

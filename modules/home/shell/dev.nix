@@ -44,6 +44,7 @@
       pkgs.autoconf
       pkgs.automake
       pkgs.libtool
+      pkgs.sqlite
 
       # AI CLI tools
       pkgs.claude-code
