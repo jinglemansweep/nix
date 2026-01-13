@@ -104,12 +104,15 @@
           }
           {
             block = "battery";
-            format = " $icon $percentage $time ";
+            format = " $icon $percentage ($time) ";
+            full_format = " $icon Full ";
+            charging_format = " $icon $percentage ($time) ";
+            not_charging_format = " $icon $percentage ";
             missing_format = "";
           }
           {
             block = "sound";
-            format = " $icon $volume ";
+            driver = "pulseaudio";
           }
           {
             block = "time";
