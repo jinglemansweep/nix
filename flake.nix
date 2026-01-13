@@ -49,7 +49,6 @@
             ./hosts/latitude
             ./hosts/common
             { nixpkgs.overlays = [ nur.overlays.default ]; }
-            sops-nix.nixosModules.sops
             home-manager.nixosModules.home-manager
             {
               home-manager = {
@@ -70,7 +69,6 @@
             ./hosts/lounge
             ./hosts/common
             { nixpkgs.overlays = [ nur.overlays.default ]; }
-            sops-nix.nixosModules.sops
             home-manager.nixosModules.home-manager
             {
               home-manager = {
@@ -90,7 +88,6 @@
           modules = [
             ./hosts/dev
             ./hosts/common
-            sops-nix.nixosModules.sops
             home-manager.nixosModules.home-manager
             {
               home-manager = {

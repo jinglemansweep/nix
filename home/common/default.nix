@@ -1,8 +1,10 @@
-{ config, pkgs, lib, userConfig, ... }:
+{ config, pkgs, lib, inputs, userConfig, ... }:
 
 {
   imports = [
+    inputs.sops-nix.homeManagerModules.sops
     ../../modules/home/shell
+    ../../modules/home/secrets.nix
   ];
 
   # Home Manager needs a bit of information about you and the paths it should manage
