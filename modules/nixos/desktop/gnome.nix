@@ -32,8 +32,8 @@
       desktopManager.gnome.enable = true;
       libinput = {
         enable = true;
-        mouse.naturalScrolling = true;
-        touchpad.naturalScrolling = true;
+        mouse.naturalScrolling = false;
+        touchpad.naturalScrolling = false;
       };
       gnome.gnome-keyring.enable = true;
     };

@@ -42,7 +42,7 @@
       favorite-apps = [
         "firefox.desktop"
         "code.desktop"
-        "com.mitchellh.ghostty.desktop"
+        "Alacritty.desktop"
         "org.gnome.Nautilus.desktop"
       ];
       enabled-extensions = [
@@ -76,13 +76,13 @@
 
     "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1" = {
       name = "Terminal";
-      command = "ghostty";
+      command = "alacritty";
       binding = "<Super>Return";
     };
 
     # Default terminal application
     "org/gnome/desktop/applications/terminal" = {
-      exec = "ghostty";
+      exec = "alacritty";
     };
   };
 }

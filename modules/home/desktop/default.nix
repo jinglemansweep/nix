@@ -4,6 +4,7 @@
   imports = [
     ./browsers.nix
     ./gnome.nix
+    ./i3.nix
     ./media.nix
     ./vscode.nix
     ./zed.nix
@@ -25,10 +26,31 @@
     pkgs.gimp
 
     # Terminal emulators (additional to gnome-terminal)
-    pkgs.ghostty
     pkgs.rxvt-unicode
   ];
 
   # Automount removable media
   services.udiskie.enable = true;
+
+  # Terminal emulator
+  programs.alacritty = {
+    enable = true;
+    settings = {
+      env = {
+        WINIT_X11_SCALE_FACTOR = "1";
+      };
+      font = {
+        size = 14.0;
+      };
+      mouse = {
+        bindings = [
+          # Disable natural/reverse scrolling
+          { mouse = "Middle"; action = "PasteSelection"; }
+        ];
+      };
+      scrolling = {
+        multiplier = 3;
+      };
+    };
+  };
 }
