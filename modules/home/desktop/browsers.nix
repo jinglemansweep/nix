@@ -1,10 +1,10 @@
+# Browsers: Firefox with extensions, bookmarks, and privacy settings
 { config, pkgs, lib, ... }:
 
 {
-  # Firefox configuration (package installed at NixOS level for all users)
   programs.firefox = {
     enable = true;
-    package = null; # Don't install via Home Manager - using system Firefox
+    package = null; # System Firefox used
     profiles.default = {
       isDefault = true;
       extensions.packages = [
@@ -49,25 +49,17 @@
         ];
       };
       settings = {
-        # Privacy settings
         "privacy.trackingprotection.enabled" = true;
         "privacy.trackingprotection.socialtracking.enabled" = true;
         "browser.send_pings" = false;
-
-        # Disable telemetry
         "toolkit.telemetry.enabled" = false;
         "toolkit.telemetry.unified" = false;
-
-        # Homepage
         "browser.startup.homepage" = "about:home";
         "browser.newtabpage.enabled" = true;
       };
     };
   };
 
-  # Google Chrome installed at NixOS level for all users
-
-  # Set Firefox as default browser
   xdg.mimeApps = {
     enable = true;
     defaultApplications = {

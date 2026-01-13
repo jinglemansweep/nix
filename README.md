@@ -55,11 +55,11 @@ home-manager switch --flake .#louis
 
 ```
 .
-├── .github/workflows/        # CI/CD workflows
+├── .github/workflows/
 │   └── nix-check.yml         # Flake check and linting
-├── .pre-commit-config.yaml   # Pre-commit hooks for local linting
+├── .pre-commit-config.yaml   # Pre-commit hooks
 ├── flake.nix                 # Main flake entry point
-├── flake.lock                # Flake lock file
+├── flake.lock
 ├── hosts/                    # NixOS host configurations
 │   ├── common/               # Shared NixOS configuration
 │   ├── dev/                  # Proxmox VM (headless, nix-ld for VS Code Remote SSH)
@@ -67,47 +67,70 @@ home-manager switch --flake .#louis
 │   └── lounge/               # HP EliteDesk 800 G2 Mini
 ├── home/                     # Home Manager entry points
 │   ├── common/               # Shared home configuration
-│   ├── nixos.nix             # NixOS home config (includes desktop)
-│   └── standalone.nix        # Standalone (ChromeOS/WSL, no desktop)
-├── modules/                  # Reusable modules
+│   ├── nixos.nix             # NixOS desktop (includes desktop modules)
+│   ├── server.nix            # NixOS server (shell only)
+│   └── standalone.nix        # Standalone (ChromeOS/WSL)
+├── modules/
 │   ├── nixos/                # NixOS system modules
-│   │   ├── desktop/          # Gnome, i3
-│   │   └── docker.nix
+│   │   ├── desktop/
+│   │   │   ├── common.nix    # Shared desktop config, system packages
+│   │   │   ├── gnome.nix     # GNOME desktop module
+│   │   │   └── i3.nix        # i3 window manager module
+│   │   ├── docker.nix        # Docker with Compose and Buildx
+│   │   └── mounts.nix        # NFS automounts for Synology NAS
 │   └── home/                 # Home Manager modules
-│       ├── shell/            # Shell environment and dev tools
-│       │   ├── default.nix   # Core CLI tools, git, tmux, bash, starship, neovim
-│       │   ├── dev.nix       # Languages (Python, Node, Go), AI CLI, Claude dotfiles
+│       ├── shell/
+│       │   ├── default.nix   # Git, tmux, bash, starship, neovim, GPG, SSH
+│       │   ├── dev.nix       # Languages, LSPs, AI CLI, MicroPython tools
 │       │   └── devops.nix    # AWS, kubectl, helm, k9s, infisical
-│       └── desktop/          # Desktop applications (NixOS only)
-│           ├── default.nix   # LibreOffice, GIMP, mtPaint
-│           ├── browsers.nix  # Firefox, Chrome with extensions
-│           ├── vscode.nix    # VSCode with extensions
-│           └── gnome.nix     # Gnome settings
-├── dotfiles/                 # Dotfiles deployed to home directory
-│   └── claude/               # Claude Code configuration
-│       ├── CLAUDE.md         # Project-specific instructions
-│       ├── commands/         # Custom slash commands
-│       ├── agents/           # Custom agent definitions
-│       └── skills/           # Custom skills
-└── scripts/                  # Utility scripts
+│       ├── desktop/
+│       │   ├── default.nix   # Alacritty terminal, udiskie
+│       │   ├── browsers.nix  # Firefox with extensions and bookmarks
+│       │   ├── gnome.nix     # GNOME extensions and dconf settings
+│       │   ├── i3.nix        # i3 config, i3status-rust, picom, rofi
+│       │   ├── media.nix     # Kodi with NFS media sources
+│       │   ├── vscode.nix    # VSCode with extensions
+│       │   └── zed.nix       # Zed editor (disabled)
+│       └── secrets.nix       # SOPS secrets with age encryption
+├── dotfiles/
+│   ├── claude/               # Claude Code configuration
+│   │   ├── CLAUDE.md
+│   │   ├── commands/
+│   │   ├── agents/
+│   │   ├── skills/
+│   │   ├── settings.json
+│   │   └── mcp_settings.json
+│   └── direnv/
+│       └── direnvrc          # Custom load_secrets helpers
+├── secrets/
+│   └── secrets.yaml          # Age-encrypted secrets (SOPS)
+└── scripts/
     └── partition.sh          # Disk partitioning helper
 ```
 
 ## Included Software
 
 ### Shell Tools
-bat, eza, fzf, gh, git, htop, keychain, neovim, opentofu, pre-commit, rclone, restic, ripgrep, rsync, screen, starship, terragrunt, tmux, vim
+bat, btop, borgbackup, delta, eza, fd, fzf, gh, git, github-copilot-cli, htop, imagemagick, jq, keychain, lazydocker, lazygit, ncdu, neofetch, neovim, opentofu, pre-commit, rclone, restic, ripgrep, rsync, screen, starship, terragrunt, tmux, tree, vim, yq
 
-Database clients: psql (PostgreSQL), mysql (MariaDB), redis-cli, mongosh
+Database clients: psql (PostgreSQL), mysql (MariaDB), redis-cli
 
 ### Development
-Python, Node.js, Go, gcc, make, cmake, claude-code, codex, gemini-cli, mosquitto, opencode
+Python 3, Node.js, Go, gcc, gnumake, cmake, pkg-config, autoconf, automake, sqlite
+
+Language servers: nil (Nix), pyright (Python), typescript-language-server, yaml-language-server, terraform-ls, dockerfile-language-server, bash-language-server, vscode-langservers-extracted
+
+AI CLI: claude-code, codex, gemini-cli, opencode
+
+MicroPython/CircuitPython: picocom, esptool, picotool, mpremote, mosquitto
+
+Testing: playwright-driver
 
 ### DevOps
 AWS CLI, kubectl, helm, k9s, infisical
 
 ### Desktop (NixOS only)
-Firefox (with uBlock Origin, Bitwarden), Google Chrome, VSCode, LibreOffice, GIMP, mtPaint, rxvt-unicode
+Firefox (with uBlock Origin, Bitwarden), Google Chrome, VSCode, Alacritty, LibreOffice, GIMP, Pinta, VLC, mpv, ffmpeg, Kodi, Cura, Thonny, Tiled, Evince, Baobab
 
 ## Configuration
 
@@ -122,14 +145,17 @@ Firefox (with uBlock Origin, Bitwarden), Google Chrome, VSCode, LibreOffice, GIM
 - Pull strategy: merge (rebase disabled)
 
 ### Desktop Environments
-Both Gnome (default) and i3 window manager are available. Select at the login screen.
+Both GNOME (default) and i3 window manager are available. Select at the login screen.
 
-#### i3 Key Bindings
-- `Mod+Enter` - Open terminal
-- `Mod+d` - Application launcher (dmenu/rofi)
+#### i3 Key Bindings (Gruvbox theme)
+- `Mod+Return` - Alacritty terminal
+- `Mod+b` - Firefox
+- `Mod+d` - Rofi application launcher
 - `Mod+Shift+q` - Close window
 - `Mod+1-9` - Switch workspace
 - `Mod+Shift+1-9` - Move window to workspace
+- `Mod+Escape` - Lock screen (i3lock)
+- `Mod+Shift+e` - Power menu
 
 ---
 
@@ -207,6 +233,7 @@ mkdir -p hosts/new-host
 2. Create `hosts/new-host/default.nix`:
 
 ```nix
+# Description of new host
 { config, pkgs, lib, inputs, ... }:
 
 {
@@ -240,10 +267,12 @@ nixosConfigurations = {
       ./hosts/common
       home-manager.nixosModules.home-manager
       {
-        home-manager.useGlobalPkgs = true;
-        home-manager.useUserPackages = true;
-        home-manager.extraSpecialArgs = { inherit inputs userConfig; };
-        home-manager.users.${userConfig.username} = import ./home/nixos.nix;
+        home-manager = {
+          useGlobalPkgs = true;
+          useUserPackages = true;
+          extraSpecialArgs = { inherit inputs userConfig; };
+          users.${userConfig.username} = import ./home/nixos.nix;
+        };
       }
     ];
   };
@@ -251,8 +280,6 @@ nixosConfigurations = {
 ```
 
 ### Testing with Virtual Machine
-
-#### Using QEMU
 
 ```bash
 # Build a VM image
@@ -262,19 +289,7 @@ nix build .#nixosConfigurations.latitude.config.system.build.vm
 ./result/bin/run-*-vm
 ```
 
-#### Using Proxmox
-
-```bash
-# Build a QCOW2 image
-nix build .#nixosConfigurations.latitude.config.system.build.qcow
-
-# Copy to Proxmox storage
-scp result/nixos.qcow2 proxmox:/var/lib/vz/images/
-```
-
 ### Pre-commit Hooks
-
-Install pre-commit hooks for automatic linting on commit:
 
 ```bash
 # Install hooks (one-time setup)
@@ -290,8 +305,6 @@ The hooks run:
 - **deadnix**: Detects unused bindings and dead code
 
 ### Linting
-
-Run the same checks as CI locally:
 
 ```bash
 # Check flake syntax and evaluations

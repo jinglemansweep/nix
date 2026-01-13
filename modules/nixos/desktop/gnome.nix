@@ -1,10 +1,10 @@
+# GNOME desktop module: GDM, Plymouth, gnome-keyring, and excluded apps
 { config, pkgs, lib, ... }:
 
 {
   options.desktop.gnome.enable = lib.mkEnableOption "GNOME desktop environment";
 
   config = lib.mkIf config.desktop.gnome.enable {
-    # Plymouth boot splash (only on desktop systems)
     boot = {
       plymouth.enable = true;
       consoleLogLevel = 0;
@@ -20,25 +20,21 @@
       ];
     };
 
-    # Enable X11 and Gnome
     services = {
       xserver.enable = true;
       displayManager.gdm = {
         enable = true;
-        settings = {
-          greeter.IncludeAll = false;
-        };
+        settings.greeter.IncludeAll = false;
       };
       desktopManager.gnome.enable = true;
       gnome.gnome-keyring.enable = true;
     };
 
-    # Gnome-specific packages
     environment = {
       gnome.excludePackages = [
         pkgs.gnome-tour
-        pkgs.epiphany # Web browser (we use Firefox)
-        pkgs.geary # Email client
+        pkgs.epiphany
+        pkgs.geary
       ];
       systemPackages = [
         pkgs.gnome-tweaks
@@ -47,7 +43,6 @@
       ];
     };
 
-    # Enable dconf for Gnome settings
     programs.dconf.enable = true;
   };
 }

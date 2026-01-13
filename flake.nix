@@ -1,3 +1,4 @@
+# NixOS and Home Manager flake configuration
 {
   description = "NixOS and Home Manager configuration for louis";
 
@@ -11,10 +12,8 @@
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
-    # Nix User Repository (for Firefox extensions)
     nur.url = "github:nix-community/NUR";
 
-    # SOPS for secrets management
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -29,7 +28,6 @@
         config.allowUnfree = true;
       };
 
-      # Common user configuration
       userConfig = {
         username = "louis";
         fullName = "Louis King";
@@ -39,9 +37,7 @@
       };
     in
     {
-      # NixOS configurations
       nixosConfigurations = {
-        # Dell Latitude 7420
         latitude = nixpkgs.lib.nixosSystem {
           inherit system;
           specialArgs = { inherit inputs userConfig; };
@@ -61,7 +57,6 @@
           ];
         };
 
-        # HP EliteDesk 800 G2 Mini (Lounge)
         lounge = nixpkgs.lib.nixosSystem {
           inherit system;
           specialArgs = { inherit inputs userConfig; };
@@ -81,7 +76,6 @@
           ];
         };
 
-        # Proxmox VM (Dev Server)
         dev = nixpkgs.lib.nixosSystem {
           inherit system;
           specialArgs = { inherit inputs userConfig; };
@@ -101,7 +95,6 @@
         };
       };
 
-      # Standalone Home Manager configuration (for ChromeOS/WSL)
       homeConfigurations = {
         louis = home-manager.lib.homeManagerConfiguration {
           inherit pkgs;

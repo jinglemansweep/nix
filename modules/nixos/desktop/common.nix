@@ -1,20 +1,17 @@
+# Shared desktop config: input devices, system packages (applied when any DE is enabled)
 { config, pkgs, lib, ... }:
 
 {
-  # Shared desktop configuration applied when any desktop environment is enabled
   config = lib.mkIf (config.desktop.gnome.enable || config.desktop.i3.enable) {
-    # Input device settings (mouse/touchpad)
     services.libinput = {
       enable = true;
       mouse.naturalScrolling = false;
       touchpad.naturalScrolling = false;
     };
 
-    # Disable system SSH agent (desktop environments handle this themselves:
-    # GNOME uses gnome-keyring, i3 uses keychain via bash initExtra)
+    # DEs handle SSH agent (gnome-keyring or keychain)
     programs.ssh.startAgent = false;
 
-    # Desktop applications (system-wide for all users)
     environment.systemPackages = [
       pkgs.firefox
       pkgs.libreoffice

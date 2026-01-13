@@ -1,3 +1,4 @@
+# VSCode: extensions and editor settings
 { config, pkgs, lib, ... }:
 
 {
@@ -7,32 +8,17 @@
 
     profiles.default = {
       extensions = with pkgs.vscode-extensions; [
-        # Remote
         ms-vscode-remote.remote-containers
         ms-vscode-remote.remote-ssh
         ms-vscode-remote.remote-ssh-edit
         ms-vscode-remote.remote-wsl
-
-        # Ansible
         redhat.ansible
-
-        # Docker
         ms-azuretools.vscode-docker
-
-        # GitHub
         github.vscode-github-actions
-
-        # Nix
         bbenoist.nix
-
-        # Python
         ms-python.python
         ms-python.black-formatter
-
-        # Terraform
         hashicorp.terraform
-
-        # YAML
         redhat.vscode-yaml
       ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
         {

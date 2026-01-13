@@ -1,42 +1,26 @@
-{ config
-, pkgs
-, lib
-, ...
-}:
+# Development tools: Python, Node.js, Go, language servers, build tools, and AI CLI
+{ config, pkgs, lib, ... }:
 
 {
   home = {
     packages = [
-      # Python (use nix-shell for other versions)
       pkgs.python3
       pkgs.python3Packages.pip
       pkgs.python3Packages.virtualenv
       pkgs.python3Packages.pipx
-
-      # Node.js (npm and npx included)
       pkgs.nodejs
-
-      # Go
       pkgs.go
       pkgs.gopls
       pkgs.gotools
-
-      # Nix
       pkgs.nil
-
-      # Language servers
-      pkgs.pyright # Python
-      pkgs.typescript-language-server # TypeScript/JavaScript
-      pkgs.yaml-language-server # YAML
-      pkgs.terraform-ls # Terraform
-      pkgs.dockerfile-language-server # Docker
-      pkgs.bash-language-server # Bash/Shell
-      pkgs.vscode-langservers-extracted # ESLint, HTML, CSS, JSON
-
-      # Linters
+      pkgs.pyright
+      pkgs.typescript-language-server
+      pkgs.yaml-language-server
+      pkgs.terraform-ls
+      pkgs.dockerfile-language-server
+      pkgs.bash-language-server
+      pkgs.vscode-langservers-extracted
       pkgs.eslint
-
-      # Build tools
       pkgs.gnumake
       pkgs.gcc
       pkgs.pkg-config
@@ -45,27 +29,18 @@
       pkgs.automake
       pkgs.libtool
       pkgs.sqlite
-
-      # AI CLI tools
       pkgs.claude-code
       pkgs.codex
       pkgs.gemini-cli
       pkgs.opencode
-
-      # MQTT
       pkgs.mosquitto
-
-      # MicroPython/CircuitPython
       pkgs.picocom
       pkgs.esptool
       pkgs.picotool
       pkgs.mpremote
-
-      # Testing
       pkgs.playwright-driver.browsers
     ];
 
-    # Environment variables
     sessionVariables = {
       GOPATH = "$HOME/go";
       PLAYWRIGHT_BROWSERS_PATH = "${pkgs.playwright-driver.browsers}";
@@ -73,33 +48,17 @@
       PLAYWRIGHT_NODEJS_PATH = "${pkgs.nodejs}/bin/node";
     };
 
-    # PATH additions
     sessionPath = [
-      "$HOME/.local/bin" # pipx
-      "$HOME/.npm-global/bin" # npm global
-      "$HOME/go/bin" # go
+      "$HOME/.local/bin"
+      "$HOME/.npm-global/bin"
+      "$HOME/go/bin"
     ];
 
-    # Config files
     file = {
-      # npm global config
-      ".npmrc".text = ''
-        prefix=~/.npm-global
-      '';
-
-      # Claude Code dotfiles
-      ".claude/commands" = {
-        source = ../../../dotfiles/claude/commands;
-        recursive = true;
-      };
-      ".claude/agents" = {
-        source = ../../../dotfiles/claude/agents;
-        recursive = true;
-      };
-      ".claude/skills" = {
-        source = ../../../dotfiles/claude/skills;
-        recursive = true;
-      };
+      ".npmrc".text = "prefix=~/.npm-global\n";
+      ".claude/commands" = { source = ../../../dotfiles/claude/commands; recursive = true; };
+      ".claude/agents" = { source = ../../../dotfiles/claude/agents; recursive = true; };
+      ".claude/skills" = { source = ../../../dotfiles/claude/skills; recursive = true; };
       ".claude/CLAUDE.md".source = ../../../dotfiles/claude/CLAUDE.md;
       ".claude/settings.json".source = ../../../dotfiles/claude/settings.json;
       ".claude/mcp_settings.json".source = ../../../dotfiles/claude/mcp_settings.json;

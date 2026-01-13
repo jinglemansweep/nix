@@ -1,10 +1,10 @@
+# i3 window manager module: i3 session with supporting tools
 { config, pkgs, lib, ... }:
 
 {
   options.desktop.i3.enable = lib.mkEnableOption "i3 window manager";
 
   config = lib.mkIf config.desktop.i3.enable {
-    # i3 window manager as an alternative session
     services.xserver.windowManager.i3 = {
       enable = true;
       extraPackages = [
@@ -15,17 +15,16 @@
       ];
     };
 
-    # Additional packages useful with i3
     environment.systemPackages = [
       pkgs.rxvt-unicode
-      pkgs.feh # Wallpaper setter
-      pkgs.picom # Compositor
-      pkgs.dunst # Notification daemon
-      pkgs.arandr # Display configuration
-      pkgs.pavucontrol # Audio control
-      pkgs.networkmanagerapplet # Network tray icon
-      pkgs.xclip # Clipboard
-      pkgs.maim # Screenshots
+      pkgs.feh
+      pkgs.picom
+      pkgs.dunst
+      pkgs.arandr
+      pkgs.pavucontrol
+      pkgs.networkmanagerapplet
+      pkgs.xclip
+      pkgs.maim
     ];
   };
 }

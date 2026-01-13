@@ -1,3 +1,4 @@
+# NFS mounts: automounted Synology NAS shares
 { config, pkgs, lib, userConfig, ... }:
 
 {

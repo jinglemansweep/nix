@@ -1,16 +1,13 @@
+# Media: Kodi with PVR addon and NFS media sources
 { config, pkgs, lib, ... }:
 
 {
-  # VLC, mpv, ffmpeg installed at NixOS level for all users
-
   home.packages = [
-    # Media center with PVR addon (has user-specific config below)
     (pkgs.kodi.withPackages (kodiPkgs: [
       kodiPkgs.pvr-iptvsimple
     ]))
   ];
 
-  # Kodi media sources configuration
   home.file.".kodi/userdata/sources.xml".text = ''
     <sources>
       <video>

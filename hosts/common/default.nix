@@ -1,3 +1,4 @@
+# Shared NixOS configuration: bootloader, networking, locale, services, and user setup
 { config, pkgs, lib, userConfig, ... }:
 
 {
@@ -9,7 +10,6 @@
     ../../modules/nixos/mounts.nix
   ];
 
-  # Nix settings
   nix = {
     settings = {
       experimental-features = [ "nix-command" "flakes" ];
@@ -22,10 +22,8 @@
     };
   };
 
-  # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  # Bootloader
   boot.loader = {
     systemd-boot = {
       enable = true;
@@ -34,7 +32,6 @@
     efi.canTouchEfiVariables = true;
   };
 
-  # Networking
   networking = {
     networkmanager.enable = true;
     firewall = {
@@ -46,7 +43,6 @@
     wireguard.enable = true;
   };
 
-  # Locale settings
   i18n = {
     defaultLocale = "en_GB.UTF-8";
     extraLocaleSettings = {
@@ -62,20 +58,14 @@
     };
   };
 
-  # Timezone
   time.timeZone = "Europe/London";
-
-  # Console keymap
   console.keyMap = "uk";
 
-  # Services
   services = {
-    # X11 keymap
     xserver.xkb = {
       layout = "gb";
       variant = "";
     };
-    # OpenSSH
     openssh = {
       enable = true;
       settings = {
@@ -83,22 +73,15 @@
         PermitRootLogin = "no";
       };
     };
-    # VPN
     tailscale.enable = true;
-    # USB device management
     udisks2.enable = true;
-    # OpenVPN
-    openvpn.servers = {
-      # Placeholder - users can add their own configs
-    };
-    # Sound with PipeWire
+    openvpn.servers = { };
     pipewire = {
       enable = true;
       alsa.enable = true;
       alsa.support32Bit = true;
       pulse.enable = true;
     };
-    # Printing with CUPS
     printing = {
       enable = true;
       drivers = [
@@ -107,7 +90,6 @@
         pkgs.brgenml1cupswrapper
       ];
     };
-    # Network printer discovery (Avahi/mDNS)
     avahi = {
       enable = true;
       nssmdns4 = true;
@@ -115,13 +97,11 @@
     };
   };
 
-  # Scanning with SANE (Brother brscan4 driver)
   hardware.sane = {
     enable = true;
     brscan4.enable = true;
   };
 
-  # User account
   users.users.${userConfig.username} = {
     isNormalUser = true;
     description = userConfig.fullName;
@@ -136,17 +116,14 @@
     ];
   };
 
-  # Podman (alternative container runtime)
   virtualisation.podman = {
     enable = true;
-    dockerCompat = false; # Don't alias docker to podman (Docker is default)
+    dockerCompat = false;
     defaultNetwork.settings.dns_enabled = true;
   };
 
-  # Sound
   security.rtkit.enable = true;
 
-  # Fonts
   fonts = {
     enableDefaultPackages = true;
     packages = [
@@ -159,16 +136,13 @@
       pkgs.jetbrains-mono
       pkgs.source-code-pro
     ];
-    fontconfig = {
-      defaultFonts = {
-        serif = [ "Noto Serif" ];
-        sansSerif = [ "Noto Sans" ];
-        monospace = [ "JetBrains Mono" ];
-      };
+    fontconfig.defaultFonts = {
+      serif = [ "Noto Serif" ];
+      sansSerif = [ "Noto Sans" ];
+      monospace = [ "JetBrains Mono" ];
     };
   };
 
-  # System packages (minimal - most go in Home Manager)
   environment.systemPackages = [
     pkgs.vim
     pkgs.git
@@ -178,9 +152,7 @@
     pkgs.wireguard-tools
     pkgs.cifs-utils
     pkgs.nfs-utils
-
   ];
 
-  # This value determines the NixOS release
   system.stateVersion = "24.05";
 }

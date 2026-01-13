@@ -1,3 +1,4 @@
+# Shell environment: core CLI tools, git, tmux, bash, neovim, GPG, and SSH configuration
 { config, pkgs, lib, userConfig, ... }:
 
 {
@@ -6,12 +7,9 @@
     ./devops.nix
   ];
 
-  # Direnv custom functions
   xdg.configFile."direnv/direnvrc".source = ../../../dotfiles/direnv/direnvrc;
 
-  # Shell packages
   home.packages = [
-    # Core utilities
     pkgs.bat
     pkgs.delta
     pkgs.eza
@@ -31,11 +29,7 @@
     pkgs.tree
     pkgs.vim
     pkgs.yq
-
-    # Hardware
     pkgs.usbutils
-
-    # Compression tools
     pkgs.zip
     pkgs.unzip
     pkgs.gnutar
@@ -43,35 +37,24 @@
     pkgs.bzip2
     pkgs.gzip
     pkgs.p7zip
-
-    # Cloud/sync tools
     pkgs.borgbackup
     pkgs.rclone
     pkgs.restic
-
-    # Dev
     pkgs.gh
     pkgs.github-copilot-cli
     pkgs.pre-commit
     pkgs.lazygit
     pkgs.lazydocker
-
-    # Infrastructure tools (using binary releases)
-    pkgs.opentofu # Open source Terraform fork (binary)
+    pkgs.opentofu
     pkgs.terragrunt
-
-    # SSH key management
     pkgs.keychain
-
-    # Database clients
-    pkgs.postgresql # psql
-    pkgs.mariadb # mysql client (compatible)
-    pkgs.redis # redis-cli
+    pkgs.postgresql
+    pkgs.mariadb
+    pkgs.redis
     # pkgs.mongosh  # TODO: Broken in nixpkgs - npm cache out of sync
   ];
 
   programs = {
-    # Git configuration
     git = {
       enable = true;
       settings = {
@@ -99,7 +82,6 @@
       };
     };
 
-    # Tmux configuration
     tmux = {
       enable = true;
       prefix = "C-a";
@@ -109,45 +91,34 @@
       baseIndex = 1;
       keyMode = "vi";
       extraConfig = ''
-        # Unbind the default prefix
         unbind C-b
-
-        # Use Ctrl+a as prefix
         bind C-a send-prefix
 
-        # Split panes using | and -
+        # Split panes with | and -
         bind | split-window -h -c "#{pane_current_path}"
         bind - split-window -v -c "#{pane_current_path}"
         unbind '"'
         unbind %
 
-        # Reload config
         bind r source-file ~/.tmux.conf \; display "Config reloaded!"
 
-        # Switch panes using Alt-arrow without prefix
+        # Alt-arrow to switch panes without prefix
         bind -n M-Left select-pane -L
         bind -n M-Right select-pane -R
         bind -n M-Up select-pane -U
         bind -n M-Down select-pane -D
 
-        # Enable mouse mode
         set -g mouse on
-
-        # Allow windows to be renamed (shows SSH hostname, etc.)
         set-option -g allow-rename on
-
-        # Resize windows based on smallest client viewing that window (not session)
         set-option -g aggressive-resize on
 
-        # Status bar
+        # Status bar styling
         set -g status-position bottom
         set -g status-style 'bg=colour234 fg=colour137'
         set -g status-left ""
         set -g status-right '#[fg=colour233,bg=colour241,bold] %d/%m #[fg=colour233,bg=colour245,bold] %H:%M:%S '
         set -g status-right-length 50
         set -g status-left-length 20
-
-        # Window status
         setw -g window-status-current-style 'fg=colour1 bg=colour238 bold'
         setw -g window-status-current-format ' #I#[fg=colour249]:#[fg=colour255]#W#[fg=colour249]#F '
         setw -g window-status-style 'fg=colour9 bg=colour236'
@@ -155,7 +126,6 @@
       '';
     };
 
-    # Starship prompt (Minimal style)
     starship = {
       enable = true;
       enableBashIntegration = true;
@@ -163,7 +133,6 @@
         format = "\${custom.terminal_title}$hostname$directory$git_branch$git_status$character";
         add_newline = false;
 
-        # Set terminal title to user@host:directory
         custom.terminal_title = {
           command = "printf '\\033]0;%s@%s:%s\\007' \"$USER\" \"$HOSTNAME\" \"$PWD\"";
           when = "true";
@@ -199,7 +168,6 @@
       };
     };
 
-    # Bash configuration
     bash = {
       enable = true;
       enableCompletion = true;
@@ -213,24 +181,19 @@
         "..." = "cd ../..";
         terraform = "tofu";
         tmain = "tmux attach -t main";
-        # Fix for Ghostty terminfo not available on remote servers
-        ssh = "TERM=xterm-256color ssh";
+        ssh = "TERM=xterm-256color ssh"; # Fix for Ghostty terminfo on remote servers
       };
       initExtra = ''
-        # Initialize keychain for SSH key management
-        # Used in: i3 sessions on NixOS, standalone Home Manager (WSL/ChromeOS)
-        # NOT used in: GNOME sessions (gnome-keyring handles SSH agent instead)
+        # Keychain for SSH keys (skip in GNOME which uses gnome-keyring)
         if [[ "$XDG_CURRENT_DESKTOP" != "GNOME" ]]; then
           eval $(keychain --eval --quiet $(find ~/.ssh -maxdepth 1 -name "id_*" ! -name "*.pub" 2>/dev/null))
         fi
 
-        # Create tmux session on startup (detached, doesn't auto-attach)
-        # Skip if: already in tmux, non-interactive shell, VSCode terminal, or SSH session
+        # Create detached tmux session (skip in tmux, non-interactive, VSCode, or SSH)
         if command -v tmux &> /dev/null && [ -z "$TMUX" ] && [ -n "$PS1" ] && [ -z "$VSCODE_INJECTION" ] && [ -z "$SSH_TTY" ]; then
           tmux has-session -t main 2>/dev/null || tmux new-session -d -s main
         fi
 
-        # Nix helper functions
         nix-inst-prune() {
           echo "Collecting garbage and removing generations older than 7 days..."
           if [ -d /run/current-system ]; then
@@ -271,91 +234,55 @@
       vimAlias = true;
       defaultEditor = true;
       extraLuaConfig = ''
-        --- Line numbers
         vim.opt.number = true
         vim.opt.relativenumber = true
-        --- Indentation
         vim.opt.tabstop = 2
         vim.opt.shiftwidth = 2
         vim.opt.expandtab = true
-        --- Search
         vim.opt.ignorecase = true
         vim.opt.smartcase = true
-        --- UI
         vim.opt.termguicolors = true
         vim.opt.signcolumn = "yes"
         vim.opt.cursorline = true
       '';
     };
 
-    # GPG configuration
     gpg = {
       enable = true;
       settings = {
-        # Use strong algorithms
         personal-cipher-preferences = "AES256 AES192 AES";
         personal-digest-preferences = "SHA512 SHA384 SHA256";
         personal-compress-preferences = "ZLIB BZIP2 ZIP Uncompressed";
         default-preference-list = "SHA512 SHA384 SHA256 AES256 AES192 AES ZLIB BZIP2 ZIP Uncompressed";
-        # Display preferences
         keyid-format = "long";
         with-fingerprint = true;
-        # Security
         no-emit-version = true;
         no-comments = true;
       };
     };
 
-    # SSH configuration
     ssh = {
       enable = true;
       enableDefaultConfig = false;
       matchBlocks = {
-        # Default settings for all hosts
         "*" = {
           identitiesOnly = true;
-          extraOptions = {
-            AddKeysToAgent = "yes";
-          };
+          extraOptions.AddKeysToAgent = "yes";
         };
-        # Proxmox VMs (pvm1, pvm2, etc.)
-        "pvm?" = {
-          user = "root";
-        };
-        # Service hosts
-        "*.svc.ptre.es" = {
-          user = "user";
-        };
-        # Forward SSH agent to personal infrastructure
-        "*.ptre.*" = {
-          forwardAgent = true;
-        };
-        "*.ipnt.uk" = {
-          forwardAgent = true;
-        };
-        # Synology NAS
-        "ds920p.*" = {
-          user = "NASAdmin";
-          port = 50051;
-        };
-        # Dev server
-        "dev" = {
-          forwardAgent = true;
-        };
+        "pvm?" = { user = "root"; }; # Proxmox VMs
+        "*.svc.ptre.es" = { user = "user"; }; # Service hosts
+        "*.ptre.*" = { forwardAgent = true; }; # Personal infrastructure
+        "*.ipnt.uk" = { forwardAgent = true; };
+        "ds920p.*" = { user = "NASAdmin"; port = 50051; }; # Synology NAS
+        "dev" = { forwardAgent = true; }; # Dev server
       };
     };
   };
 
-  # GPG agent for passphrase caching
   services.gpg-agent = {
     enable = true;
-    # Cache passphrase for 2 hours, max 8 hours
-    defaultCacheTtl = 7200;
-    maxCacheTtl = 28800;
-    # Use GTK pinentry (works in both GNOME and i3, falls back to curses in TTY)
+    defaultCacheTtl = 7200; # 2 hours
+    maxCacheTtl = 28800; # 8 hours
     pinentry.package = pkgs.pinentry-gnome3;
-    # Enable SSH support (alternative to keychain/gnome-keyring SSH agent)
-    # Disabled by default - enable if you want GPG agent to manage SSH keys
-    # enableSshSupport = true;
   };
 }

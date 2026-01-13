@@ -1,3 +1,4 @@
+# NixOS desktop Home Manager entry: includes common config and desktop modules
 { config, pkgs, lib, userConfig, ... }:
 
 {
@@ -5,7 +6,4 @@
     ./common
     ../modules/home/desktop
   ];
-
-  # NixOS-specific home configuration
-  # Desktop applications are included via modules/home/desktop
 }

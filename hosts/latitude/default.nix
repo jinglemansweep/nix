@@ -1,3 +1,4 @@
+# Dell Latitude 7420: laptop power management, TLP, Intel graphics, and Bluetooth
 { config, pkgs, lib, inputs, ... }:
 
 {
@@ -8,18 +9,13 @@
 
   networking = {
     hostName = "latitude";
-    firewall = {
-      allowedTCPPorts = [ 22 80 443 3000 8000 8080 8081 8443 ];
-    };
+    firewall.allowedTCPPorts = [ 22 80 443 3000 8000 8080 8081 8443 ];
   };
 
-  # Enable desktop environments
   desktop.gnome.enable = true;
   desktop.i3.enable = true;
 
-  # Services
   services = {
-    # Power management for laptop (disable power-profiles-daemon which conflicts with TLP)
     power-profiles-daemon.enable = false;
     tlp = {
       enable = true;
@@ -32,25 +28,19 @@
         CPU_BOOST_ON_BAT = 0;
         START_CHARGE_THRESH_BAT0 = 40;
         STOP_CHARGE_THRESH_BAT0 = 80;
-        # Disable WiFi power saving for faster reconnect after sleep
         WIFI_PWR_ON_AC = "off";
         WIFI_PWR_ON_BAT = "off";
       };
     };
-    # Thermald for Intel CPUs
     thermald.enable = true;
-    # Laptop-specific services
     logind.settings.Login = {
       HandleLidSwitch = "suspend";
       HandleLidSwitchExternalPower = "lock";
     };
-    # Bluetooth
     blueman.enable = true;
-    # Firmware updates
     fwupd.enable = true;
   };
 
-  # Intel graphics
   hardware = {
     graphics = {
       enable = true;

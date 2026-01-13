@@ -1,20 +1,15 @@
+# DevOps tools: AWS CLI, Kubernetes, and secrets management
 { config, pkgs, lib, ... }:
 
 {
   home.packages = [
-    # AWS
     pkgs.awscli2
-
-    # Kubernetes
     pkgs.kubectl
     pkgs.kubernetes-helm
     pkgs.k9s
-
-    # Secrets management
     pkgs.infisical
   ];
 
-  # kubectl completion and alias
   programs.bash.initExtra = ''
     source <(kubectl completion bash)
     alias k=kubectl

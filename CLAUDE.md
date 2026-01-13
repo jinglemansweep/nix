@@ -26,44 +26,60 @@ This is a Nix Flakes-based configuration for NixOS and Home Manager.
 ## Directory Structure
 
 ```
-.github/         # CI/CD workflows
-  workflows/
-    nix-check.yml  # Flake check, statix, and deadnix linting
+.github/workflows/
+  nix-check.yml        # Flake check, statix, and deadnix linting
 
-hosts/           # NixOS system configurations
-  common/        # Shared across all NixOS hosts
-  dev/           # Proxmox VM (headless server, nix-ld enabled for VS Code Remote SSH)
-  latitude/      # Dell Latitude 7420
-  lounge/        # HP EliteDesk 800 G2 Mini
+hosts/                 # NixOS system configurations
+  common/              # Shared across all NixOS hosts
+  dev/                 # Proxmox VM (headless server, nix-ld for VS Code Remote SSH)
+  latitude/            # Dell Latitude 7420
+  lounge/              # HP EliteDesk 800 G2 Mini
 
-modules/         # All modules
-  nixos/         # NixOS modules
-    desktop/     # Gnome, i3
-    docker.nix
-  home/          # Home Manager modules
-    shell/       # Core tools, dev languages, devops tools
-      default.nix   # Git, tmux, bash, starship, neovim, core CLI tools
-      dev.nix       # Python, Node, Go, AI CLI, Claude dotfiles
-      devops.nix    # AWS, kubectl, helm, k9s, infisical
-    desktop/     # Desktop applications (NixOS only)
-      default.nix   # LibreOffice, GIMP, mtPaint, Cura, XScreenSaver (lounge only)
-      browsers.nix  # Firefox, Chrome with extensions
-      vscode.nix    # VSCode with extensions
-      gnome.nix     # Gnome-specific settings
-      media.nix     # Kodi, VLC, mpv, ffmpeg
+modules/
+  nixos/               # NixOS modules
+    desktop/
+      common.nix       # Shared desktop config (input devices, system packages)
+      gnome.nix        # GNOME desktop module
+      i3.nix           # i3 window manager module
+    docker.nix         # Docker with Compose and Buildx
+    mounts.nix         # NFS automounts for Synology NAS
+  home/                # Home Manager modules
+    shell/
+      default.nix      # Git, tmux, bash, starship, neovim, GPG, SSH, core CLI
+      dev.nix          # Python, Node.js, Go, language servers, AI CLI tools
+      devops.nix       # AWS CLI, kubectl, helm, k9s, infisical
+    desktop/
+      default.nix      # Alacritty terminal, udiskie automount
+      browsers.nix     # Firefox with extensions and bookmarks
+      gnome.nix        # GNOME extensions, keyring, dconf settings
+      i3.nix           # i3 config, i3status-rust, picom, rofi
+      media.nix        # Kodi with NFS media sources
+      vscode.nix       # VSCode with extensions
+      zed.nix          # Zed editor (disabled, config preserved)
+    secrets.nix        # SOPS secrets with age encryption
 
-home/            # Home Manager entry points
-  common/        # Shared home config (imports shell modules)
-  nixos.nix      # NixOS desktop entry (adds desktop modules)
-  server.nix     # NixOS server entry (shell only, no desktop)
-  standalone.nix # Standalone entry (shell only, for WSL/ChromeOS)
+home/                  # Home Manager entry points
+  common/              # Shared home config (imports shell modules)
+  nixos.nix            # NixOS desktop entry (adds desktop modules)
+  server.nix           # NixOS server entry (shell only)
+  standalone.nix       # Standalone entry (ChromeOS/WSL)
 
-dotfiles/        # Dotfiles deployed to home directory
-  claude/        # Claude Code configuration (synced via modules/home/shell/dev.nix)
-  direnv/        # Direnv custom functions (synced via modules/home/shell/default.nix)
+dotfiles/
+  claude/              # Claude Code configuration
+    CLAUDE.md          # Global Claude instructions
+    commands/          # Custom slash commands
+    agents/            # Custom agent definitions
+    skills/            # Custom skills
+    settings.json      # Claude settings
+    mcp_settings.json  # MCP server configuration
+  direnv/
+    direnvrc           # Custom direnv functions (load_secrets helpers)
 
-scripts/         # Utility scripts
-  partition.sh   # Disk partitioning helper
+secrets/
+  secrets.yaml         # Age-encrypted secrets (SOPS)
+
+scripts/
+  partition.sh         # Disk partitioning helper
 ```
 
 ## Configuration Targets
@@ -95,84 +111,53 @@ scripts/         # Utility scripts
 ## Important Conventions
 
 - **Locale**: en_GB.UTF-8, Europe/London timezone
-- **User**: louis (in wheel, docker, podman groups)
+- **User**: louis (in wheel, docker, podman, dialout, scanner, lp groups)
 - **Shell**: bash with starship prompt
 - **Tmux prefix**: Ctrl+a (not Ctrl+b)
 - **Git**: pull.rebase = false
 - **Docker**: Default container runtime (Podman also available)
-- **Claude Code**: Dotfiles in `dotfiles/claude/` are automatically symlinked to `~/.claude/` via `modules/home/shell/dev.nix`
-- **Host-specific configs**: `hostName` parameter passed via `extraSpecialArgs` enables conditional features (e.g., XScreenSaver on lounge only)
-- **Direnv**: nix-direnv enabled with custom `load_secrets` helpers (dotfile in `dotfiles/direnv/direnvrc`, synced via `modules/home/shell/default.nix`)
+- **Claude Code**: Dotfiles in `dotfiles/claude/` symlinked to `~/.claude/`
+- **Direnv**: nix-direnv with custom `load_secrets` helpers
+- **Secrets**: SOPS with age encryption (`secrets/secrets.yaml`)
 
-### Secrets Management with Direnv
+### Secrets Management
 
-Secrets are managed via direnv with a structured `~/.secrets/` directory:
+**SOPS (age encryption)** - configured in `modules/home/secrets.nix`:
+- Secrets file: `secrets/secrets.yaml`
+- Age key: `~/.config/sops/age/keys.txt`
 
-```
-~/.secrets/           # chmod 700
-├── global.env        # Always loaded by load_secrets
-└── projects/         # Project-specific secrets
-    ├── my-api.env
-    └── homelab.env
-```
-
-**Setup:**
+**Direnv helpers** - for environment variables:
 ```bash
-mkdir -p ~/.secrets/projects
-chmod 700 ~/.secrets
-chmod 600 ~/.secrets/*.env ~/.secrets/projects/*.env
-```
-
-**Usage in `.envrc`:**
-```bash
-# Load nix flake environment
+# In .envrc
 use flake
-
-# Load global secrets + project-specific secrets
-load_secrets my-api
-
-# Or load from a specific file
-load_secrets_file ~/.secrets/custom.env
-
-# Or just load .env files in the project
-dotenv_if_exists .env.local
+load_secrets my-project    # Loads ~/.secrets/global.env + ~/.secrets/projects/my-project.env
 ```
 
 ### Nix Code Style
 
+- **File headers**: Each file has a concise comment describing its purpose
 - **Use inherit syntax**: Prefer `inherit system;` over `system = system;`
 - **Group repeated attributes**: Use nested sets for repeated attribute prefixes
-  ```nix
-  # Good
-  home-manager = {
-    useGlobalPkgs = true;
-    useUserPackages = true;
-  };
-
-  # Avoid
-  home-manager.useGlobalPkgs = true;
-  home-manager.useUserPackages = true;
-  ```
-- **Lambda pattern names**: Unused lambda parameters in module signatures are acceptable (e.g., `{ config, pkgs, lib, ... }`)
+- **Minimal inline comments**: Only where behavior isn't self-evident
 
 ## Package Locations
 
-| Category | Location | Notes |
-|----------|----------|-------|
-| System packages | `hosts/common/default.nix` | Minimal (vim, git, wget, curl, VPN tools) |
-| Core CLI tools | `modules/home/shell/default.nix` | bat, eza, fzf, ripgrep, restic, rclone, database clients, tofu/terragrunt |
-| Dev languages | `modules/home/shell/dev.nix` | Python, Node.js, Go, build tools (gcc, cmake, make) |
+| Category | Location | Examples |
+|----------|----------|----------|
+| System packages | `hosts/common/default.nix` | vim, git, wget, curl, VPN tools |
+| Core CLI tools | `modules/home/shell/default.nix` | bat, eza, fzf, ripgrep, htop, btop, lazygit, lazydocker, borgbackup, rclone, restic, opentofu, terragrunt |
+| Dev languages | `modules/home/shell/dev.nix` | Python, Node.js, Go, language servers (pyright, nil, typescript-language-server), build tools |
 | AI CLI tools | `modules/home/shell/dev.nix` | claude-code, codex, gemini-cli, opencode |
+| MicroPython tools | `modules/home/shell/dev.nix` | picocom, esptool, picotool, mpremote |
 | DevOps tools | `modules/home/shell/devops.nix` | AWS CLI, kubectl, helm, k9s, infisical |
-| Desktop apps | `modules/home/desktop/default.nix` | LibreOffice, GIMP, mtPaint, Cura (NixOS only) |
-| Browsers | `modules/home/desktop/browsers.nix` | Firefox, Chrome with extensions (NixOS only) |
-| VSCode | `modules/home/desktop/vscode.nix` | VSCode with extensions (NixOS only) |
-| Media applications | `modules/home/desktop/media.nix` | Kodi (with NFS media sources), VLC, mpv, ffmpeg (NixOS only) |
-| Screensaver | `modules/home/desktop/default.nix` | XScreenSaver (lounge host only; latitude uses GNOME power management) |
+| Desktop apps (system) | `modules/nixos/desktop/common.nix` | Firefox, Chrome, LibreOffice, GIMP, Pinta, VLC, mpv, ffmpeg, Cura, Thonny, Tiled |
+| Browsers (user) | `modules/home/desktop/browsers.nix` | Firefox extensions (uBlock, Bitwarden), bookmarks |
+| VSCode | `modules/home/desktop/vscode.nix` | VSCode with extensions |
+| Media | `modules/home/desktop/media.nix` | Kodi with NFS media sources |
 
 ## Firefox Extensions
 
-Managed via NUR (Nix User Repository) in `modules/home/desktop/browsers.nix`:
+Managed via NUR in `modules/home/desktop/browsers.nix`:
 - uBlock Origin
 - Bitwarden
 
@@ -192,16 +177,16 @@ Managed in `modules/home/desktop/vscode.nix`:
 ## Testing Changes
 
 ```bash
-# Install pre-commit hooks (one-time setup)
+# Pre-commit hooks (one-time setup)
 pre-commit install
 
-# Run all pre-commit checks manually
+# Run all checks manually
 pre-commit run --all-files
 
-# Check flake syntax and evaluations
+# Check flake
 nix flake check
 
-# Run linting (same checks as CI)
+# Linting
 nix run nixpkgs#statix -- check .
 nix run nixpkgs#deadnix -- --fail --no-lambda-pattern-names .
 
@@ -215,30 +200,27 @@ nix build .#nixosConfigurations.latitude.config.system.build.vm
 
 ## Continuous Integration
 
-GitHub Actions runs on all pushes and pull requests to the main branch:
+GitHub Actions runs on pushes and PRs to main:
 
-| Job | Purpose | Commands |
-|-----|---------|----------|
-| `check` | Verify flake syntax and evaluations | `nix flake check` |
-| `lint` | Check Nix code quality | `statix check .`<br>`deadnix --fail --no-lambda-pattern-names .` |
-
-**Linting Tools:**
-- **statix**: Catches common Nix anti-patterns and suggests idiomatic alternatives
-  - W04: Suggests using `inherit` syntax
-  - W20: Recommends grouping repeated attribute keys into nested sets
-- **deadnix**: Detects unused bindings and dead code
-  - Configured with `--no-lambda-pattern-names` to ignore unused module function parameters (standard in NixOS)
+| Job | Purpose |
+|-----|---------|
+| `check` | `nix flake check` |
+| `lint` | `statix check .` and `deadnix --fail --no-lambda-pattern-names .` |
 
 ## Common Issues
 
 ### Firefox Extensions Not Loading
-The NUR input may need to be added to flake.nix if Firefox extensions fail:
+Ensure NUR is in flake inputs:
 ```nix
 inputs.nur.url = "github:nix-community/NUR";
 ```
 
 ### VSCode Extension SHA Mismatch
-Update the sha256 in `modules/home/desktop/vscode.nix` when extension versions change.
+Update sha256 in `modules/home/desktop/vscode.nix` when versions change.
 
 ### Hardware Config Missing
-Generate on target machine: `nixos-generate-config --show-hardware-config`
+Generate on target: `nixos-generate-config --show-hardware-config`
+
+### Broken Packages
+- `mongosh`: Commented out in dev.nix (npm cache issue)
+- `mtpaint`: Removed (incompatible with libpng 1.6.52)
