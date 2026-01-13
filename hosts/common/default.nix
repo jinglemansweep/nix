@@ -180,21 +180,6 @@
     pkgs.cifs-utils
     pkgs.nfs-utils
 
-    # Desktop apps (system-wide for all users)
-    pkgs.firefox
-    pkgs.libreoffice
-    pkgs.google-chrome
-    pkgs.vlc
-    pkgs.mpv
-    pkgs.ffmpeg
-    pkgs.gimp
-    pkgs.pinta
-    pkgs.evince
-    pkgs.baobab
-    pkgs.cura-appimage
-    pkgs.thonny
-    pkgs.tiled
-    pkgs.rxvt-unicode
   ];
 
   # This value determines the NixOS release
