@@ -229,6 +229,24 @@
         if command -v tmux &> /dev/null && [ -z "$TMUX" ] && [ -n "$PS1" ] && [ -z "$VSCODE_INJECTION" ] && [ -z "$SSH_TTY" ]; then
           tmux has-session -t main 2>/dev/null || tmux new-session -d -s main
         fi
+
+        # Nix helper functions
+        nix-prune() {
+          echo "Collecting garbage and removing old generations..."
+          if [ -d /run/current-system ]; then
+            sudo nix-collect-garbage -d && sudo nix-store --optimise
+          else
+            nix-collect-garbage -d && nix-store --optimise
+          fi
+        }
+
+        nix-rebuild() {
+          if [ -d /run/current-system ]; then
+            sudo nixos-rebuild switch --flake .#$(hostname)
+          else
+            home-manager switch --flake .#${userConfig.username}
+          fi
+        }
       '';
     };
 
