@@ -231,7 +231,7 @@
         fi
 
         # Nix helper functions
-        nix-prune() {
+        nix-inst-prune() {
           echo "Collecting garbage and removing old generations..."
           if [ -d /run/current-system ]; then
             sudo nix-collect-garbage -d && sudo nix-store --optimise
@@ -240,7 +240,7 @@
           fi
         }
 
-        nix-rebuild() {
+        nix-inst-rebuild() {
           if [ -d /run/current-system ]; then
             sudo nixos-rebuild switch --flake .#$(hostname)
           else
