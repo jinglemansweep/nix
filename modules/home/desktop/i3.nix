@@ -73,6 +73,12 @@
           # Brightness controls
           "XF86MonBrightnessUp" = "exec ${pkgs.brightnessctl}/bin/brightnessctl set 5%+";
           "XF86MonBrightnessDown" = "exec ${pkgs.brightnessctl}/bin/brightnessctl set 5%-";
+
+          # Screenshots (maim)
+          "Print" = "exec ${pkgs.maim}/bin/maim $XDG_PICTURES_DIR/screenshot_$(date +%Y%m%d_%H%M%S).png";
+          "Shift+Print" = "exec ${pkgs.maim}/bin/maim -s $XDG_PICTURES_DIR/screenshot_$(date +%Y%m%d_%H%M%S).png";
+          "Ctrl+Print" = "exec ${pkgs.maim}/bin/maim | ${pkgs.xclip}/bin/xclip -selection clipboard -t image/png";
+          "Ctrl+Shift+Print" = "exec ${pkgs.maim}/bin/maim -s | ${pkgs.xclip}/bin/xclip -selection clipboard -t image/png";
         };
 
       defaultWorkspace = "workspace number 1";
@@ -86,6 +92,11 @@
         {
           command = "xinput list --name-only | while read -r device; do xinput list-props \"$device\" 2>/dev/null | grep -q 'libinput Natural Scrolling Enabled' && xinput set-prop \"$device\" 'libinput Natural Scrolling Enabled' 0; done";
           always = true;
+          notification = false;
+        }
+        {
+          command = "nm-applet";
+          always = false;
           notification = false;
         }
       ];
