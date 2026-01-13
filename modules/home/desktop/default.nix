@@ -40,7 +40,7 @@
         WINIT_X11_SCALE_FACTOR = "1";
       };
       font = {
-        size = 14.0;
+        size = 12.0;
       };
       mouse = {
         bindings = [

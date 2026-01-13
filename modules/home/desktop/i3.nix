@@ -5,6 +5,52 @@
     enable = true;
     config = {
       modifier = "Mod4"; # Super key
+      focus.followMouse = false;
+
+      # Window gaps
+      gaps = {
+        inner = 10;
+        outer = 5;
+      };
+
+      # Remove title bars, use pixel borders
+      window = {
+        titlebar = false;
+        border = 2;
+      };
+      floating.titlebar = false;
+
+      # Window border colors (gruvbox theme)
+      colors = {
+        focused = {
+          border = "#458588";
+          background = "#458588";
+          text = "#ebdbb2";
+          indicator = "#83a598";
+          childBorder = "#458588";
+        };
+        unfocused = {
+          border = "#282828";
+          background = "#282828";
+          text = "#928374";
+          indicator = "#282828";
+          childBorder = "#282828";
+        };
+        focusedInactive = {
+          border = "#3c3836";
+          background = "#3c3836";
+          text = "#928374";
+          indicator = "#3c3836";
+          childBorder = "#3c3836";
+        };
+        urgent = {
+          border = "#cc241d";
+          background = "#cc241d";
+          text = "#ebdbb2";
+          indicator = "#cc241d";
+          childBorder = "#cc241d";
+        };
+      };
 
       keybindings =
         let
@@ -155,4 +201,22 @@
   home.packages = [
     pkgs.font-awesome
   ];
+
+  # Compositor for shadows, transparency, and smooth transitions
+  services.picom = {
+    enable = true;
+    shadow = true;
+    shadowOffsets = [ (-7) (-7) ];
+    shadowOpacity = 0.6;
+    fade = true;
+    fadeDelta = 4;
+    fadeSteps = [ 0.03 0.03 ];
+    settings = {
+      shadow-radius = 12;
+      corner-radius = 8;
+      rounded-corners-exclude = [
+        "class_g = 'i3bar'"
+      ];
+    };
+  };
 }
