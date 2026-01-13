@@ -55,6 +55,12 @@
       # MQTT
       pkgs.mosquitto
 
+      # MicroPython/CircuitPython
+      pkgs.picocom
+      pkgs.esptool
+      pkgs.picotool
+      pkgs.mpremote
+
       # Testing
       pkgs.playwright-driver.browsers
     ];

@@ -79,6 +79,43 @@
           "Shift+Print" = "exec ${pkgs.maim}/bin/maim -s $XDG_PICTURES_DIR/screenshot_$(date +%Y%m%d_%H%M%S).png";
           "Ctrl+Print" = "exec ${pkgs.maim}/bin/maim | ${pkgs.xclip}/bin/xclip -selection clipboard -t image/png";
           "Ctrl+Shift+Print" = "exec ${pkgs.maim}/bin/maim -s | ${pkgs.xclip}/bin/xclip -selection clipboard -t image/png";
+
+          # Media controls
+          "XF86AudioPlay" = "exec ${pkgs.playerctl}/bin/playerctl play-pause";
+          "XF86AudioNext" = "exec ${pkgs.playerctl}/bin/playerctl next";
+          "XF86AudioPrev" = "exec ${pkgs.playerctl}/bin/playerctl previous";
+          "XF86AudioStop" = "exec ${pkgs.playerctl}/bin/playerctl stop";
+
+          # Screen lock
+          "${modifier}+Escape" = "exec ${pkgs.i3lock}/bin/i3lock -c 282828";
+
+          # Workspace back and forth
+          "${modifier}+Tab" = "workspace back_and_forth";
+
+          # Focus urgent window
+          "${modifier}+u" = "[urgent=latest] focus";
+
+          # Scratchpad
+          "${modifier}+grave" = "scratchpad show";
+          "${modifier}+Shift+grave" = "move scratchpad";
+
+          # Power menu
+          "${modifier}+Shift+e" = ''exec ${pkgs.rofi}/bin/rofi -show power-menu -modi "power-menu:${pkgs.writeShellScript "rofi-power-menu" ''
+            case "$1" in
+              "  Lock") ${pkgs.i3lock}/bin/i3lock -c 282828 ;;
+              "  Logout") i3-msg exit ;;
+              "  Suspend") systemctl suspend ;;
+              "  Reboot") systemctl reboot ;;
+              "  Shutdown") systemctl poweroff ;;
+              *)
+                echo "  Lock"
+                echo "  Logout"
+                echo "  Suspend"
+                echo "  Reboot"
+                echo "  Shutdown"
+                ;;
+            esac
+          ''}"'';
         };
 
       defaultWorkspace = "workspace number 1";
@@ -208,9 +245,10 @@
     };
   };
 
-  # Font Awesome for status bar icons
+  # Font Awesome for status bar icons, playerctl for media keys
   home.packages = [
     pkgs.font-awesome
+    pkgs.playerctl
   ];
 
   # Compositor for shadows, transparency, and smooth transitions
@@ -229,5 +267,11 @@
         "class_g = 'i3bar'"
       ];
     };
+  };
+
+  # Application launcher with gruvbox theme
+  programs.rofi = {
+    enable = true;
+    theme = "gruvbox-dark";
   };
 }

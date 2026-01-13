@@ -23,7 +23,14 @@
 
     # Graphics editors
     # pkgs.mtpaint  # TODO: Broken in nixpkgs - incompatible with libpng 1.6.52
+    pkgs.pinta
     pkgs.gimp
+
+    # System utilities
+    pkgs.baobab
+
+    # PDF viewer
+    pkgs.evince
 
     # Terminal emulators (additional to gnome-terminal)
     pkgs.rxvt-unicode

@@ -18,6 +18,7 @@
     pkgs.fd
     pkgs.fzf
     pkgs.htop
+    pkgs.btop
     pkgs.imagemagick
     pkgs.jq
     pkgs.lsof
@@ -52,6 +53,8 @@
     pkgs.gh
     pkgs.github-copilot-cli
     pkgs.pre-commit
+    pkgs.lazygit
+    pkgs.lazydocker
 
     # Infrastructure tools (using binary releases)
     pkgs.opentofu # Open source Terraform fork (binary)
