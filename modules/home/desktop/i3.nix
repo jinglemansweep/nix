@@ -16,18 +16,18 @@
       # Remove title bars, use pixel borders
       window = {
         titlebar = false;
-        border = 2;
+        border = 4;
       };
       floating.titlebar = false;
 
       # Window border colors (gruvbox theme)
       colors = {
         focused = {
-          border = "#458588";
-          background = "#458588";
+          border = "#802040";
+          background = "#802040";
           text = "#ebdbb2";
-          indicator = "#83a598";
-          childBorder = "#458588";
+          indicator = "#993355";
+          childBorder = "#802040";
         };
         unfocused = {
           border = "#282828";

@@ -270,6 +270,24 @@
       '';
     };
 
+    # GPG configuration
+    gpg = {
+      enable = true;
+      settings = {
+        # Use strong algorithms
+        personal-cipher-preferences = "AES256 AES192 AES";
+        personal-digest-preferences = "SHA512 SHA384 SHA256";
+        personal-compress-preferences = "ZLIB BZIP2 ZIP Uncompressed";
+        default-preference-list = "SHA512 SHA384 SHA256 AES256 AES192 AES ZLIB BZIP2 ZIP Uncompressed";
+        # Display preferences
+        keyid-format = "long";
+        with-fingerprint = true;
+        # Security
+        no-emit-version = true;
+        no-comments = true;
+      };
+    };
+
     # SSH configuration
     ssh = {
       enable = true;
@@ -308,5 +326,18 @@
         };
       };
     };
+  };
+
+  # GPG agent for passphrase caching
+  services.gpg-agent = {
+    enable = true;
+    # Cache passphrase for 2 hours, max 8 hours
+    defaultCacheTtl = 7200;
+    maxCacheTtl = 28800;
+    # Use GTK pinentry (works in both GNOME and i3, falls back to curses in TTY)
+    pinentry.package = pkgs.pinentry-gnome3;
+    # Enable SSH support (alternative to keychain/gnome-keyring SSH agent)
+    # Disabled by default - enable if you want GPG agent to manage SSH keys
+    # enableSshSupport = true;
   };
 }
