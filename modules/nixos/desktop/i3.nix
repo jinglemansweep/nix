@@ -4,12 +4,6 @@
   options.desktop.i3.enable = lib.mkEnableOption "i3 window manager";
 
   config = lib.mkIf config.desktop.i3.enable {
-    # Disable natural scrolling for mouse
-    services.libinput = {
-      enable = true;
-      mouse.naturalScrolling = false;
-    };
-
     # i3 window manager as an alternative session
     services.xserver.windowManager.i3 = {
       enable = true;
@@ -20,9 +14,6 @@
         pkgs.rofi
       ];
     };
-
-    # Disable system SSH agent (let keychain handle it)
-    programs.ssh.startAgent = false;
 
     # Additional packages useful with i3
     environment.systemPackages = [

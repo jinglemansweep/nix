@@ -30,11 +30,6 @@
         };
       };
       desktopManager.gnome.enable = true;
-      libinput = {
-        enable = true;
-        mouse.naturalScrolling = false;
-        touchpad.naturalScrolling = false;
-      };
       gnome.gnome-keyring.enable = true;
     };
 
@@ -53,9 +48,6 @@
     };
 
     # Enable dconf for Gnome settings
-    programs = {
-      dconf.enable = true;
-      ssh.startAgent = false; # Let gnome-keyring handle it
-    };
+    programs.dconf.enable = true;
   };
 }
