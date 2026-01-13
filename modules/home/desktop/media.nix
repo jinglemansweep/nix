@@ -1,18 +1,13 @@
 { config, pkgs, lib, ... }:
 
 {
+  # VLC, mpv, ffmpeg installed at NixOS level for all users
+
   home.packages = [
-    # Media center with PVR addon
+    # Media center with PVR addon (has user-specific config below)
     (pkgs.kodi.withPackages (kodiPkgs: [
       kodiPkgs.pvr-iptvsimple
     ]))
-
-    # Video players
-    pkgs.vlc
-    pkgs.mpv
-
-    # Media tools
-    pkgs.ffmpeg
   ];
 
   # Kodi media sources configuration

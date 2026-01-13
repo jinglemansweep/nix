@@ -10,31 +10,9 @@
     ./zed.nix
   ];
 
-  home.packages = [
-    # 3D printing
-    pkgs.cura-appimage
-
-    # Dev
-    pkgs.thonny
-    pkgs.tiled
-
-    # Office suite
-    pkgs.libreoffice
-
-    # Graphics editors
-    # pkgs.mtpaint  # TODO: Broken in nixpkgs - incompatible with libpng 1.6.52
-    pkgs.pinta
-    pkgs.gimp
-
-    # System utilities
-    pkgs.baobab
-
-    # PDF viewer
-    pkgs.evince
-
-    # Terminal emulators (additional to gnome-terminal)
-    pkgs.rxvt-unicode
-  ];
+  # Desktop packages now installed at NixOS level for all users:
+  # cura-appimage, thonny, tiled, libreoffice, pinta, gimp, baobab, evince, rxvt-unicode
+  # mtpaint: TODO: Broken in nixpkgs - incompatible with libpng 1.6.52
 
   # Automount removable media
   services.udiskie.enable = true;

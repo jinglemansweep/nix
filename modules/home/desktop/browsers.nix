@@ -1,9 +1,10 @@
 { config, pkgs, lib, ... }:
 
 {
-  # Firefox with extensions
+  # Firefox configuration (package installed at NixOS level for all users)
   programs.firefox = {
     enable = true;
+    package = null; # Don't install via Home Manager - using system Firefox
     profiles.default = {
       isDefault = true;
       extensions.packages = [
@@ -64,10 +65,7 @@
     };
   };
 
-  # Google Chrome
-  home.packages = [
-    pkgs.google-chrome
-  ];
+  # Google Chrome installed at NixOS level for all users
 
   # Set Firefox as default browser
   xdg.mimeApps = {
