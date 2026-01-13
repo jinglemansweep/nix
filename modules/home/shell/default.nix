@@ -232,11 +232,11 @@
 
         # Nix helper functions
         nix-inst-prune() {
-          echo "Collecting garbage and removing old generations..."
+          echo "Collecting garbage and removing generations older than 7 days..."
           if [ -d /run/current-system ]; then
-            sudo nix-collect-garbage -d && sudo nix-store --optimise
+            sudo nix-collect-garbage --delete-older-than 7d && sudo nix-store --optimise
           else
-            nix-collect-garbage -d && nix-store --optimise
+            nix-collect-garbage --delete-older-than 7d && nix-store --optimise
           fi
         }
 
