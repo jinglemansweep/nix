@@ -1,0 +1,13 @@
+# SOPS configuration
+# Documentation: https://github.com/Mic92/sops-nix
+
+keys:
+  # Louis King's age key
+  - &louis age1zqelkaws6jzzv35jq53dz2qpefu0n60p3s3x7lx5yp8lvntx8cjqz7p0sl
+
+creation_rules:
+  # Default: encrypt with Louis's age key
+  - path_regex: secrets/.*\.yaml$
+    key_groups:
+      - age:
+          - *louis

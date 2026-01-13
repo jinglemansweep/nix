@@ -13,9 +13,15 @@
 
     # Nix User Repository (for Firefox extensions)
     nur.url = "github:nix-community/NUR";
+
+    # SOPS for secrets management
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, home-manager, nixos-hardware, nur, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, nixos-hardware, nur, sops-nix, ... }@inputs:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs {
@@ -43,6 +49,7 @@
             ./hosts/latitude
             ./hosts/common
             { nixpkgs.overlays = [ nur.overlays.default ]; }
+            sops-nix.nixosModules.sops
             home-manager.nixosModules.home-manager
             {
               home-manager = {
@@ -63,6 +70,7 @@
             ./hosts/lounge
             ./hosts/common
             { nixpkgs.overlays = [ nur.overlays.default ]; }
+            sops-nix.nixosModules.sops
             home-manager.nixosModules.home-manager
             {
               home-manager = {
@@ -82,6 +90,7 @@
           modules = [
             ./hosts/dev
             ./hosts/common
+            sops-nix.nixosModules.sops
             home-manager.nixosModules.home-manager
             {
               home-manager = {

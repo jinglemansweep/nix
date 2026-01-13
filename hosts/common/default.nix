@@ -6,6 +6,7 @@
     ../../modules/nixos/desktop/gnome.nix
     ../../modules/nixos/desktop/i3.nix
     ../../modules/nixos/mounts.nix
+    ../../modules/nixos/secrets.nix
   ];
 
   # Nix settings
