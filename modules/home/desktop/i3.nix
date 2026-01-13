@@ -17,6 +17,16 @@
 
           # Rofi instead of dmenu
           "${modifier}+d" = "exec ${pkgs.rofi}/bin/rofi -show drun";
+
+          # Volume controls
+          "XF86AudioRaiseVolume" = "exec ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+";
+          "XF86AudioLowerVolume" = "exec ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-";
+          "XF86AudioMute" = "exec ${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
+          "XF86AudioMicMute" = "exec ${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle";
+
+          # Brightness controls
+          "XF86MonBrightnessUp" = "exec ${pkgs.brightnessctl}/bin/brightnessctl set 5%+";
+          "XF86MonBrightnessDown" = "exec ${pkgs.brightnessctl}/bin/brightnessctl set 5%-";
         };
 
       defaultWorkspace = "workspace number 1";
@@ -76,8 +86,23 @@
     enable = true;
     bars = {
       bottom = {
-        theme = "gruvbox-dark";
+        theme = "plain";
         icons = "awesome6";
+        settings = {
+          theme = {
+            overrides = {
+              idle_bg = "#282828";
+              idle_fg = "#ebdbb2";
+              good_bg = "#282828";
+              good_fg = "#ebdbb2";
+              warning_bg = "#d79921";
+              warning_fg = "#282828";
+              critical_bg = "#cc241d";
+              critical_fg = "#ebdbb2";
+              separator = "";
+            };
+          };
+        };
         blocks = [
           {
             block = "cpu";
@@ -109,6 +134,8 @@
             charging_format = " $icon $percentage ($time) ";
             not_charging_format = " $icon $percentage ";
             missing_format = "";
+            warning = 20.0;
+            critical = 10.0;
           }
           {
             block = "sound";
