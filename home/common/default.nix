@@ -6,6 +6,7 @@
     inputs.sops-nix.homeManagerModules.sops
     ../../modules/home/shell
     ../../modules/home/secrets.nix
+    ../../modules/home/env.nix
   ];
 
   home = {

@@ -184,6 +184,9 @@
         ssh = "TERM=xterm-256color ssh"; # Fix for Ghostty terminfo on remote servers
       };
       initExtra = ''
+        # Source global environment variables
+        [ -f ~/.config/environment.d/50-nix.conf ] && set -a && source ~/.config/environment.d/50-nix.conf && set +a
+
         # Keychain for SSH keys (skip in GNOME which uses gnome-keyring)
         if [[ "$XDG_CURRENT_DESKTOP" != "GNOME" ]]; then
           eval $(keychain --eval --quiet $(find ~/.ssh -maxdepth 1 -name "id_*" ! -name "*.pub" 2>/dev/null))

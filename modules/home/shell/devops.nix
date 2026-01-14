@@ -14,5 +14,6 @@
     source <(kubectl completion bash)
     alias k=kubectl
     complete -o default -F __start_kubectl k
+    alias secrets-infisical='infisical --silent --projectId ''${INFISICAL_PROJECT_ID} --env ''${INFISICAL_ENV}'
   '';
 }
