@@ -1,14 +1,7 @@
-# Shared NixOS configuration: bootloader, networking, locale, services, and user setup
+# Shared NixOS base: bootloader, networking, locale, SSH, and user setup
 { config, pkgs, lib, userConfig, ... }:
 
 {
-  imports = [
-    ../../modules/nixos/docker.nix
-    ../../modules/nixos/desktop/common.nix
-    ../../modules/nixos/desktop/gnome.nix
-    ../../modules/nixos/desktop/i3.nix
-    ../../modules/nixos/mounts.nix
-  ];
 
   nix = {
     settings = {
@@ -40,7 +33,6 @@
       allowedTCPPorts = [ 22 ];
       allowedUDPPorts = [ config.services.tailscale.port ];
     };
-    wireguard.enable = true;
   };
 
   i18n = {
@@ -62,10 +54,6 @@
   console.keyMap = "uk";
 
   services = {
-    xserver.xkb = {
-      layout = "gb";
-      variant = "";
-    };
     openssh = {
       enable = true;
       settings = {
@@ -74,38 +62,12 @@
       };
     };
     tailscale.enable = true;
-    udisks2.enable = true;
-    openvpn.servers = { };
-    pipewire = {
-      enable = true;
-      alsa.enable = true;
-      alsa.support32Bit = true;
-      pulse.enable = true;
-    };
-    printing = {
-      enable = true;
-      drivers = [
-        pkgs.brlaser
-        pkgs.brgenml1lpr
-        pkgs.brgenml1cupswrapper
-      ];
-    };
-    avahi = {
-      enable = true;
-      nssmdns4 = true;
-      openFirewall = true;
-    };
-  };
-
-  hardware.sane = {
-    enable = true;
-    brscan4.enable = true;
   };
 
   users.users.${userConfig.username} = {
     isNormalUser = true;
     description = userConfig.fullName;
-    extraGroups = [ "networkmanager" "wheel" "docker" "podman" "dialout" "scanner" "lp" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" ];
     shell = pkgs.bash;
     initialHashedPassword = "$6$/ZGKJRex3fGzQF7r$u/wtRd8LWjlpsSSSt1NcpNQCzI2Y0oLaVCgqUHCZY2HBTpnQrProXQo8ueiMHA/Nv8bdCmg2Ftp0AUaxHuvFA1";
     openssh.authorizedKeys.keyFiles = [
@@ -116,42 +78,11 @@
     ];
   };
 
-  virtualisation.podman = {
-    enable = true;
-    dockerCompat = false;
-    defaultNetwork.settings.dns_enabled = true;
-  };
-
-  security.rtkit.enable = true;
-
-  fonts = {
-    enableDefaultPackages = true;
-    packages = [
-      pkgs.noto-fonts
-      pkgs.noto-fonts-cjk-sans
-      pkgs.noto-fonts-color-emoji
-      pkgs.liberation_ttf
-      pkgs.fira-code
-      pkgs.fira-code-symbols
-      pkgs.jetbrains-mono
-      pkgs.source-code-pro
-    ];
-    fontconfig.defaultFonts = {
-      serif = [ "Noto Serif" ];
-      sansSerif = [ "Noto Sans" ];
-      monospace = [ "JetBrains Mono" ];
-    };
-  };
-
   environment.systemPackages = [
     pkgs.vim
     pkgs.git
     pkgs.wget
     pkgs.curl
-    pkgs.openvpn
-    pkgs.wireguard-tools
-    pkgs.cifs-utils
-    pkgs.nfs-utils
   ];
 
   system.stateVersion = "24.05";

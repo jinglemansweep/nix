@@ -1,4 +1,4 @@
-# Docker: daemon with Compose and Buildx, weekly auto-prune
+# Virtualisation: Docker and Podman with Compose, Buildx, and weekly auto-prune
 { config, pkgs, lib, ... }:
 
 {
@@ -9,6 +9,12 @@
       enable = true;
       dates = "weekly";
     };
+  };
+
+  virtualisation.podman = {
+    enable = true;
+    dockerCompat = false;
+    defaultNetwork.settings.dns_enabled = true;
   };
 
   environment.systemPackages = [

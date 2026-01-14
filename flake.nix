@@ -44,6 +44,7 @@
           modules = [
             ./hosts/latitude
             ./hosts/common
+            ./hosts/common/desktop.nix
             { nixpkgs.overlays = [ nur.overlays.default ]; }
             home-manager.nixosModules.home-manager
             {
@@ -63,6 +64,7 @@
           modules = [
             ./hosts/lounge
             ./hosts/common
+            ./hosts/common/desktop.nix
             { nixpkgs.overlays = [ nur.overlays.default ]; }
             home-manager.nixosModules.home-manager
             {
@@ -82,6 +84,26 @@
           modules = [
             ./hosts/dev
             ./hosts/common
+            ./modules/nixos/virtualisation.nix
+            home-manager.nixosModules.home-manager
+            {
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                extraSpecialArgs = { inherit inputs userConfig; };
+                users.${userConfig.username} = import ./home/server.nix;
+              };
+            }
+          ];
+        };
+
+        docker-runner = nixpkgs.lib.nixosSystem {
+          inherit system;
+          specialArgs = { inherit inputs userConfig; };
+          modules = [
+            ./hosts/docker-runner
+            ./hosts/common
+            ./modules/nixos/virtualisation.nix
             home-manager.nixosModules.home-manager
             {
               home-manager = {
