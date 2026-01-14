@@ -9,7 +9,8 @@
 
   networking = {
     hostName = "latitude";
-    firewall.allowedTCPPorts = [ 22 80 443 3000 8000 8080 8081 8443 ];
+    firewall.enable = lib.mkForce false;
+    nftables.enable = true;
   };
 
   desktop.gnome.enable = true;
@@ -39,6 +40,7 @@
     };
     blueman.enable = true;
     fwupd.enable = true;
+    firewalld.enable = true;
   };
 
   hardware = {

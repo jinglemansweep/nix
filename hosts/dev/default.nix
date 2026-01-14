@@ -8,7 +8,7 @@
 
   networking = {
     hostName = "dev";
-    firewall.allowedTCPPorts = [ 22 80 443 3000 5173 8000 8080 8081 8443 ];
+    firewall.enable = lib.mkForce false;
   };
 
   services.qemuGuest.enable = true;

@@ -8,7 +8,7 @@
 
   networking = {
     hostName = "lounge";
-    firewall.allowedTCPPorts = [ 22 80 443 3000 8000 8080 8081 8443 ];
+    firewall.enable = lib.mkForce false;
   };
 
   desktop.gnome.enable = true;

@@ -37,7 +37,7 @@
     firewall = {
       enable = true;
       trustedInterfaces = [ "tailscale0" ];
-      allowedTCPPorts = [ 22 80 443 8000 ];
+      allowedTCPPorts = [ 22 ];
       allowedUDPPorts = [ config.services.tailscale.port ];
     };
     wireguard.enable = true;
