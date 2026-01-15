@@ -106,6 +106,7 @@
             ./hosts/dev
             ./hosts/common
             ./modules/nixos/virtualisation.nix
+            ./modules/nixos/mounts.nix
             home-manager.nixosModules.home-manager
             {
               home-manager = {
