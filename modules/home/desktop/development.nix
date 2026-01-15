@@ -64,6 +64,10 @@
       telemetry = { diagnostics = false; metrics = false; };
       vim_mode = false;
       format_on_save = "off";
+      # Fix flickering on Sway
+      gpu = {
+        backend = "gl";
+      };
     };
   };
 }

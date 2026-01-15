@@ -4,6 +4,10 @@
 {
   wayland.windowManager.sway = {
     enable = true;
+    extraConfig = ''
+      # Fix Zed constant redraw issue when floating
+      for_window [app_id="dev.zed.Zed"] floating disable
+    '';
     config = {
       modifier = "Mod4";
       focus.followMouse = false;
