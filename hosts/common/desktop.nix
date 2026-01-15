@@ -6,7 +6,7 @@
     ../../modules/nixos/virtualisation.nix
     ../../modules/nixos/desktop/common.nix
     ../../modules/nixos/desktop/gnome.nix
-    ../../modules/nixos/desktop/i3.nix
+    ../../modules/nixos/desktop/sway.nix
     ../../modules/nixos/mounts.nix
   ];
 

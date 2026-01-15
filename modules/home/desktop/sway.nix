@@ -1,16 +1,17 @@
-# i3 window manager: keybindings, gaps, gruvbox theme, i3status-rust, picom, and rofi
+# Sway window manager: keybindings, gaps, gruvbox theme, i3status-rust, mako, and wofi
 { pkgs, lib, config, ... }:
 
 {
-  xsession.windowManager.i3 = {
+  wayland.windowManager.sway = {
     enable = true;
     config = {
       modifier = "Mod4";
       focus.followMouse = false;
+      terminal = "alacritty";
 
       gaps = {
         inner = 10;
-        outer = 5;
+        outer = 2;
       };
 
       window = {
@@ -53,70 +54,68 @@
 
       keybindings =
         let
-          inherit (config.xsession.windowManager.i3.config) modifier;
+          inherit (config.wayland.windowManager.sway.config) modifier;
         in
         lib.mkOptionDefault {
           "${modifier}+b" = "exec firefox";
           "${modifier}+Return" = "exec alacritty";
-          "${modifier}+d" = "exec ${pkgs.rofi}/bin/rofi -show drun";
+          "${modifier}+d" = "exec ${pkgs.wofi}/bin/wofi --show drun";
           "XF86AudioRaiseVolume" = "exec ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+";
           "XF86AudioLowerVolume" = "exec ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-";
           "XF86AudioMute" = "exec ${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
           "XF86AudioMicMute" = "exec ${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle";
           "XF86MonBrightnessUp" = "exec ${pkgs.brightnessctl}/bin/brightnessctl set 5%+";
           "XF86MonBrightnessDown" = "exec ${pkgs.brightnessctl}/bin/brightnessctl set 5%-";
-          "Print" = "exec ${pkgs.maim}/bin/maim $XDG_PICTURES_DIR/screenshot_$(date +%Y%m%d_%H%M%S).png";
-          "Shift+Print" = "exec ${pkgs.maim}/bin/maim -s $XDG_PICTURES_DIR/screenshot_$(date +%Y%m%d_%H%M%S).png";
-          "Ctrl+Print" = "exec ${pkgs.maim}/bin/maim | ${pkgs.xclip}/bin/xclip -selection clipboard -t image/png";
-          "Ctrl+Shift+Print" = "exec ${pkgs.maim}/bin/maim -s | ${pkgs.xclip}/bin/xclip -selection clipboard -t image/png";
+          "Print" = "exec ${pkgs.grim}/bin/grim $XDG_PICTURES_DIR/screenshot_$(date +%Y%m%d_%H%M%S).png";
+          "Shift+Print" = "exec ${pkgs.grim}/bin/grim -g \"$(${pkgs.slurp}/bin/slurp)\" $XDG_PICTURES_DIR/screenshot_$(date +%Y%m%d_%H%M%S).png";
+          "Ctrl+Print" = "exec ${pkgs.grim}/bin/grim - | ${pkgs.wl-clipboard}/bin/wl-copy";
+          "Ctrl+Shift+Print" = "exec ${pkgs.grim}/bin/grim -g \"$(${pkgs.slurp}/bin/slurp)\" - | ${pkgs.wl-clipboard}/bin/wl-copy";
           "XF86AudioPlay" = "exec ${pkgs.playerctl}/bin/playerctl play-pause";
           "XF86AudioNext" = "exec ${pkgs.playerctl}/bin/playerctl next";
           "XF86AudioPrev" = "exec ${pkgs.playerctl}/bin/playerctl previous";
           "XF86AudioStop" = "exec ${pkgs.playerctl}/bin/playerctl stop";
-          "${modifier}+Escape" = "exec ${pkgs.i3lock}/bin/i3lock -c 282828";
+          "${modifier}+Escape" = "exec ${pkgs.swaylock}/bin/swaylock -c 282828";
           "${modifier}+Tab" = "workspace back_and_forth";
           "${modifier}+u" = "[urgent=latest] focus";
           "${modifier}+grave" = "scratchpad show";
           "${modifier}+Shift+grave" = "move scratchpad";
-          "${modifier}+Shift+e" = ''exec ${pkgs.rofi}/bin/rofi -show power-menu -modi "power-menu:${pkgs.writeShellScript "rofi-power-menu" ''
-            case "$1" in
-              "  Lock") ${pkgs.i3lock}/bin/i3lock -c 282828 ;;
-              "  Logout") i3-msg exit ;;
-              "  Suspend") systemctl suspend ;;
-              "  Reboot") systemctl reboot ;;
-              "  Shutdown") systemctl poweroff ;;
-              *)
-                echo "  Lock"
-                echo "  Logout"
-                echo "  Suspend"
-                echo "  Reboot"
-                echo "  Shutdown"
-                ;;
+          "${modifier}+Shift+e" = "exec ${pkgs.writeShellScript "sway-power-menu" ''
+            choice=$(echo -e "Lock\nLogout\nSuspend\nReboot\nShutdown" | ${pkgs.wofi}/bin/wofi --show dmenu --prompt "Power")
+            case "$choice" in
+              "Lock") ${pkgs.swaylock}/bin/swaylock -c 282828 ;;
+              "Logout") swaymsg exit ;;
+              "Suspend") systemctl suspend ;;
+              "Reboot") systemctl reboot ;;
+              "Shutdown") systemctl poweroff ;;
             esac
-          ''}"'';
+          ''}";
         };
 
       defaultWorkspace = "workspace number 1";
 
+      input = {
+        "*" = {
+          natural_scroll = "disabled";
+          xkb_layout = "gb";
+        };
+        "type:touchpad" = {
+          tap = "enabled";
+          dwt = "enabled";
+        };
+      };
+
+      output = {
+        "*" = {
+          bg = "${pkgs.gnome-backgrounds}/share/backgrounds/gnome/adwaita-d.jxl fill";
+        };
+      };
+
       startup = [
-        {
-          command = "${pkgs.feh}/bin/feh --bg-fill ${pkgs.gnome-backgrounds}/share/backgrounds/gnome/adwaita-d.jxl";
-          always = false;
-          notification = false;
-        }
-        {
-          command = "xinput list --name-only | while read -r device; do xinput set-prop \"$device\" 'libinput Natural Scrolling Enabled' 0 2>/dev/null || true; done";
-          always = true;
-          notification = false;
-        }
-        {
-          command = "nm-applet";
-          always = false;
-          notification = false;
-        }
+        { command = "nm-applet --indicator"; }
+        { command = "${pkgs.mako}/bin/mako"; }
       ];
 
-      bars = [
+      bars = lib.mkForce [
         {
           position = "bottom";
           statusCommand = "${pkgs.i3status-rust}/bin/i3status-rs ~/.config/i3status-rust/config-bottom.toml";
@@ -191,23 +190,55 @@
     pkgs.playerctl
   ];
 
-  services.picom = {
+  programs.wofi = {
     enable = true;
-    shadow = true;
-    shadowOffsets = [ (-7) (-7) ];
-    shadowOpacity = 0.6;
-    fade = true;
-    fadeDelta = 4;
-    fadeSteps = [ 0.03 0.03 ];
     settings = {
-      shadow-radius = 12;
-      corner-radius = 8;
-      rounded-corners-exclude = [ "class_g = 'i3bar'" ];
+      width = 400;
+      height = 300;
+      show = "drun";
+      prompt = "Search...";
+      allow_images = true;
     };
+    style = ''
+      window {
+        background-color: #282828;
+        border: 2px solid #458588;
+        border-radius: 8px;
+      }
+      #input {
+        background-color: #3c3836;
+        color: #ebdbb2;
+        border: none;
+        border-radius: 4px;
+        margin: 8px;
+        padding: 8px;
+      }
+      #outer-box {
+        margin: 8px;
+      }
+      #entry {
+        padding: 8px;
+      }
+      #entry:selected {
+        background-color: #458588;
+        border-radius: 4px;
+      }
+      #text {
+        color: #ebdbb2;
+      }
+    '';
   };
 
-  programs.rofi = {
+  services.mako = {
     enable = true;
-    theme = "gruvbox-dark";
+    settings = {
+      background-color = "#282828";
+      text-color = "#ebdbb2";
+      border-color = "#458588";
+      border-radius = 8;
+      border-size = 2;
+      default-timeout = 5000;
+      font = "DejaVu Sans 10";
+    };
   };
 }
