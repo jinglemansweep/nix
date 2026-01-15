@@ -2,9 +2,7 @@
 { config, pkgs, lib, ... }:
 
 {
-  options.desktop.i3.enable = lib.mkEnableOption "i3 window manager";
-
-  config = lib.mkIf config.desktop.i3.enable {
+  config = lib.mkIf config.desktop.enable {
     services.xserver.windowManager.i3 = {
       enable = true;
       extraPackages = [

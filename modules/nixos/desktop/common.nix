@@ -1,8 +1,24 @@
-# Shared desktop config: input devices, system packages (applied when any DE is enabled)
+# Shared desktop config: input devices, system packages, Plymouth boot
 { config, pkgs, lib, ... }:
 
 {
-  config = lib.mkIf (config.desktop.gnome.enable || config.desktop.i3.enable) {
+  options.desktop.enable = lib.mkEnableOption "desktop environment";
+
+  config = lib.mkIf config.desktop.enable {
+    boot = {
+      plymouth.enable = true;
+      consoleLogLevel = 0;
+      initrd.verbose = false;
+      kernelParams = [
+        "quiet"
+        "splash"
+        "boot.shell_on_fail"
+        "loglevel=3"
+        "rd.systemd.show_status=false"
+        "rd.udev.log_level=3"
+        "udev.log_priority=3"
+      ];
+    };
     services.libinput = {
       enable = true;
       mouse.naturalScrolling = false;

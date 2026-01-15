@@ -11,8 +11,7 @@
     firewall.enable = lib.mkForce false;
   };
 
-  desktop.gnome.enable = true;
-  desktop.i3.enable = true;
+  desktop.enable = true;
 
   powerManagement.cpuFreqGovernor = "performance";
 

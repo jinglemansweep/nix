@@ -13,8 +13,7 @@
     nftables.enable = true;
   };
 
-  desktop.gnome.enable = true;
-  desktop.i3.enable = true;
+  desktop.enable = true;
 
   services = {
     power-profiles-daemon.enable = false;
