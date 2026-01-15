@@ -64,6 +64,7 @@
           "${modifier}+b" = "exec firefox";
           "${modifier}+Return" = "exec alacritty";
           "${modifier}+d" = "exec ${pkgs.wofi}/bin/wofi --show drun";
+          "${modifier}+n" = "exec ${pkgs.networkmanager_dmenu}/bin/networkmanager_dmenu";
           "XF86AudioRaiseVolume" = "exec ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+";
           "XF86AudioLowerVolume" = "exec ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-";
           "XF86AudioMute" = "exec ${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
@@ -115,7 +116,7 @@
       };
 
       startup = [
-        { command = "nm-applet --indicator"; }
+        { command = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"; }
         { command = "${pkgs.mako}/bin/mako"; }
       ];
 
@@ -192,6 +193,8 @@
   home.packages = [
     pkgs.font-awesome
     pkgs.playerctl
+    pkgs.polkit_gnome
+    pkgs.networkmanager_dmenu
   ];
 
   programs.wofi = {
@@ -232,6 +235,17 @@
       }
     '';
   };
+
+  xdg.configFile."networkmanager-dmenu/config.ini".text = ''
+    [dmenu]
+    dmenu_command = ${pkgs.wofi}/bin/wofi --dmenu -i -p "Network"
+    wifi_chars = ▂▄▆█
+    pinentry = pinentry-gnome3
+
+    [editor]
+    terminal = ${pkgs.alacritty}/bin/alacritty
+    gui_if_available = true
+  '';
 
   services.mako = {
     enable = true;
