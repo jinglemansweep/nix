@@ -20,7 +20,7 @@
     settings = {
       env.WINIT_X11_SCALE_FACTOR = "1";
       window.padding = { x = 8; y = 8; };
-      font.size = 12.0;
+      font.size = 10.0;
       mouse.bindings = [
         { mouse = "Middle"; action = "PasteSelection"; }
       ];
