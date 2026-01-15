@@ -1,35 +1,33 @@
-# Shell environment: core CLI tools, git, tmux, bash, neovim, GPG, and SSH configuration
+# Base shell environment: core CLI tools, git, tmux, bash, neovim, GPG, and SSH
 { config, pkgs, lib, userConfig, ... }:
 
 {
-  imports = [
-    ./dev.nix
-    ./devops.nix
-  ];
-
   xdg.configFile."direnv/direnvrc".source = ../../../dotfiles/direnv/direnvrc;
 
   home.packages = [
+    # File utilities
     pkgs.bat
-    pkgs.delta
     pkgs.eza
     pkgs.fd
+    pkgs.ripgrep
+    pkgs.tree
+    pkgs.ncdu
+    pkgs.lsof
+    pkgs.rsync
+
+    # Interactive tools
     pkgs.fzf
     pkgs.htop
     pkgs.btop
-    pkgs.imagemagick
-    pkgs.jq
-    pkgs.lsof
-    pkgs.ncdu
-    pkgs.psmisc
-    pkgs.neofetch
-    pkgs.ripgrep
-    pkgs.rsync
-    pkgs.screen
-    pkgs.tree
     pkgs.vim
+    pkgs.screen
+
+    # Data processing
+    pkgs.jq
     pkgs.yq
-    pkgs.usbutils
+    pkgs.delta
+
+    # Compression
     pkgs.zip
     pkgs.unzip
     pkgs.gnutar
@@ -37,21 +35,18 @@
     pkgs.bzip2
     pkgs.gzip
     pkgs.p7zip
+
+    # Backup tools
     pkgs.borgbackup
     pkgs.rclone
     pkgs.restic
-    pkgs.gh
-    pkgs.github-copilot-cli
-    pkgs.pre-commit
-    pkgs.lazygit
-    pkgs.lazydocker
-    pkgs.opentofu
-    pkgs.terragrunt
+
+    # Misc
+    pkgs.imagemagick
+    pkgs.neofetch
+    pkgs.usbutils
+    pkgs.psmisc
     pkgs.keychain
-    pkgs.postgresql
-    pkgs.mariadb
-    pkgs.redis
-    # pkgs.mongosh  # TODO: Broken in nixpkgs - npm cache out of sync
   ];
 
   programs = {
@@ -179,9 +174,8 @@
         vim = "nvim";
         ".." = "cd ..";
         "..." = "cd ../..";
-        terraform = "tofu";
         tmain = "tmux attach -t main";
-        ssh = "TERM=xterm-256color ssh"; # Fix for Ghostty terminfo on remote servers
+        ssh = "TERM=xterm-256color ssh";
       };
       initExtra = ''
         # Source global environment variables
@@ -272,20 +266,20 @@
           identitiesOnly = true;
           extraOptions.AddKeysToAgent = "yes";
         };
-        "pvm?" = { user = "root"; }; # Proxmox VMs
-        "*.svc.ptre.es" = { user = "user"; }; # Service hosts
-        "*.ptre.*" = { forwardAgent = true; }; # Personal infrastructure
+        "pvm?" = { user = "root"; };
+        "*.svc.ptre.es" = { user = "user"; };
+        "*.ptre.*" = { forwardAgent = true; };
         "*.ipnt.uk" = { forwardAgent = true; };
-        "ds920p.*" = { user = "NASAdmin"; port = 50051; }; # Synology NAS
-        "dev" = { forwardAgent = true; }; # Dev server
+        "ds920p.*" = { user = "NASAdmin"; port = 50051; };
+        "dev" = { forwardAgent = true; };
       };
     };
   };
 
   services.gpg-agent = {
     enable = true;
-    defaultCacheTtl = 7200; # 2 hours
-    maxCacheTtl = 28800; # 8 hours
+    defaultCacheTtl = 7200;
+    maxCacheTtl = 28800;
     pinentry.package = pkgs.pinentry-gnome3;
   };
 }

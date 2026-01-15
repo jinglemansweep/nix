@@ -52,7 +52,7 @@
             useGlobalPkgs = true;
             useUserPackages = true;
             extraSpecialArgs = { inherit inputs userConfig; };
-            users.${userConfig.username} = import ./home/server.nix;
+            users.${userConfig.username} = import ./home/docker-runner.nix;
           };
         }
       ];

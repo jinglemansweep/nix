@@ -1,4 +1,4 @@
-# NixOS desktop Home Manager entry: base + docker + development + desktop
+# Docker runner Home Manager entry: base tools + container management, no dev tools
 { config, pkgs, lib, userConfig, ... }:
 
 {
@@ -6,7 +6,5 @@
     ./common
     ../modules/home/shell/base.nix
     ../modules/home/shell/docker.nix
-    ../modules/home/shell/development.nix
-    ../modules/home/desktop
   ];
 }

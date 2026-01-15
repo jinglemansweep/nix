@@ -1,17 +1,20 @@
-# Development tools: Python, Node.js, Go, language servers, build tools, and AI CLI
+# Development tools: languages, LSPs, build tools, DevOps, AI CLI, and embedded
 { config, pkgs, lib, ... }:
 
 {
   home = {
     packages = [
+      # Languages
       pkgs.python3
       pkgs.python3Packages.pip
       pkgs.python3Packages.virtualenv
       pkgs.python3Packages.pipx
       pkgs.nodejs
       pkgs.go
-      pkgs.gopls
       pkgs.gotools
+
+      # Language Servers
+      pkgs.gopls
       pkgs.nil
       pkgs.pyright
       pkgs.typescript-language-server
@@ -20,7 +23,8 @@
       pkgs.dockerfile-language-server
       pkgs.bash-language-server
       pkgs.vscode-langservers-extracted
-      pkgs.eslint
+
+      # Build Tools
       pkgs.gnumake
       pkgs.gcc
       pkgs.pkg-config
@@ -28,16 +32,42 @@
       pkgs.autoconf
       pkgs.automake
       pkgs.libtool
+      pkgs.eslint
+
+      # DevOps / Infrastructure
+      pkgs.opentofu
+      pkgs.terragrunt
+      pkgs.pre-commit
+      pkgs.gh
+      pkgs.github-copilot-cli
+      pkgs.lazygit
+      pkgs.awscli2
+      pkgs.kubectl
+      pkgs.kubernetes-helm
+      pkgs.k9s
+      pkgs.infisical
+
+      # Database Clients
+      pkgs.postgresql
+      pkgs.mariadb
+      pkgs.redis
       pkgs.sqlite
+      # pkgs.mongosh  # TODO: Broken in nixpkgs - npm cache out of sync
+
+      # AI CLI Tools
       pkgs.claude-code
       pkgs.codex
       pkgs.gemini-cli
       pkgs.opencode
-      pkgs.mosquitto
+
+      # MicroPython / Embedded
       pkgs.picocom
       pkgs.esptool
       pkgs.picotool
       pkgs.mpremote
+      pkgs.mosquitto
+
+      # Other
       pkgs.playwright-driver.browsers
     ];
 
@@ -63,5 +93,20 @@
       ".claude/settings.json".source = ../../../dotfiles/claude/settings.json;
       ".claude/mcp_settings.json".source = ../../../dotfiles/claude/mcp_settings.json;
     };
+  };
+
+  programs.bash = {
+    shellAliases = {
+      terraform = "tofu";
+      k = "kubectl";
+    };
+    initExtra = ''
+      # Kubectl completion
+      source <(kubectl completion bash)
+      complete -o default -F __start_kubectl k
+
+      # Infisical alias
+      alias secrets-infisical='infisical --silent --projectId ''${INFISICAL_PROJECT_ID} --env ''${INFISICAL_ENV}'
+    '';
   };
 }
