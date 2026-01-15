@@ -31,7 +31,10 @@ This is a Nix Flakes-based configuration for NixOS and Home Manager.
 
 hosts/                 # NixOS system configurations
   common/              # Shared across all NixOS hosts
+    default.nix        # Base system configuration
+    desktop.nix        # Desktop-specific system config
   dev/                 # Proxmox VM (headless server, nix-ld for VS Code Remote SSH)
+  docker-runner/       # Proxmox VM (minimal Docker Swarm runner)
   latitude/            # Dell Latitude 7420
   lounge/              # HP EliteDesk 800 G2 Mini
 
@@ -40,26 +43,31 @@ modules/
     desktop/
       common.nix       # Shared desktop config (input devices, system packages)
       gnome.nix        # GNOME desktop module
-      i3.nix           # i3 window manager module
-    docker.nix         # Docker with Compose and Buildx
+      sway.nix         # Sway window manager module
+    systemd/
+      default.nix      # Systemd service imports
+      docker-backup.nix # Docker volume backup service
+      nix-gc.nix       # Automated garbage collection
     mounts.nix         # NFS automounts for Synology NAS
+    virtualisation.nix # Docker and Podman configuration
   home/                # Home Manager modules
     shell/
-      default.nix      # Git, tmux, bash, starship, neovim, GPG, SSH, core CLI
-      dev.nix          # Python, Node.js, Go, language servers, AI CLI tools
-      devops.nix       # AWS CLI, kubectl, helm, k9s, infisical
+      base.nix         # Git, tmux, bash, starship, neovim, GPG, SSH, core CLI
+      development.nix  # Python, Node.js, Go, LSPs, AI CLI, DevOps, database clients
+      docker.nix       # Container management tools (lazydocker)
     desktop/
-      default.nix      # Alacritty terminal, udiskie automount
+      default.nix      # Alacritty terminal, udiskie automount, imports other desktop modules
       browsers.nix     # Firefox with extensions and bookmarks
+      development.nix  # VSCode and Zed editor with extensions
       gnome.nix        # GNOME extensions, keyring, dconf settings
-      i3.nix           # i3 config, i3status-rust, picom, rofi
       media.nix        # Kodi with NFS media sources
-      vscode.nix       # VSCode with extensions
-      zed.nix          # Zed editor (disabled, config preserved)
+      sway.nix         # Sway window manager configuration
+    env.nix            # Environment variable configuration
     secrets.nix        # SOPS secrets with age encryption
 
 home/                  # Home Manager entry points
-  common/              # Shared home config (imports shell modules)
+  common/              # Shared home config (SOPS, XDG directories)
+  docker-runner.nix    # Docker runner entry (base + docker tools only)
   nixos.nix            # NixOS desktop entry (adds desktop modules)
   server.nix           # NixOS server entry (shell only)
   standalone.nix       # Standalone entry (ChromeOS/WSL)
@@ -89,6 +97,7 @@ scripts/
 | Dell Latitude 7420 | `sudo nixos-rebuild switch --flake .#latitude` |
 | HP EliteDesk 800 G2 Mini (Lounge) | `sudo nixos-rebuild switch --flake .#lounge` |
 | Proxmox VM (Dev Server) | `sudo nixos-rebuild switch --flake .#dev` |
+| Proxmox VM (Docker Runner) | `sudo nixos-rebuild switch --flake .#docker-runner` |
 | Standalone (WSL/ChromeOS) | `home-manager switch --flake .#louis` |
 
 ## Adding New Features
@@ -145,14 +154,17 @@ load_secrets my-project    # Loads ~/.secrets/global.env + ~/.secrets/projects/m
 | Category | Location | Examples |
 |----------|----------|----------|
 | System packages | `hosts/common/default.nix` | vim, git, wget, curl, VPN tools |
-| Core CLI tools | `modules/home/shell/default.nix` | bat, eza, fzf, ripgrep, htop, btop, lazygit, lazydocker, borgbackup, rclone, restic, opentofu, terragrunt |
-| Dev languages | `modules/home/shell/dev.nix` | Python, Node.js, Go, language servers (pyright, nil, typescript-language-server), build tools |
-| AI CLI tools | `modules/home/shell/dev.nix` | claude-code, codex, gemini-cli, opencode |
-| MicroPython tools | `modules/home/shell/dev.nix` | picocom, esptool, picotool, mpremote |
-| DevOps tools | `modules/home/shell/devops.nix` | AWS CLI, kubectl, helm, k9s, infisical |
+| Core CLI tools | `modules/home/shell/base.nix` | bat, eza, fzf, ripgrep, htop, btop, vim, screen, borgbackup, rclone, restic, imagemagick |
+| Dev languages | `modules/home/shell/development.nix` | Python, Node.js, Go, build tools (gcc, make, cmake) |
+| Language servers | `modules/home/shell/development.nix` | gopls, nil, pyright, typescript-language-server, yaml-language-server, terraform-ls, bash-language-server |
+| AI CLI tools | `modules/home/shell/development.nix` | claude-code, codex, gemini-cli, opencode |
+| DevOps tools | `modules/home/shell/development.nix` | opentofu, terragrunt, awscli2, kubectl, helm, k9s, infisical, pre-commit, gh, lazygit |
+| Database clients | `modules/home/shell/development.nix` | postgresql, mariadb, redis, sqlite |
+| MicroPython tools | `modules/home/shell/development.nix` | picocom, esptool, picotool, mpremote, mosquitto |
+| Docker tools | `modules/home/shell/docker.nix` | lazydocker |
 | Desktop apps (system) | `modules/nixos/desktop/common.nix` | Firefox, Chrome, LibreOffice, GIMP, Pinta, VLC, mpv, ffmpeg, Cura, Thonny, Tiled |
 | Browsers (user) | `modules/home/desktop/browsers.nix` | Firefox extensions (uBlock, Bitwarden), bookmarks |
-| VSCode | `modules/home/desktop/vscode.nix` | VSCode with extensions |
+| Development editors | `modules/home/desktop/development.nix` | VSCode with extensions, Zed editor |
 | Media | `modules/home/desktop/media.nix` | Kodi with NFS media sources |
 
 ## Firefox Extensions
@@ -163,7 +175,7 @@ Managed via NUR in `modules/home/desktop/browsers.nix`:
 
 ## VSCode Extensions
 
-Managed in `modules/home/desktop/vscode.nix`:
+Managed in `modules/home/desktop/development.nix`:
 - Remote (Containers, SSH, WSL)
 - Ansible
 - Claude Code (Anthropic)
@@ -173,6 +185,10 @@ Managed in `modules/home/desktop/vscode.nix`:
 - Python (with Black formatter)
 - Terraform
 - YAML
+
+## Zed Editor
+
+Configured in `modules/home/desktop/development.nix` with extensions for nix, toml, dockerfile, make, and html.
 
 ## Testing Changes
 
@@ -222,5 +238,5 @@ Update sha256 in `modules/home/desktop/vscode.nix` when versions change.
 Generate on target: `nixos-generate-config --show-hardware-config`
 
 ### Broken Packages
-- `mongosh`: Commented out in dev.nix (npm cache issue)
+- `mongosh`: Commented out in development.nix (npm cache issue)
 - `mtpaint`: Removed (incompatible with libpng 1.6.52)

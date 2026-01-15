@@ -31,6 +31,7 @@ cd ~/nix
 sudo nixos-rebuild switch --flake .#latitude
 # or: sudo nixos-rebuild switch --flake .#lounge
 # or: sudo nixos-rebuild switch --flake .#dev
+# or: sudo nixos-rebuild switch --flake .#docker-runner
 ```
 
 ## Updating
@@ -62,11 +63,15 @@ home-manager switch --flake .#louis
 ├── flake.lock
 ├── hosts/                    # NixOS host configurations
 │   ├── common/               # Shared NixOS configuration
+│   │   ├── default.nix       # Base system configuration
+│   │   └── desktop.nix       # Desktop-specific system config
 │   ├── dev/                  # Proxmox VM (headless, nix-ld for VS Code Remote SSH)
+│   ├── docker-runner/        # Proxmox VM (minimal Docker Swarm runner)
 │   ├── latitude/             # Dell Latitude 7420
 │   └── lounge/               # HP EliteDesk 800 G2 Mini
 ├── home/                     # Home Manager entry points
-│   ├── common/               # Shared home configuration
+│   ├── common/               # Shared home configuration (SOPS, XDG)
+│   ├── docker-runner.nix     # Docker runner (base + docker tools only)
 │   ├── nixos.nix             # NixOS desktop (includes desktop modules)
 │   ├── server.nix            # NixOS server (shell only)
 │   └── standalone.nix        # Standalone (ChromeOS/WSL)
@@ -75,22 +80,26 @@ home-manager switch --flake .#louis
 │   │   ├── desktop/
 │   │   │   ├── common.nix    # Shared desktop config, system packages
 │   │   │   ├── gnome.nix     # GNOME desktop module
-│   │   │   └── i3.nix        # i3 window manager module
-│   │   ├── docker.nix        # Docker with Compose and Buildx
-│   │   └── mounts.nix        # NFS automounts for Synology NAS
+│   │   │   └── sway.nix      # Sway window manager module
+│   │   ├── systemd/
+│   │   │   ├── default.nix   # Systemd service imports
+│   │   │   ├── docker-backup.nix # Docker volume backup service
+│   │   │   └── nix-gc.nix    # Automated garbage collection
+│   │   ├── mounts.nix        # NFS automounts for Synology NAS
+│   │   └── virtualisation.nix # Docker and Podman configuration
 │   └── home/                 # Home Manager modules
 │       ├── shell/
-│       │   ├── default.nix   # Git, tmux, bash, starship, neovim, GPG, SSH
-│       │   ├── dev.nix       # Languages, LSPs, AI CLI, MicroPython tools
-│       │   └── devops.nix    # AWS, kubectl, helm, k9s, infisical
+│       │   ├── base.nix      # Git, tmux, bash, starship, neovim, GPG, SSH
+│       │   ├── development.nix # Languages, LSPs, AI CLI, DevOps, database clients
+│       │   └── docker.nix    # Container management tools (lazydocker)
 │       ├── desktop/
-│       │   ├── default.nix   # Alacritty terminal, udiskie
+│       │   ├── default.nix   # Alacritty terminal, udiskie, imports
 │       │   ├── browsers.nix  # Firefox with extensions and bookmarks
+│       │   ├── development.nix # VSCode and Zed editor with extensions
 │       │   ├── gnome.nix     # GNOME extensions and dconf settings
-│       │   ├── i3.nix        # i3 config, i3status-rust, picom, rofi
 │       │   ├── media.nix     # Kodi with NFS media sources
-│       │   ├── vscode.nix    # VSCode with extensions
-│       │   └── zed.nix       # Zed editor (disabled)
+│       │   └── sway.nix      # Sway window manager configuration
+│       ├── env.nix           # Environment variable configuration
 │       └── secrets.nix       # SOPS secrets with age encryption
 ├── dotfiles/
 │   ├── claude/               # Claude Code configuration
@@ -145,17 +154,7 @@ Firefox (with uBlock Origin, Bitwarden), Google Chrome, VSCode, Alacritty, Libre
 - Pull strategy: merge (rebase disabled)
 
 ### Desktop Environments
-Both GNOME (default) and i3 window manager are available. Select at the login screen.
-
-#### i3 Key Bindings (Gruvbox theme)
-- `Mod+Return` - Alacritty terminal
-- `Mod+b` - Firefox
-- `Mod+d` - Rofi application launcher
-- `Mod+Shift+q` - Close window
-- `Mod+1-9` - Switch workspace
-- `Mod+Shift+1-9` - Move window to workspace
-- `Mod+Escape` - Lock screen (i3lock)
-- `Mod+Shift+e` - Power menu
+GNOME (default) and Sway window manager are available. Select at the login screen.
 
 ---
 
