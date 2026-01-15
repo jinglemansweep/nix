@@ -2,6 +2,9 @@
 { config, pkgs, lib, userConfig, ... }:
 
 {
+  imports = [
+    ../../modules/nixos/systemd
+  ];
 
   nix = {
     settings = {

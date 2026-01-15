@@ -46,6 +46,7 @@
         ./hosts/docker-runner
         ./hosts/common
         ./modules/nixos/virtualisation.nix
+        ./modules/nixos/systemd
         home-manager.nixosModules.home-manager
         {
           home-manager = {
