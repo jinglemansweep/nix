@@ -12,6 +12,14 @@
 
   # TODO: mtpaint broken in nixpkgs (incompatible with libpng 1.6.52)
 
+  home.pointerCursor = {
+    name = "Adwaita";
+    package = pkgs.adwaita-icon-theme;
+    size = 24;
+    gtk.enable = true;
+    x11.enable = true;
+  };
+
   services.udiskie.enable = true;
 
   programs.alacritty = {
