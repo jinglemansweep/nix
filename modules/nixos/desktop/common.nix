@@ -37,6 +37,7 @@
       pkgs.ffmpeg
       pkgs.gimp
       pkgs.pinta
+      pkgs.shotcut
       pkgs.evince
       pkgs.baobab
       pkgs.cura-appimage

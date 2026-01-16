@@ -9,6 +9,9 @@
       for_window [app_id="dev.zed.Zed"] floating disable
       # Fix Fuse flickering when floating
       for_window [app_id="fuse-emulator"] floating disable
+      # Float media viewers by default
+      for_window [app_id="mpv"] floating enable
+      for_window [app_id="org.pwmt.zathura"] floating enable
     '';
     config = {
       modifier = "Mod4";
@@ -194,9 +197,10 @@
 
   home.packages = [
     pkgs.font-awesome
+    pkgs.networkmanager_dmenu
     pkgs.playerctl
     pkgs.polkit_gnome
-    pkgs.networkmanager_dmenu
+    pkgs.wf-recorder
   ];
 
   programs.wofi = {

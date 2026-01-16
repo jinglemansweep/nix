@@ -4,5 +4,6 @@
 {
   home.packages = [
     pkgs.fuse-emulator # ZX Spectrum emulator
+    pkgs.zesarux # ZX Spectrum emulator
   ];
 }
