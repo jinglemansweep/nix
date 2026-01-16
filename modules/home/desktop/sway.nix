@@ -7,6 +7,8 @@
     extraConfig = ''
       # Fix Zed constant redraw issue when floating
       for_window [app_id="dev.zed.Zed"] floating disable
+      # Fix Fuse flickering when floating
+      for_window [app_id="fuse-emulator"] floating disable
     '';
     config = {
       modifier = "Mod4";
