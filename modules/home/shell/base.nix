@@ -12,6 +12,10 @@
     pkgs.ripgrep
     pkgs.tree
     pkgs.ncdu
+    pkgs.dust
+    pkgs.duf
+    pkgs.glow
+    pkgs.yazi
     pkgs.lsof
     pkgs.rsync
 
@@ -25,6 +29,7 @@
     # Data processing
     pkgs.jq
     pkgs.yq
+    pkgs.jless
     pkgs.delta
 
     # Compression
@@ -216,6 +221,11 @@
     };
 
     fzf = {
+      enable = true;
+      enableBashIntegration = true;
+    };
+
+    zoxide = {
       enable = true;
       enableBashIntegration = true;
     };
