@@ -32,6 +32,9 @@
       mouse.bindings = [
         { mouse = "Middle"; action = "PasteSelection"; }
       ];
+      keyboard.bindings = [
+        { key = "Return"; mods = "Shift"; chars = "\n"; }
+      ];
       scrolling.multiplier = 3;
     };
   };
