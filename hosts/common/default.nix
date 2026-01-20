@@ -67,6 +67,18 @@
     tailscale.enable = true;
   };
 
+  hardware.bluetooth.settings = {
+    General = {
+      Class = "0x002540";
+    };
+  };
+
+  # Disable bluetooth HID input plugin (prevents conflicts with other input methods)
+  systemd.services.bluetooth.serviceConfig.ExecStart = [
+    "" # Clear existing ExecStart
+    "${pkgs.bluez}/libexec/bluetooth/bluetoothd -P input"
+  ];
+
   users.users.${userConfig.username} = {
     isNormalUser = true;
     description = userConfig.fullName;
