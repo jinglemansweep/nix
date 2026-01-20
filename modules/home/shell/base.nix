@@ -179,7 +179,6 @@
       shellAliases = {
         ls = "eza";
         ll = "eza -la";
-        grep = "rg";
         find = "fd";
         vim = "nvim";
         ".." = "cd ..";

@@ -66,6 +66,7 @@
       pkgs.picotool
       pkgs.mpremote
       pkgs.mosquitto
+      pkgs.esphome
 
       # Other
       pkgs.playwright-driver.browsers
