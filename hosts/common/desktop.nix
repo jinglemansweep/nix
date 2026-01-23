@@ -45,9 +45,16 @@
     brscan4.enable = true;
   };
 
-  users.users.${userConfig.username}.extraGroups = [ "podman" "dialout" "scanner" "lp" ];
+  users.users.${userConfig.username}.extraGroups = [ "podman" "dialout" "scanner" "lp" "disk" ];
 
   security.rtkit.enable = true;
+  security.polkit.extraConfig = ''
+    polkit.addRule(function(action, subject) {
+      if ((action.id.indexOf("org.freedesktop.udisks2.") == 0) && subject.isInGroup("wheel")) {
+        return polkit.Result.YES;
+      }
+    });
+  '';
 
   fonts = {
     enableDefaultPackages = true;

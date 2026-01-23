@@ -44,6 +44,7 @@
       pkgs.thonny
       pkgs.tiled
       pkgs.rxvt-unicode
+      pkgs.rpi-imager
     ];
   };
 }
