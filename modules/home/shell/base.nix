@@ -244,7 +244,7 @@
       viAlias = true;
       vimAlias = true;
       defaultEditor = true;
-      extraLuaConfig = ''
+      initLua = ''
         vim.opt.number = true
         vim.opt.relativenumber = true
         vim.opt.tabstop = 2
