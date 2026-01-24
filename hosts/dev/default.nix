@@ -1,4 +1,4 @@
-# Proxmox VM: headless dev server with nix-ld for VS Code Remote SSH
+# Proxmox VM: headless dev server
 { config, pkgs, lib, inputs, ... }:
 
 {
@@ -12,5 +12,4 @@
   };
 
   services.qemuGuest.enable = true;
-  programs.nix-ld.enable = true;
 }

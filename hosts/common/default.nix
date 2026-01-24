@@ -57,6 +57,8 @@
   time.timeZone = "Europe/London";
   console.keyMap = "uk";
 
+  programs.nix-ld.enable = true;
+
   services = {
     openssh = {
       enable = true;
