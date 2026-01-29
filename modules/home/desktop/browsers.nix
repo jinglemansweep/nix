@@ -1,7 +1,11 @@
-# Browsers: Firefox with extensions, bookmarks, and privacy settings
+# Browsers: Firefox and Chromium with extensions and privacy settings
 { config, pkgs, lib, ... }:
 
 {
+  programs.chromium = {
+    enable = true;
+  };
+
   programs.firefox = {
     enable = true;
     package = null; # System Firefox used
