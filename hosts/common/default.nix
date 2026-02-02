@@ -91,7 +91,7 @@
     openssh.authorizedKeys.keyFiles = [
       (builtins.fetchurl {
         url = "https://github.com/${userConfig.githubUsername}.keys";
-        sha256 = "0qv6mxw3jpakcvmvgn39yzpfzgs41hvpwv00k0z6pvybmfwb3sqp";
+        sha256 = "02bsbcicl1745zvb4asqm197s23i76i31xgiba65ziq7skdy24m7";
       })
     ];
   };
