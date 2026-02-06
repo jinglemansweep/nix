@@ -101,6 +101,7 @@
     pkgs.git
     pkgs.wget
     pkgs.curl
+    pkgs.dnsutils
   ];
 
   system.stateVersion = "24.05";
