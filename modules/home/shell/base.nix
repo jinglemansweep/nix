@@ -48,6 +48,7 @@
 
     # Misc
     pkgs.imagemagick
+    pkgs.inkscape  # CLI SVG manipulation
     pkgs.neofetch
     pkgs.usbutils
     pkgs.psmisc

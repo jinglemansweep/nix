@@ -36,7 +36,6 @@
       pkgs.mpv
       pkgs.ffmpeg
       pkgs.gimp
-      pkgs.inkscape
       pkgs.pinta
       pkgs.shotcut
       pkgs.evince
