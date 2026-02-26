@@ -9,6 +9,8 @@
       pkgs.python3Packages.pip
       pkgs.python3Packages.virtualenv
       pkgs.python3Packages.pipx
+      pkgs.poetry
+      pkgs.uv
       pkgs.nodejs
       pkgs.go
       pkgs.gotools
