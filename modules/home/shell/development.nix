@@ -36,6 +36,7 @@
       pkgs.automake
       pkgs.libtool
       pkgs.eslint
+      pkgs.shellcheck
 
       # DevOps / Infrastructure
       pkgs.opentofu

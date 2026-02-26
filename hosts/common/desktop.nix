@@ -65,13 +65,12 @@
       pkgs.liberation_ttf
       pkgs.fira-code
       pkgs.fira-code-symbols
-      pkgs.jetbrains-mono
       pkgs.source-code-pro
     ];
     fontconfig.defaultFonts = {
       serif = [ "Noto Serif" ];
       sansSerif = [ "Noto Sans" ];
-      monospace = [ "JetBrains Mono" ];
+      monospace = [ "Fira Code" ];
     };
   };
 
