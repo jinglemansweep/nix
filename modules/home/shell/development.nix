@@ -11,6 +11,7 @@
       pkgs.python3Packages.pipx
       pkgs.poetry
       pkgs.uv
+      pkgs.ruff
       pkgs.nodejs
       pkgs.go
       pkgs.gotools
