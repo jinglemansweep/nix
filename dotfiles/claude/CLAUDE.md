@@ -1,9 +1,10 @@
 # Global Claude Code Instructions
 
-## User
+User: Louis King <jinglemansweep@gmail.com>
 
-- Name: Louis King
-- Email: jinglemansweep@gmail.com
+## MANDATORY RULES
+
+* NEVER add "Co-Authored" messages to Commit Messages, PR Titles and Descriptions
 
 ## Preferences
 
