@@ -38,6 +38,8 @@
       pkgs.libtool
       pkgs.eslint
       pkgs.shellcheck
+      pkgs.yamllint
+      pkgs.markdownlint-cli
 
       # DevOps / Infrastructure
       pkgs.opentofu
