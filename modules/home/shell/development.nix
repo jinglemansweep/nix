@@ -9,6 +9,7 @@
       pkgs.python3Packages.pip
       pkgs.python3Packages.virtualenv
       pkgs.python3Packages.pipx
+      pkgs.python3Packages.pyyaml
       pkgs.poetry
       pkgs.uv
       pkgs.ruff
