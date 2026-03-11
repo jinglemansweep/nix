@@ -11,13 +11,17 @@
       experimental-features = [ "nix-command" "flakes" ];
       auto-optimise-store = true;
       download-buffer-size = 128 * 1024 * 1024; # 128MB
-    };
-    gc = {
-      automatic = true;
-      dates = "weekly";
-      options = "--delete-older-than 7d";
+      warn-dirty = false;
+      extra-substituters = [
+        "https://nix-community.cachix.org"
+      ];
+      extra-trusted-public-keys = [
+        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+      ];
     };
   };
+
+  custom.systemd.nix-gc.enable = true;
 
   nixpkgs.config.allowUnfree = true;
 
