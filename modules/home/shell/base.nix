@@ -278,7 +278,6 @@
       enableDefaultConfig = false;
       matchBlocks = {
         "*" = {
-          identitiesOnly = true;
           extraOptions.AddKeysToAgent = "yes";
         };
         "pvm?" = { user = "root"; };

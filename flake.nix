@@ -35,6 +35,27 @@
         githubUsername = "jinglemansweep";
         nfsHost = "ds920p.adm.ptre.es";
       };
+      mkCloudHost = dir: hostname: nixpkgs.lib.nixosSystem {
+        inherit system;
+        specialArgs = { inherit inputs userConfig; };
+        modules = [
+          ./hosts/${dir}
+          ./hosts/common
+          { networking.hostName = hostname; }
+          ./modules/nixos/roles/cloud-server.nix
+          ./modules/nixos/virtualisation.nix
+          ./modules/nixos/systemd
+          home-manager.nixosModules.home-manager
+          {
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              extraSpecialArgs = { inherit inputs userConfig; };
+              users.${userConfig.username} = import ./home/cloud.nix;
+            };
+          }
+        ];
+      };
     in
     {
       nixosConfigurations = {
@@ -97,26 +118,7 @@
             }
           ];
         };
-
-        cloud = nixpkgs.lib.nixosSystem {
-          inherit system;
-          specialArgs = { inherit inputs userConfig; };
-          modules = [
-            ./hosts/cloud
-            ./hosts/common
-            ./modules/nixos/virtualisation.nix
-            ./modules/nixos/systemd
-            home-manager.nixosModules.home-manager
-            {
-              home-manager = {
-                useGlobalPkgs = true;
-                useUserPackages = true;
-                extraSpecialArgs = { inherit inputs userConfig; };
-                users.${userConfig.username} = import ./home/cloud.nix;
-              };
-            }
-          ];
-        };
+        cloud = mkCloudHost "cloud" "main.cloud.ptre.es";
       };
 
       homeConfigurations = {
