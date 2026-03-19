@@ -21,5 +21,11 @@
     };
   };
 
+  # Override common systemd-boot config; cloud uses GRUB (see hardware-configuration.nix)
+  boot.loader = {
+    systemd-boot.enable = lib.mkForce false;
+    efi.canTouchEfiVariables = lib.mkForce false;
+  };
+
   services.qemuGuest.enable = true;
 }
