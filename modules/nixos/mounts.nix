@@ -2,8 +2,6 @@
 { config, pkgs, lib, userConfig, ... }:
 
 {
-  custom.systemd.docker-backup.enable = true;
-
   fileSystems = {
     "/mnt/nfs/lab" = {
       device = "${userConfig.nfsHost}:/volume1/lab";
