@@ -22,10 +22,4 @@
   };
 
   services.qemuGuest.enable = true;
-
-  # Disable NFS mounts inherited from virtualisation module
-  fileSystems."/mnt/nfs/lab" = lib.mkForce { };
-
-  # Disable NFS-based docker backup
-  custom.systemd.docker-backup.enable = lib.mkForce false;
 }

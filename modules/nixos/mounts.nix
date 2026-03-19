@@ -2,7 +2,25 @@
 { config, pkgs, lib, userConfig, ... }:
 
 {
+  custom.systemd.docker-backup.enable = true;
+
   fileSystems = {
+    "/mnt/nfs/lab" = {
+      device = "${userConfig.nfsHost}:/volume1/lab";
+      fsType = "nfs";
+      options = [
+        "x-systemd.automount"
+        "noauto"
+        "_netdev"
+        "x-systemd.device-timeout=10s"
+        "x-systemd.mount-timeout=10s"
+        "x-systemd.idle-timeout=300"
+        "soft"
+        "timeo=100"
+        "retrans=1"
+      ];
+    };
+
     "/mnt/nfs/media" = {
       device = "${userConfig.nfsHost}:/volume1/media";
       fsType = "nfs";
