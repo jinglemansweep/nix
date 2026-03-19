@@ -6,16 +6,6 @@
     ./hardware-configuration.nix
   ];
 
-  # Cloud VMs use BIOS boot, not UEFI — override systemd-boot from common config
-  boot.loader = {
-    systemd-boot.enable = lib.mkForce false;
-    efi.canTouchEfiVariables = lib.mkForce false;
-    grub = {
-      enable = true;
-      device = "/dev/sda";
-    };
-  };
-
   networking = {
     hostName = "cloud";
     firewall = {
