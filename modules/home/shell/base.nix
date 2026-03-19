@@ -193,7 +193,7 @@
 
         # Keychain for SSH keys (skip in GNOME which uses gnome-keyring)
         if [[ "$XDG_CURRENT_DESKTOP" != "GNOME" ]]; then
-          eval $(keychain --eval --quiet $(find ~/.ssh -maxdepth 1 -name "id_*" ! -name "*.pub" 2>/dev/null))
+          eval $(keychain --eval --quiet --agents ssh $(find ~/.ssh -maxdepth 1 -name "id_*" ! -name "*.pub" -printf "%f\n" 2>/dev/null))
         fi
 
         # Create detached tmux session (skip in tmux, non-interactive, VSCode, or SSH)
