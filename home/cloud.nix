@@ -1,4 +1,4 @@
-# Docker runner Home Manager entry: base tools + container management, no dev tools
+# Cloud server Home Manager entry: base tools + container management, no dev tools
 { config, pkgs, lib, userConfig, ... }:
 
 {

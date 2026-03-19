@@ -21,6 +21,7 @@ This is a Nix Flakes-based configuration for NixOS and Home Manager.
 | `home/common/default.nix` | Shared Home Manager config |
 | `home/nixos.nix` | NixOS Home Manager entry (includes desktop) |
 | `home/server.nix` | NixOS server Home Manager entry (no desktop) |
+| `home/cloud.nix` | Cloud server Home Manager entry (no desktop) |
 | `home/standalone.nix` | ChromeOS/WSL Home Manager entry (no desktop) |
 
 ## Directory Structure
@@ -33,8 +34,8 @@ hosts/                 # NixOS system configurations
   common/              # Shared across all NixOS hosts
     default.nix        # Base system configuration
     desktop.nix        # Desktop-specific system config
+  cloud/               # Cloud Root server (Docker Swarm/Compose runner)
   dev/                 # Proxmox VM (headless server, nix-ld for VS Code Remote SSH)
-  docker-runner/       # Proxmox VM (minimal Docker Swarm runner)
   latitude/            # Dell Latitude 7420
   lounge/              # HP EliteDesk 800 G2 Mini
 
@@ -67,7 +68,7 @@ modules/
 
 home/                  # Home Manager entry points
   common/              # Shared home config (SOPS, XDG directories)
-  docker-runner.nix    # Docker runner entry (base + docker tools only)
+  cloud.nix            # Cloud server entry (base + docker tools only)
   nixos.nix            # NixOS desktop entry (adds desktop modules)
   server.nix           # NixOS server entry (shell only)
   standalone.nix       # Standalone entry (ChromeOS/WSL)
@@ -97,7 +98,7 @@ scripts/
 | Dell Latitude 7420 | `sudo nixos-rebuild switch --flake .#latitude` |
 | HP EliteDesk 800 G2 Mini (Lounge) | `sudo nixos-rebuild switch --flake .#lounge` |
 | Proxmox VM (Dev Server) | `sudo nixos-rebuild switch --flake .#dev` |
-| Proxmox VM (Docker Runner) | `sudo nixos-rebuild switch --flake .#docker-runner` |
+| Cloud Root Server | `sudo nixos-rebuild switch --flake .#cloud` |
 | Standalone (WSL/ChromeOS) | `home-manager switch --flake .#louis` |
 
 ## Adding New Features
