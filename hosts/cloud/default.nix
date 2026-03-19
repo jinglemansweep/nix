@@ -21,19 +21,11 @@
     };
   };
 
-  fileSystems."/mnt/nfs/temp" = {
-    device = "${userConfig.nfsHost}:/volume1/temp";
-    fsType = "nfs";
-    options = [
-      "x-systemd.automount"
-      "noauto"
-      "_netdev"
-      "x-systemd.device-timeout=10s"
-      "x-systemd.mount-timeout=10s"
-      "x-systemd.idle-timeout=300"
-      "soft"
-      "timeo=100"
-      "retrans=1"
-    ];
-  };
+  services.qemuGuest.enable = true;
+
+  # Disable NFS mounts inherited from virtualisation module
+  fileSystems."/mnt/nfs/lab" = lib.mkForce { };
+
+  # Disable NFS-based docker backup
+  custom.systemd.docker-backup.enable = lib.mkForce false;
 }
