@@ -2,12 +2,6 @@
 { config, lib, pkgs, modulesPath, ... }:
 
 {
-  boot.loader.grub = {
-    enable = true;
-    efiSupport = true;
-    efiInstallAsRemovable = true;
-  };
-
   boot.initrd.availableKernelModules = [ "ahci" "xhci_pci" "virtio_pci" "sd_mod" "sr_mod" ];
   boot.kernelModules = [ ];
 
