@@ -2,17 +2,17 @@
 { config, lib, pkgs, modulesPath, ... }:
 
 {
-  boot.initrd.availableKernelModules = [ "ahci" "xhci_pci" "virtio_pci" "sd_mod" "sr_mod" ];
+  boot.initrd.availableKernelModules = [ "ahci" "xhci_pci" "virtio_pci" "virtio_blk" "sd_mod" "sr_mod" ];
   boot.kernelModules = [ ];
 
   # Placeholder filesystem layout - regenerate on target with nixos-generate-config
   fileSystems."/" = {
-    device = "/dev/sda2";
+    device = "/dev/vda2";
     fsType = "ext4";
   };
 
   fileSystems."/boot" = {
-    device = "/dev/sda1";
+    device = "/dev/vda1";
     fsType = "vfat";
   };
 
