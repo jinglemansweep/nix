@@ -31,7 +31,7 @@ cd ~/nix
 sudo nixos-rebuild switch --flake .#latitude
 # or: sudo nixos-rebuild switch --flake .#lounge
 # or: sudo nixos-rebuild switch --flake .#dev
-# or: sudo nixos-rebuild switch --flake .#docker-runner
+# or: sudo nixos-rebuild switch --flake .#cloud
 ```
 
 ## Updating
@@ -65,13 +65,13 @@ home-manager switch --flake .#louis
 │   ├── common/               # Shared NixOS configuration
 │   │   ├── default.nix       # Base system configuration
 │   │   └── desktop.nix       # Desktop-specific system config
+│   ├── cloud/                # Cloud Root server (Docker Swarm/Compose runner)
 │   ├── dev/                  # Proxmox VM (headless, nix-ld for VS Code Remote SSH)
-│   ├── docker-runner/        # Proxmox VM (minimal Docker Swarm runner)
 │   ├── latitude/             # Dell Latitude 7420
 │   └── lounge/               # HP EliteDesk 800 G2 Mini
 ├── home/                     # Home Manager entry points
 │   ├── common/               # Shared home configuration (SOPS, XDG)
-│   ├── docker-runner.nix     # Docker runner (base + docker tools only)
+│   ├── cloud.nix             # Cloud server (base + docker tools only)
 │   ├── nixos.nix             # NixOS desktop (includes desktop modules)
 │   ├── server.nix            # NixOS server (shell only)
 │   └── standalone.nix        # Standalone (ChromeOS/WSL)

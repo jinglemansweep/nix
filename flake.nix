@@ -18,14 +18,9 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    nixos-generators = {
-      url = "github:nix-community/nixos-generators";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
-  outputs = { self, nixpkgs, home-manager, nixos-hardware, nur, sops-nix, nixos-generators, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, nixos-hardware, nur, sops-nix, ... }@inputs:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs {
@@ -40,23 +35,6 @@
         githubUsername = "jinglemansweep";
         nfsHost = "ds920p.adm.ptre.es";
       };
-
-      # Shared modules for docker-runner VMs
-      dockerRunnerModules = [
-        ./hosts/docker-runner
-        ./hosts/common
-        ./modules/nixos/virtualisation.nix
-        ./modules/nixos/systemd
-        home-manager.nixosModules.home-manager
-        {
-          home-manager = {
-            useGlobalPkgs = true;
-            useUserPackages = true;
-            extraSpecialArgs = { inherit inputs userConfig; };
-            users.${userConfig.username} = import ./home/docker-runner.nix;
-          };
-        }
-      ];
     in
     {
       nixosConfigurations = {
@@ -120,28 +98,24 @@
           ];
         };
 
-        # docker-runner VMs use cloud-init, rebuild with: nixos-rebuild switch --flake .#docker-runner
-        docker-runner = nixpkgs.lib.nixosSystem {
+        cloud = nixpkgs.lib.nixosSystem {
           inherit system;
           specialArgs = { inherit inputs userConfig; };
-          modules = dockerRunnerModules ++ [
-            ./hosts/docker-runner/hardware-configuration.nix
-          ];
-        };
-      };
-
-      # VM images
-      packages.${system} = {
-        docker-runner = nixos-generators.nixosGenerate {
-          inherit system;
-          specialArgs = { inherit inputs userConfig; };
-          modules = dockerRunnerModules ++ [
+          modules = [
+            ./hosts/cloud
+            ./hosts/common
+            ./modules/nixos/virtualisation.nix
+            ./modules/nixos/systemd
+            home-manager.nixosModules.home-manager
             {
-              proxmox.qemuConf.bios = "ovmf";
-              virtualisation.diskSize = 16 * 1024; # 16GB
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                extraSpecialArgs = { inherit inputs userConfig; };
+                users.${userConfig.username} = import ./home/cloud.nix;
+              };
             }
           ];
-          format = "proxmox";
         };
       };
 
