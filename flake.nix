@@ -35,13 +35,19 @@
         githubUsername = "jinglemansweep";
         nfsHost = "ds920p.adm.ptre.es";
       };
-      mkCloudHost = dir: hostname: nixpkgs.lib.nixosSystem {
-        inherit system;
-        specialArgs = { inherit inputs userConfig; };
-        modules = [
-          ./hosts/${dir}
-          ./hosts/common
-          { networking.hostName = hostname; }
+      mkCloudHost = dir: fqdn:
+        let
+          parts = nixpkgs.lib.splitString "." fqdn;
+          hostName = builtins.head parts;
+          domain = nixpkgs.lib.concatStringsSep "." (builtins.tail parts);
+        in
+        nixpkgs.lib.nixosSystem {
+          inherit system;
+          specialArgs = { inherit inputs userConfig; };
+          modules = [
+            ./hosts/${dir}
+            ./hosts/common
+            { networking = { inherit hostName domain; }; }
           ./modules/nixos/roles/cloud-server.nix
           ./modules/nixos/virtualisation.nix
           ./modules/nixos/systemd
