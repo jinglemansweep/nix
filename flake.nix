@@ -124,7 +124,7 @@
             }
           ];
         };
-        main = mkCloudHost "cloud" "main.cloud.ptre.es";
+        s1 = mkCloudHost "cloud" "s1.cloud.ptre.es";
       };
 
       homeConfigurations = {
