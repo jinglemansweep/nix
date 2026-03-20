@@ -30,14 +30,14 @@
                   { name = "Backblaze"; url = "https://secure.backblaze.com/b2_buckets.htm"; }
                 ];
               }
-              { name = "Home Assistant"; url = "https://hass.ptre.uk"; }
-              { name = "NAS"; url = "https://nas.ptre.uk"; }
+              { name = "Home Assistant"; url = "https://hass.apps.ptre.es"; }
+              { name = "NAS"; url = "https://nas.apps.ptre.es"; }
               {
                 name = "Proxmox";
                 bookmarks = [
-                  { name = "PVM1"; url = "https://pvm1.ptre.uk"; }
-                  { name = "PVM2"; url = "https://pvm2.ptre.uk"; }
-                  { name = "PVM3"; url = "https://pvm3.ptre.uk"; }
+                  { name = "PVM1"; url = "https://pvm1.apps.ptre.es"; }
+                  { name = "PVM2"; url = "https://pvm2.apps.ptre.es"; }
+                  { name = "PVM3"; url = "https://pvm3.apps.ptre.es"; }
                 ];
               }
               {
