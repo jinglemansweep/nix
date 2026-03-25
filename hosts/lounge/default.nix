@@ -13,6 +13,13 @@
 
   desktop.enable = true;
 
+  boot.kernelParams = [ "reboot=acpi" ];
+
+  # Prevent docker containers (meshbot, cadence) from blocking reboot
+  systemd.services.docker.serviceConfig = {
+    TimeoutStopSec = 15;
+  };
+
   powerManagement.cpuFreqGovernor = "performance";
 
   hardware = {
