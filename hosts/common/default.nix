@@ -106,6 +106,7 @@
     pkgs.wget
     pkgs.curl
     pkgs.dnsutils
+    pkgs.bubblewrap
   ];
 
   system.stateVersion = "24.05";
