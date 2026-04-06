@@ -103,6 +103,10 @@
     };
   };
 
+  xdg.configFile = {
+    "opencode/opencode.json".source = ../../../dotfiles/opencode/opencode.json;
+  };
+
   programs.bash = {
     shellAliases = {
       terraform = "tofu";

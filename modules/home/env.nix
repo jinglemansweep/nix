@@ -10,6 +10,8 @@
       LAB_TRAEFIK_DOMAIN=${config.sops.placeholder.home_lab_traefik_domain}
       INFISICAL_PROJECT_ID=${config.sops.placeholder.infisical_project_id}
       INFISICAL_ENV=${config.sops.placeholder.infisical_env}
+      CONTEXT7_API_KEY=${config.sops.placeholder.context7_api_key}
+      ZAI_API_KEY=${config.sops.placeholder.zai_api_key}
     '';
     path = "${config.home.homeDirectory}/.config/environment.d/50-nix.conf";
   };
