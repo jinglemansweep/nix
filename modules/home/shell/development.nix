@@ -108,6 +108,9 @@
 
   xdg.configFile = {
     "opencode/opencode.json".source = ../../../dotfiles/opencode/opencode.json;
+    "opencode/commands" = { source = ../../../dotfiles/opencode/commands; recursive = true; };
+    "opencode/agents" = { source = ../../../dotfiles/opencode/agents; recursive = true; };
+    "opencode/skills" = { source = ../../../dotfiles/opencode/skills; recursive = true; };
   };
 
   programs.bash = {
