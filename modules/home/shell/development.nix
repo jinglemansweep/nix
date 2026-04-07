@@ -14,6 +14,8 @@
       pkgs.uv
       pkgs.ruff
       pkgs.nodejs
+      pkgs.rustc
+      pkgs.cargo
       pkgs.go
       pkgs.gotools
 
