@@ -83,6 +83,7 @@
 
     sessionVariables = {
       GOPATH = "$HOME/go";
+      OPENCODE_DISABLE_CLAUDE_CODE = "1";
       PLAYWRIGHT_BROWSERS_PATH = "${pkgs.playwright-driver.browsers}";
       PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS = "true";
       PLAYWRIGHT_NODEJS_PATH = "${pkgs.nodejs}/bin/node";
