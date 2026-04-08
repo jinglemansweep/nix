@@ -1,13 +1,23 @@
 ---
-name: github-cli
+name: expert-github
 description: Structured interface for GitHub operations using the gh CLI
 allowed-tools: Bash
+license: MIT
+compatibility: opencode
+metadata:
+  author: https://github.com/jinglemansweep
+  version: "0.1.0"
+  domain: git-tools
+  triggers: GitHub, gh, pull request, issue, workflow, CI, release
+  role: specialist
+  scope: operations
+  output-format: code
 ---
 
 <!-- tags: github, pr, issue, ci, workflow, gh -->
 <!-- category: git-tools -->
 
-# github-cli
+# GitHub Expert
 
 Structured interface for common GitHub operations using the `gh` CLI. Covers pull requests, issues, CI/workflow runs, and GitHub API queries.
 
