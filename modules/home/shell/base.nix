@@ -247,6 +247,8 @@
 
     neovim = {
       enable = true;
+      withPython3 = false;
+      withRuby = false;
       viAlias = true;
       vimAlias = true;
       defaultEditor = true;
