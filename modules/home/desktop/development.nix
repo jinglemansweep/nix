@@ -6,14 +6,18 @@
     enable = true;
 
     extensions = [
-      "nix"
-      "toml"
+      "basher"
+      "csv"
       "dockerfile"
-      "make"
+      "docker-compose"
+      "github-actions"
       "html"
+      "nix"
+      "ruff"
+      "terraform"
+      "toml"
     ];
     extraPackages = [ pkgs.nixd ];
-
     userSettings = {
       theme = "One Dark";
       ui_font_size = 16;
@@ -25,16 +29,6 @@
       };
       vim_mode = false;
       format_on_save = "on";
-      auto_install_extensions = {
-        csv = true;
-        dockerfile = true;
-        docker-compose = true;
-        html = true;
-        nix = true;
-        ruff = true;
-        toml = true;
-        terraform = true;
-      };
       agent_servers = {
         "OpenCode" = {
           type = "custom";
