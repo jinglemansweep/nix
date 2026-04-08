@@ -46,7 +46,7 @@
         "update.showReleaseNotes" = false;
         "claudeCode.preferredLocation" = "panel";
         "claudeCode.claudeProcessWrapper" = "/etc/profiles/per-user/${config.home.username}/bin/claude";
-        "nix.serverPath" = "nil";
+        "nix.serverPath" = "nixd";
       };
     };
   };
@@ -70,6 +70,7 @@
       # Language Servers
       pkgs.gopls
       pkgs.nil
+      pkgs.nixd
       pkgs.pyright
       pkgs.typescript-language-server
       pkgs.yaml-language-server
