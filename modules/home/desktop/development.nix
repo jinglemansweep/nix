@@ -20,6 +20,13 @@
       gpu = {
         backend = "gl";
       };
+      ssh_connections = [
+        {
+          host = "dev.adm.ptre.es";
+          username = "louis";
+          port = 22;
+        }
+      ];
     };
   };
 }
