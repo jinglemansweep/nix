@@ -21,6 +21,10 @@
       extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
     };
 
+    environment.sessionVariables = {
+      WLR_RENDER_NO_EXPLICIT_SYNC = "1";
+    };
+
     environment.systemPackages = with pkgs; [
       grim
       slurp
