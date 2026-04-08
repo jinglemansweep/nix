@@ -5,17 +5,36 @@
   programs.zed-editor = {
     enable = true;
 
-    extensions = [ "nix" "toml" "dockerfile" "make" "html" ];
+    extensions = [
+      "nix"
+      "toml"
+      "dockerfile"
+      "make"
+      "html"
+    ];
     extraPackages = [ pkgs.nixd ];
 
     userSettings = {
       theme = "One Dark";
       ui_font_size = 16;
       buffer_font_size = 14;
-      title_bar.show_menus = false;
-      telemetry = { diagnostics = false; metrics = false; };
+      title_bar.show_menus = true;
+      telemetry = {
+        diagnostics = false;
+        metrics = false;
+      };
       vim_mode = false;
-      format_on_save = "off";
+      format_on_save = "on";
+      auto_install_extensions = {
+        csv = true;
+        dockerfile = true;
+        docker-compose = true;
+        html = true;
+        nix = true;
+        ruff = true;
+        toml = true;
+        terraform = true;
+      };
       agent_servers = {
         "OpenCode" = {
           type = "custom";
