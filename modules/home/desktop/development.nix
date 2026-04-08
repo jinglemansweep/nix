@@ -20,6 +20,13 @@
       gpu = {
         backend = "gl";
       };
+      agent_servers = {
+        "OpenCode" = {
+          type = "custom";
+          command = "opencode";
+          args = [ "acp" ];
+        };
+      };
       ssh_connections = [
         {
           host = "dev.adm.ptre.es";
@@ -27,6 +34,37 @@
           port = 22;
         }
       ];
+      agent = {
+        default_model = {
+          provider = "Z.AI";
+          model = "glm-5.1";
+          enable_thinking = false;
+        };
+        favorite_models = [ ];
+        model_parameters = [ ];
+      };
+      language_models = {
+        openai_compatible = {
+          "Z.AI" = {
+            api_url = "https://api.z.ai/api/coding/paas/v4";
+            available_models = [
+              {
+                name = "glm-5.1";
+                max_tokens = 200000;
+                max_output_tokens = 32000;
+                max_completion_tokens = 200000;
+                capabilities = {
+                  tools = true;
+                  images = false;
+                  parallel_tool_calls = false;
+                  prompt_cache_key = false;
+                  chat_completions = true;
+                };
+              }
+            ];
+          };
+        };
+      };
     };
   };
 }
