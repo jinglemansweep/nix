@@ -1,0 +1,3 @@
+{
+  files = import ./files.nix;
+}

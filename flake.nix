@@ -27,6 +27,7 @@
         inherit system;
         config.allowUnfree = true;
       };
+      projectLib = import ./lib;
 
       userConfig = {
         username = "louis";
@@ -43,31 +44,31 @@
         in
         nixpkgs.lib.nixosSystem {
           inherit system;
-          specialArgs = { inherit inputs userConfig; };
+          specialArgs = { inherit inputs userConfig projectLib; };
           modules = [
             ./hosts/${dir}
             ./hosts/common
             { networking = { inherit hostName domain; }; }
-          ./modules/nixos/roles/cloud-server.nix
-          ./modules/nixos/virtualisation.nix
-          ./modules/nixos/systemd
-          home-manager.nixosModules.home-manager
-          {
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              extraSpecialArgs = { inherit inputs userConfig; };
-              users.${userConfig.username} = import ./home/cloud.nix;
-            };
-          }
-        ];
-      };
+            ./modules/nixos/roles/cloud-server.nix
+            ./modules/nixos/virtualisation.nix
+            ./modules/nixos/systemd
+            home-manager.nixosModules.home-manager
+            {
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                extraSpecialArgs = { inherit inputs userConfig projectLib; };
+                users.${userConfig.username} = import ./home/cloud.nix;
+              };
+            }
+          ];
+        };
     in
     {
       nixosConfigurations = {
         latitude = nixpkgs.lib.nixosSystem {
           inherit system;
-          specialArgs = { inherit inputs userConfig; };
+          specialArgs = { inherit inputs userConfig projectLib; };
           modules = [
             ./hosts/latitude
             ./hosts/common
@@ -78,7 +79,7 @@
               home-manager = {
                 useGlobalPkgs = true;
                 useUserPackages = true;
-                extraSpecialArgs = { inherit inputs userConfig; };
+                extraSpecialArgs = { inherit inputs userConfig projectLib; };
                 users.${userConfig.username} = import ./home/nixos.nix;
               };
             }
@@ -87,7 +88,7 @@
 
         lounge = nixpkgs.lib.nixosSystem {
           inherit system;
-          specialArgs = { inherit inputs userConfig; };
+          specialArgs = { inherit inputs userConfig projectLib; };
           modules = [
             ./hosts/lounge
             ./hosts/common
@@ -98,7 +99,7 @@
               home-manager = {
                 useGlobalPkgs = true;
                 useUserPackages = true;
-                extraSpecialArgs = { inherit inputs userConfig; };
+                extraSpecialArgs = { inherit inputs userConfig projectLib; };
                 users.${userConfig.username} = import ./home/nixos.nix;
               };
             }
@@ -107,7 +108,7 @@
 
         dev = nixpkgs.lib.nixosSystem {
           inherit system;
-          specialArgs = { inherit inputs userConfig; };
+          specialArgs = { inherit inputs userConfig projectLib; };
           modules = [
             ./hosts/dev
             ./hosts/common
@@ -118,7 +119,7 @@
               home-manager = {
                 useGlobalPkgs = true;
                 useUserPackages = true;
-                extraSpecialArgs = { inherit inputs userConfig; };
+                extraSpecialArgs = { inherit inputs userConfig projectLib; };
                 users.${userConfig.username} = import ./home/server.nix;
               };
             }
@@ -130,7 +131,7 @@
       homeConfigurations = {
         louis = home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
-          extraSpecialArgs = { inherit inputs userConfig; };
+          extraSpecialArgs = { inherit inputs userConfig projectLib; };
           modules = [ ./home/standalone.nix ];
         };
       };

@@ -1,5 +1,5 @@
 # Development tools: languages, LSPs, build tools, DevOps, AI CLI, and embedded
-{ config, pkgs, lib, ... }:
+{ config, pkgs, projectLib, ... }:
 
 {
   programs.vscode = {
@@ -7,27 +7,30 @@
     package = pkgs.vscode;
 
     profiles.default = {
-      extensions = with pkgs.vscode-extensions; [
-        ms-vscode-remote.remote-containers
-        ms-vscode-remote.remote-ssh
-        ms-vscode-remote.remote-ssh-edit
-        ms-vscode-remote.remote-wsl
-        redhat.ansible
-        ms-azuretools.vscode-docker
-        github.vscode-github-actions
-        bbenoist.nix
-        ms-python.python
-        ms-python.black-formatter
-        hashicorp.terraform
-        redhat.vscode-yaml
-      ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
-        {
-          name = "claude-code";
-          publisher = "anthropic";
-          version = "2.0.65";
-          sha256 = "17g3r715p80jqdh0ifvifb3ly0sg5i21cjrs0dqig0448l844xlw";
-        }
-      ];
+      extensions =
+        with pkgs.vscode-extensions;
+        [
+          ms-vscode-remote.remote-containers
+          ms-vscode-remote.remote-ssh
+          ms-vscode-remote.remote-ssh-edit
+          ms-vscode-remote.remote-wsl
+          redhat.ansible
+          ms-azuretools.vscode-docker
+          github.vscode-github-actions
+          bbenoist.nix
+          ms-python.python
+          ms-python.black-formatter
+          hashicorp.terraform
+          redhat.vscode-yaml
+        ]
+        ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
+          {
+            name = "claude-code";
+            publisher = "anthropic";
+            version = "2.0.65";
+            sha256 = "17g3r715p80jqdh0ifvifb3ly0sg5i21cjrs0dqig0448l844xlw";
+          }
+        ];
 
       userSettings = {
         "editor.fontSize" = 14;
@@ -146,9 +149,18 @@
 
     file = {
       ".npmrc".text = "prefix=~/.npm-global\n";
-      ".claude/commands" = { source = ../../../dotfiles/claude/commands; recursive = true; };
-      ".claude/agents" = { source = ../../../dotfiles/claude/agents; recursive = true; };
-      ".claude/skills" = { source = ../../../dotfiles/claude/skills; recursive = true; };
+      ".claude/commands" = {
+        source = ../../../dotfiles/claude/commands;
+        recursive = true;
+      };
+      ".claude/agents" = {
+        source = ../../../dotfiles/claude/agents;
+        recursive = true;
+      };
+      ".claude/skills" = {
+        source = ../../../dotfiles/claude/skills;
+        recursive = true;
+      };
       ".claude/CLAUDE.md".source = ../../../dotfiles/claude/CLAUDE.md;
       ".claude/settings.json".source = ../../../dotfiles/claude/settings.json;
       ".claude/mcp_settings.json".source = ../../../dotfiles/claude/mcp_settings.json;
@@ -157,10 +169,10 @@
 
   xdg.configFile = {
     "opencode/opencode.json".source = ../../../dotfiles/opencode/opencode.json;
-    "opencode/commands" = { source = ../../../dotfiles/opencode/commands; recursive = true; };
-    "opencode/agents" = { source = ../../../dotfiles/opencode/agents; recursive = true; };
-    "opencode/skills" = { source = ../../../dotfiles/opencode/skills; recursive = true; };
-  };
+  }
+  // projectLib.files.mkFileMappings ../../../dotfiles/opencode/commands "opencode/commands"
+  // projectLib.files.mkFileMappings ../../../dotfiles/opencode/agents "opencode/agents"
+  // projectLib.files.mkFileMappings ../../../dotfiles/opencode/skills "opencode/skills";
 
   programs.bash = {
     shellAliases = {
