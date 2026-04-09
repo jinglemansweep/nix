@@ -18,7 +18,7 @@
               in
               if entryType == "directory"
               then recurse entryRelativePath entryPath
-              else if entryType == "regular"
+              else if entryType == "regular" && (builtins.substring 0 1 entryName) != "."
               then [{
                 name = "${targetPrefix}/${entryRelativePath}";
                 value.source = entryPath;

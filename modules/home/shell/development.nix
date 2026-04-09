@@ -1,5 +1,5 @@
 # Development tools: languages, LSPs, build tools, DevOps, AI CLI, and embedded
-{ config, pkgs, projectLib, ... }:
+{ config, pkgs, lib, projectLib, ... }:
 
 {
   programs.vscode = {
@@ -149,22 +149,13 @@
 
     file = {
       ".npmrc".text = "prefix=~/.npm-global\n";
-      ".claude/commands" = {
-        source = ../../../dotfiles/claude/commands;
-        recursive = true;
-      };
-      ".claude/agents" = {
-        source = ../../../dotfiles/claude/agents;
-        recursive = true;
-      };
-      ".claude/skills" = {
-        source = ../../../dotfiles/claude/skills;
-        recursive = true;
-      };
       ".claude/CLAUDE.md".source = ../../../dotfiles/claude/CLAUDE.md;
       ".claude/settings.json".source = ../../../dotfiles/claude/settings.json;
       ".claude/mcp_settings.json".source = ../../../dotfiles/claude/mcp_settings.json;
-    };
+    }
+    // projectLib.files.mkFileMappings ../../../dotfiles/claude/commands ".claude/commands"
+    // projectLib.files.mkFileMappings ../../../dotfiles/claude/agents ".claude/agents"
+    // projectLib.files.mkFileMappings ../../../dotfiles/claude/skills ".claude/skills";
   };
 
   xdg.configFile = {
