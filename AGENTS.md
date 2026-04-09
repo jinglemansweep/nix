@@ -1,4 +1,4 @@
-# Claude Code Project Guidelines
+# AI Agent Project Guidelines
 
 This is a Nix Flakes-based configuration for NixOS and Home Manager.
 
@@ -13,16 +13,20 @@ This is a Nix Flakes-based configuration for NixOS and Home Manager.
 | File | Purpose |
 |------|---------|
 | `flake.nix` | Main entry point, defines all outputs |
+| `lib/default.nix` | Utility library (exports `files` module) |
+| `lib/files.nix` | `mkFileMappings` helper for dotfile deployment |
+| `.sops.yaml` | SOPS configuration |
 | `.github/workflows/nix-check.yml` | CI workflow for linting and flake checks |
 | `.pre-commit-config.yaml` | Pre-commit hooks for local linting |
 | `hosts/common/default.nix` | Shared NixOS configuration |
+| `hosts/common/desktop.nix` | Desktop additions (GUI, audio, printing, fonts, mounts) |
 | `hosts/<hostname>/default.nix` | Host-specific NixOS config |
 | `hosts/<hostname>/hardware-configuration.nix` | Hardware-specific config (generated) |
 | `home/common/default.nix` | Shared Home Manager config |
 | `home/nixos.nix` | NixOS Home Manager entry (includes desktop) |
-| `home/server.nix` | NixOS server Home Manager entry (no desktop) |
-| `home/cloud.nix` | Cloud server Home Manager entry (no desktop) |
-| `home/standalone.nix` | ChromeOS/WSL Home Manager entry (no desktop) |
+| `home/server.nix` | NixOS server Home Manager entry (shell + development tools) |
+| `home/cloud.nix` | Cloud server Home Manager entry (base + docker tools) |
+| `home/standalone.nix` | ChromeOS/WSL Home Manager entry (shell + development tools) |
 
 ## Directory Structure
 
@@ -30,10 +34,14 @@ This is a Nix Flakes-based configuration for NixOS and Home Manager.
 .github/workflows/
   nix-check.yml        # Flake check, statix, and deadnix linting
 
+lib/                    # Utility library
+  default.nix          # Exports files module
+  files.nix            # mkFileMappings: recursive dir-to-home.file mapping
+
 hosts/                 # NixOS system configurations
   common/              # Shared across all NixOS hosts
     default.nix        # Base system configuration
-    desktop.nix        # Desktop-specific system config
+    desktop.nix        # Desktop additions (GUI, audio, printing, fonts, mounts)
   cloud/               # Cloud Root server (Docker Swarm/Compose runner)
   dev/                 # Proxmox VM (headless server, nix-ld for VS Code Remote SSH)
   latitude/            # Dell Latitude 7420
@@ -42,36 +50,38 @@ hosts/                 # NixOS system configurations
 modules/
   nixos/               # NixOS modules
     desktop/
-      common.nix       # Shared desktop config (input devices, system packages)
+      common.nix       # Shared desktop config (input devices, system packages, desktop.enable option)
       gnome.nix        # GNOME desktop module
       sway.nix         # Sway window manager module
+    roles/
+      cloud-server.nix # Cloud server role (firewall ports 80/443, QEMU guest agent)
     systemd/
       default.nix      # Systemd service imports
-      docker-backup.nix # Docker volume backup service
       nix-gc.nix       # Automated garbage collection
     mounts.nix         # NFS automounts for Synology NAS
     virtualisation.nix # Docker and Podman configuration
   home/                # Home Manager modules
     shell/
       base.nix         # Git, tmux, bash, starship, neovim, GPG, SSH, core CLI
-      development.nix  # Python, Node.js, Go, LSPs, AI CLI, DevOps, database clients
+      development.nix  # Languages, LSPs, AI CLI, DevOps, database clients, VSCode
       docker.nix       # Container management tools (lazydocker)
     desktop/
       default.nix      # Alacritty terminal, udiskie automount, imports other desktop modules
-      browsers.nix     # Firefox with extensions and bookmarks
-      development.nix  # VSCode and Zed editor with extensions
+      browsers.nix     # Firefox and Chromium with extensions and bookmarks
+      development.nix  # Zed editor with extensions and AI agent config
+      emulators.nix    # Retro gaming emulators (ZX Spectrum)
       gnome.nix        # GNOME extensions, keyring, dconf settings
-      media.nix        # Kodi with NFS media sources
+      media.nix        # Kodi with PVR IPTV addon and NFS media sources
       sway.nix         # Sway window manager configuration
-    env.nix            # Environment variable configuration
+    env.nix            # Environment variable configuration (SOPS-managed)
     secrets.nix        # SOPS secrets with age encryption
 
 home/                  # Home Manager entry points
   common/              # Shared home config (SOPS, XDG directories)
   cloud.nix            # Cloud server entry (base + docker tools only)
   nixos.nix            # NixOS desktop entry (adds desktop modules)
-  server.nix           # NixOS server entry (shell only)
-  standalone.nix       # Standalone entry (ChromeOS/WSL)
+  server.nix           # NixOS server entry (shell + development tools)
+  standalone.nix       # Standalone entry (ChromeOS/WSL, shell + development tools)
 
 dotfiles/
   claude/              # Claude Code configuration
@@ -81,6 +91,11 @@ dotfiles/
     skills/            # Custom skills
     settings.json      # Claude settings
     mcp_settings.json  # MCP server configuration
+  opencode/            # OpenCode configuration
+    opencode.json      # Server config and MCP servers
+    commands/          # Custom commands
+    agents/            # Custom agents
+    skills/            # Custom skills (dev-react, expert-testing, expert-security, etc.)
   direnv/
     direnvrc           # Custom direnv functions (load_secrets helpers)
 
@@ -91,6 +106,29 @@ scripts/
   partition.sh         # Disk partitioning helper
 ```
 
+## Flake Structure
+
+### Inputs
+
+| Input | Source | Purpose |
+|-------|--------|---------|
+| `nixpkgs` | nixos-unstable | Package set |
+| `home-manager` | nix-community | Home Manager |
+| `nixos-hardware` | NixOS | Hardware-specific configs |
+| `nur` | nix-community | Nix User Repo (Firefox extensions) |
+| `sops-nix` | Mic92 | Secrets management |
+
+### specialArgs
+
+All hosts receive `{ inherit inputs userConfig projectLib; }` as specialArgs.
+
+- **userConfig**: `{ username, fullName, email, githubUsername, nfsHost }`
+- **projectLib**: Import of `lib/` — provides `files.mkFileMappings` for dotfile deployment
+
+### Cloud Host Helper
+
+`mkCloudHost dir: fqdn` creates a NixOS config that automatically sets `hostName` and `domain` from the FQDN, and adds cloud-server role + virtualisation + systemd modules.
+
 ## Configuration Targets
 
 | Target | Command |
@@ -98,7 +136,7 @@ scripts/
 | Dell Latitude 7420 | `sudo nixos-rebuild switch --flake .#latitude` |
 | HP EliteDesk 800 G2 Mini (Lounge) | `sudo nixos-rebuild switch --flake .#lounge` |
 | Proxmox VM (Dev Server) | `sudo nixos-rebuild switch --flake .#dev` |
-| Cloud Root Server | `sudo nixos-rebuild switch --flake .#cloud` |
+| Cloud Root Server | `sudo nixos-rebuild switch --flake .#s1` |
 | Standalone (WSL/ChromeOS) | `home-manager switch --flake .#louis` |
 
 ## Adding New Features
@@ -106,6 +144,7 @@ scripts/
 ### New NixOS Module
 1. Create file in `modules/nixos/`
 2. Import in `hosts/common/default.nix` or specific host
+3. For desktop modules: gate behind `config.desktop.enable` option
 
 ### New Home Manager Module
 1. Create file in `modules/home/<category>/`
@@ -118,23 +157,35 @@ scripts/
 2. Generate `hardware-configuration.nix` on target hardware
 3. Add to `flake.nix` nixosConfigurations
 
+### New Dotfiles
+1. Add files under `dotfiles/<tool>/`
+2. Use `projectLib.files.mkFileMappings` in the relevant Home Manager module to deploy
+
 ## Important Conventions
 
 - **Locale**: en_GB.UTF-8, Europe/London timezone
-- **User**: louis (in wheel, docker, podman, dialout, scanner, lp groups)
+- **User**: louis (in networkmanager, wheel, docker groups; desktop hosts also add podman, dialout, scanner, lp, disk)
 - **Shell**: bash with starship prompt
 - **Tmux prefix**: Ctrl+a (not Ctrl+b)
 - **Git**: pull.rebase = false
 - **Docker**: Default container runtime (Podman also available)
-- **Claude Code**: Dotfiles in `dotfiles/claude/` symlinked to `~/.claude/`
+- **Claude Code**: Dotfiles in `dotfiles/claude/` deployed via `projectLib.files.mkFileMappings`
+- **OpenCode**: Dotfiles in `dotfiles/opencode/` deployed via `projectLib.files.mkFileMappings`
 - **Direnv**: nix-direnv with custom `load_secrets` helpers
 - **Secrets**: SOPS with age encryption (`secrets/secrets.yaml`)
+- **Desktop toggle**: `desktop.enable` option in `modules/nixos/desktop/common.nix` — gate for desktop-only features
 
 ### Secrets Management
 
 **SOPS (age encryption)** - configured in `modules/home/secrets.nix`:
 - Secrets file: `secrets/secrets.yaml`
 - Age key: `~/.config/sops/age/keys.txt`
+- Managed secrets: `home_lab_nfs_host`, `home_lab_nfs_root`, `home_lab_traefik_domain`, `infisical_project_id`, `infisical_env`, `context7_api_key`, `zai_api_key`
+
+**Environment variables** - configured in `modules/home/env.nix`:
+- `LAB_NFS_HOST`, `LAB_NFS_ROOT`, `LAB_TRAEFIK_DOMAIN`
+- `INFISICAL_PROJECT_ID`, `INFISICAL_ENV`
+- `CONTEXT7_API_KEY`, `ZAI_API_KEY`
 
 **Direnv helpers** - for environment variables:
 ```bash
@@ -154,32 +205,29 @@ load_secrets my-project    # Loads ~/.secrets/global.env + ~/.secrets/projects/m
 
 | Category | Location | Examples |
 |----------|----------|----------|
-| System packages | `hosts/common/default.nix` | vim, git, wget, curl, VPN tools |
-| Core CLI tools | `modules/home/shell/base.nix` | bat, eza, fzf, ripgrep, htop, btop, vim, screen, borgbackup, rclone, restic, imagemagick |
-| Dev languages | `modules/home/shell/development.nix` | Python, Node.js, Go, build tools (gcc, make, cmake) |
-| Language servers | `modules/home/shell/development.nix` | gopls, nil, pyright, typescript-language-server, yaml-language-server, terraform-ls, bash-language-server |
+| System packages | `hosts/common/default.nix` | vim, git, wget, curl, dnsutils, bubblewrap |
+| Desktop system packages | `hosts/common/desktop.nix` | openvpn, wireguard-tools, cifs-utils, nfs-utils |
+| Desktop apps (system) | `modules/nixos/desktop/common.nix` | Firefox, Chrome, LibreOffice, GIMP, Pinta, VLC, mpv, ffmpeg, Shotcut, Cura, Thonny, Tiled, Evince, Baobab, rxvt-unicode, rpi-imager |
+| Core CLI tools | `modules/home/shell/base.nix` | bat, eza, fd, ripgrep, tree, ncdu, dust, duf, glow, yazi, fzf, htop, btop, vim, screen, jq, yq, jless, delta, fastfetch, keychain, borgbackup, rclone, restic, imagemagick, inkscape |
+| Dev languages | `modules/home/shell/development.nix` | Python 3 (pip, virtualenv, pipx, pyyaml, poetry, uv, ruff), Node.js, Rust (rustc, cargo), Go (gotools), build tools (gcc, gnumake, cmake, pkg-config, autoconf, automake, libtool) |
+| Language servers | `modules/home/shell/development.nix` | gopls, nil, nixd, pyright, typescript-language-server, yaml-language-server, terraform-ls, dockerfile-language-server, bash-language-server, vscode-langservers-extracted |
+| Lint tools | `modules/home/shell/development.nix` | eslint, shellcheck, yamllint, markdownlint-cli |
 | AI CLI tools | `modules/home/shell/development.nix` | claude-code, codex, gemini-cli, opencode |
-| DevOps tools | `modules/home/shell/development.nix` | opentofu, terragrunt, awscli2, kubectl, helm, k9s, infisical, pre-commit, gh, lazygit |
+| DevOps tools | `modules/home/shell/development.nix` | opentofu, terragrunt, awscli2, kubectl, kubernetes-helm, k9s, infisical, pre-commit, gh, github-copilot-cli, lazygit |
 | Database clients | `modules/home/shell/development.nix` | postgresql, mariadb, redis, sqlite |
-| MicroPython tools | `modules/home/shell/development.nix` | picocom, esptool, picotool, mpremote, mosquitto |
+| MicroPython tools | `modules/home/shell/development.nix` | picocom, esptool, picotool, mpremote, mosquitto, esphome |
 | Docker tools | `modules/home/shell/docker.nix` | lazydocker |
-| Desktop apps (system) | `modules/nixos/desktop/common.nix` | Firefox, Chrome, LibreOffice, GIMP, Pinta, VLC, mpv, ffmpeg, Cura, Thonny, Tiled |
-| Browsers (user) | `modules/home/desktop/browsers.nix` | Firefox extensions (uBlock, Bitwarden), bookmarks |
-| Development editors | `modules/home/desktop/development.nix` | VSCode with extensions, Zed editor |
-| Media | `modules/home/desktop/media.nix` | Kodi with NFS media sources |
-
-## Firefox Extensions
-
-Managed via NUR in `modules/home/desktop/browsers.nix`:
-- uBlock Origin
-- Bitwarden
+| Browsers (user) | `modules/home/desktop/browsers.nix` | Firefox extensions (uBlock, Bitwarden), Chromium, bookmarks |
+| Development editors | `modules/home/desktop/development.nix` | Zed editor with extensions and AI agent config |
+| Emulators | `modules/home/desktop/emulators.nix` | fuse-emulator, zesarux (ZX Spectrum) |
+| Media | `modules/home/desktop/media.nix` | Kodi with PVR IPTV addon and NFS media sources |
 
 ## VSCode Extensions
 
-Managed in `modules/home/desktop/development.nix`:
-- Remote (Containers, SSH, WSL)
+Managed in `modules/home/shell/development.nix`:
+- Remote (Containers, SSH, SSH Edit, WSL)
 - Ansible
-- Claude Code (Anthropic)
+- Claude Code (Anthropic, from marketplace)
 - Docker
 - GitHub Actions
 - Nix
@@ -189,7 +237,7 @@ Managed in `modules/home/desktop/development.nix`:
 
 ## Zed Editor
 
-Configured in `modules/home/desktop/development.nix` with extensions for nix, toml, dockerfile, make, and html.
+Configured in `modules/home/desktop/development.nix` with extensions: basher, csv, dockerfile, docker-compose, github-actions, html, nix, ruff, terraform, toml. Includes OpenCode agent server integration and Z.AI language model provider.
 
 ## Testing Changes
 
@@ -233,7 +281,7 @@ inputs.nur.url = "github:nix-community/NUR";
 ```
 
 ### VSCode Extension SHA Mismatch
-Update sha256 in `modules/home/desktop/vscode.nix` when versions change.
+Update sha256 in `modules/home/shell/development.nix` when versions change.
 
 ### Hardware Config Missing
 Generate on target: `nixos-generate-config --show-hardware-config`
