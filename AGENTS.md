@@ -18,7 +18,7 @@ This is a Nix Flakes-based configuration for NixOS and Home Manager.
 | `.sops.yaml` | SOPS configuration |
 | `.github/workflows/nix-check.yml` | CI workflow for linting and flake checks |
 | `.pre-commit-config.yaml` | Pre-commit hooks for local linting |
-| `hosts/common/default.nix` | Shared NixOS configuration |
+| `hosts/common/default.nix` | Shared NixOS configuration (networking, VPN, filesystem tools) |
 | `hosts/common/desktop.nix` | Desktop additions (GUI, audio, printing, fonts, mounts) |
 | `hosts/<hostname>/default.nix` | Host-specific NixOS config |
 | `hosts/<hostname>/hardware-configuration.nix` | Hardware-specific config (generated) |
@@ -40,7 +40,7 @@ lib/                    # Utility library
 
 hosts/                 # NixOS system configurations
   common/              # Shared across all NixOS hosts
-    default.nix        # Base system configuration
+    default.nix        # Base system configuration (networking, VPN, filesystem tools)
     desktop.nix        # Desktop additions (GUI, audio, printing, fonts, mounts)
   cloud/               # Cloud Root server (Docker Swarm/Compose runner)
   dev/                 # Proxmox VM (headless server, nix-ld for VS Code Remote SSH)
@@ -205,8 +205,7 @@ load_secrets my-project    # Loads ~/.secrets/global.env + ~/.secrets/projects/m
 
 | Category | Location | Examples |
 |----------|----------|----------|
-| System packages | `hosts/common/default.nix` | vim, git, wget, curl, dnsutils, bubblewrap |
-| Desktop system packages | `hosts/common/desktop.nix` | openvpn, wireguard-tools, cifs-utils, nfs-utils |
+| System packages | `hosts/common/default.nix` | vim, git, wget, curl, dnsutils, bubblewrap, openvpn, wireguard-tools, cifs-utils, nfs-utils |
 | Desktop apps (system) | `modules/nixos/desktop/common.nix` | Firefox, Chrome, LibreOffice, GIMP, Pinta, VLC, mpv, ffmpeg, Shotcut, Cura, Thonny, Tiled, Evince, Baobab, rxvt-unicode, rpi-imager |
 | Core CLI tools | `modules/home/shell/base.nix` | bat, eza, fd, ripgrep, tree, ncdu, dust, duf, glow, yazi, fzf, htop, btop, vim, screen, jq, yq, jless, delta, fastfetch, keychain, borgbackup, rclone, restic, imagemagick, inkscape |
 | Dev languages | `modules/home/shell/development.nix` | Python 3 (pip, virtualenv, pipx, pyyaml, poetry, uv, ruff), Node.js, Rust (rustc, cargo), Go (gotools), build tools (gcc, gnumake, cmake, pkg-config, autoconf, automake, libtool) |

@@ -35,6 +35,7 @@
 
   networking = {
     networkmanager.enable = true;
+    wireguard.enable = true;
     firewall = {
       enable = true;
       trustedInterfaces = [ "tailscale0" ];
@@ -64,6 +65,7 @@
   programs.nix-ld.enable = true;
 
   services = {
+    openvpn.servers = { };
     openssh = {
       enable = true;
       settings = {
@@ -107,6 +109,10 @@
     pkgs.curl
     pkgs.dnsutils
     pkgs.bubblewrap
+    pkgs.openvpn
+    pkgs.wireguard-tools
+    pkgs.cifs-utils
+    pkgs.nfs-utils
   ];
 
   system.stateVersion = "24.05";

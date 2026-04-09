@@ -10,15 +10,12 @@
     ../../modules/nixos/mounts.nix
   ];
 
-  networking.wireguard.enable = true;
-
   services = {
     xserver.xkb = {
       layout = "gb";
       variant = "";
     };
     udisks2.enable = true;
-    openvpn.servers = { };
     pipewire = {
       enable = true;
       alsa.enable = true;
@@ -73,11 +70,4 @@
       monospace = [ "Fira Code" ];
     };
   };
-
-  environment.systemPackages = [
-    pkgs.openvpn
-    pkgs.wireguard-tools
-    pkgs.cifs-utils
-    pkgs.nfs-utils
-  ];
 }
