@@ -67,7 +67,7 @@ home-manager switch --flake .#louis
 │   └── files.nix             # mkFileMappings helper for dotfile deployment
 ├── hosts/                    # NixOS host configurations
 │   ├── common/               # Shared NixOS configuration
-│   │   ├── default.nix       # Base system configuration
+│   │   ├── default.nix       # Base system configuration (networking, VPN, filesystem tools)
 │   │   └── desktop.nix       # Desktop additions (GUI, audio, printing, fonts, mounts)
 │   ├── cloud/                # Cloud Root server (Docker Swarm/Compose runner)
 │   ├── dev/                  # Proxmox VM (headless, nix-ld for VS Code Remote SSH)
@@ -130,59 +130,45 @@ home-manager switch --flake .#louis
 
 ## Included Software
 
-### Core CLI Tools (`modules/home/shell/base.nix`)
-bat, borgbackup, btop, delta, duf, dust, eza, fastfetch, fd, fzf, glow, htop, imagemagick, inkscape, jq, jless, keychain, lsof, ncdu, restic, rclone, ripgrep, rsync, screen, tree, vim, yazi, yq
+### All Hosts
 
-Archive tools: bzip2, gnutar, gzip, p7zip, unzip, xz, zip
+**System**: vim, git, wget, curl, dnsutils, openvpn, wireguard-tools, cifs-utils, nfs-utils
 
-System tools: psmisc, usbutils
+**Shell**: bash, starship, tmux (prefix `Ctrl+a`), neovim, fzf, zoxide, direnv, delta (git pager)
 
-Programs (configured, not just packages): bash, delta (git pager), direnv, fzf, git, gpg, neovim, ssh, starship, tmux, zoxide
+**CLI tools**: bat, eza, fd, ripgrep, tree, ncdu, dust, duf, glow, yazi, htop, btop, jq, yq, fastfetch
 
-### Development (`modules/home/shell/development.nix`)
-**Languages**: Python 3 (pip, virtualenv, pipx, pyyaml, poetry, uv, ruff), Node.js, Rust (rustc, cargo), Go (gotools)
+**Archive & system**: bzip2, gnutar, gzip, p7zip, unzip, xz, zip, psmisc, usbutils
 
-**Build tools**: gcc, gnumake, cmake, pkg-config, autoconf, automake, libtool
+**Backup**: borgbackup, rclone, restic
 
-**Language servers**: gopls, nil, nixd, pyright, typescript-language-server, yaml-language-server, terraform-ls, dockerfile-language-server, bash-language-server, vscode-langservers-extracted
+### Server / Standalone / Desktop
 
-**Lint tools**: eslint, shellcheck, yamllint, markdownlint-cli
+**Languages**: Python 3 (uv, poetry, ruff), Node.js, Rust, Go
+
+**Build tools**: gcc, cmake, pkg-config, autoconf, automake
+
+**LSPs**: gopls, nil/nixd, pyright, typescript-language-server, yaml-language-server, terraform-ls, bash-language-server
 
 **AI CLI**: claude-code, codex, gemini-cli, opencode
 
-**DevOps**: opentofu, terragrunt, awscli2, kubectl, kubernetes-helm, k9s, infisical, pre-commit, gh, github-copilot-cli, lazygit
+**DevOps**: opentofu, terragrunt, awscli2, kubectl, helm, k9s, infisical, gh, lazygit
 
-**Database clients**: psql (PostgreSQL), mysql (MariaDB), redis-cli, sqlite
+**Databases**: PostgreSQL, MariaDB, Redis, SQLite
 
-**MicroPython/Embedded**: picocom, esptool, picotool, mpremote, mosquitto, esphome
+**Editors**: VSCode (with Remote, Docker, Python, Terraform, Nix extensions)
 
-**Testing**: playwright-driver
+### Desktop Only (NixOS)
 
-### Docker Tools (`modules/home/shell/docker.nix`)
-lazydocker
+**Desktop**: GNOME, Sway, Alacritty, Firefox (uBlock Origin, Bitwarden), Chromium
 
-### System Packages (`hosts/common/default.nix`)
-vim, git, wget, curl, dnsutils, bubblewrap
+**Apps**: LibreOffice, GIMP, VLC, mpv, Shotcut, Evince, Cura, Thonny, Tiled
 
-### Desktop System Packages (`hosts/common/desktop.nix`)
-openvpn, wireguard-tools, cifs-utils, nfs-utils
+**Editors**: Zed (with AI agent integration)
 
-### Desktop Apps (`modules/nixos/desktop/common.nix`, NixOS only)
-Firefox, Google Chrome, LibreOffice, GIMP, Pinta, Shotcut, VLC, mpv, ffmpeg, Evince, Baobab, Cura, Thonny, Tiled, rxvt-unicode, rpi-imager
+**Media**: Kodi (PVR IPTV, NFS sources)
 
-### Browsers (`modules/home/desktop/browsers.nix`, NixOS only)
-Firefox with extensions (uBlock Origin, Bitwarden) and bookmarks. Chromium also configured.
-
-### Development Editors (`modules/home/desktop/development.nix`, NixOS only)
-Zed editor with extensions: basher, csv, dockerfile, docker-compose, github-actions, html, nix, ruff, terraform, toml. Includes OpenCode agent server integration and Z.AI language model provider.
-
-VSCode (configured in `modules/home/shell/development.nix`, available on all hosts) with extensions for Remote (Containers, SSH, SSH Edit, WSL), Ansible, Docker, GitHub Actions, Nix, Python, Terraform, YAML, and Claude Code.
-
-### Emulators (`modules/home/desktop/emulators.nix`, NixOS only)
-ZX Spectrum: fuse-emulator, zesarux
-
-### Media (`modules/home/desktop/media.nix`, NixOS only)
-Kodi with PVR IPTV Simple addon and NFS media sources
+**Emulators**: ZX Spectrum (fuse-emulator, zesarux)
 
 ## Configuration
 
