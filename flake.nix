@@ -36,61 +36,16 @@
         githubUsername = "jinglemansweep";
         nfsHost = "ds920p.adm.ptre.es";
       };
-      mkDesktopHost = dir:
-        nixpkgs.lib.nixosSystem {
-          inherit system;
-          specialArgs = { inherit inputs userConfig projectLib; };
-          modules = [
-            ./hosts/${dir}
-            ./hosts/common
-            ./hosts/common/desktop.nix
-            { nixpkgs.overlays = [ nur.overlays.default ]; }
-            sops-nix.nixosModules.sops
-            home-manager.nixosModules.home-manager
-            {
-              home-manager = {
-                useGlobalPkgs = true;
-                useUserPackages = true;
-                extraSpecialArgs = { inherit inputs userConfig projectLib; };
-                users.${userConfig.username} = import ./home/nixos.nix;
-              };
-            }
-          ];
-        };
 
-      mkCloudHost = dir: fqdn:
-        let
-          parts = nixpkgs.lib.splitString "." fqdn;
-          hostName = builtins.head parts;
-          domain = nixpkgs.lib.concatStringsSep "." (builtins.tail parts);
-        in
-        nixpkgs.lib.nixosSystem {
-          inherit system;
-          specialArgs = { inherit inputs userConfig projectLib; };
-          modules = [
-            ./hosts/${dir}
-            ./hosts/common
-            { networking = { inherit hostName domain; }; }
-            ./modules/nixos/roles/cloud-server.nix
-            ./modules/nixos/virtualisation.nix
-            ./modules/nixos/systemd
-            sops-nix.nixosModules.sops
-            home-manager.nixosModules.home-manager
-            {
-              home-manager = {
-                useGlobalPkgs = true;
-                useUserPackages = true;
-                extraSpecialArgs = { inherit inputs userConfig projectLib; };
-                users.${userConfig.username} = import ./home/cloud.nix;
-              };
-            }
-          ];
-        };
+      hostBuilders = projectLib.hosts {
+        inherit nixpkgs inputs system userConfig projectLib;
+        inherit (inputs) nur sops-nix home-manager;
+      };
     in
     {
       nixosConfigurations = {
-        latitude = mkDesktopHost "latitude";
-        lounge = mkDesktopHost "lounge";
+        latitude = hostBuilders.mkDesktopHost "latitude";
+        lounge = hostBuilders.mkDesktopHost "lounge";
 
         dev = nixpkgs.lib.nixosSystem {
           inherit system;
@@ -112,7 +67,7 @@
             }
           ];
         };
-        s1 = mkCloudHost "cloud" "s1.cloud.ptre.es";
+        s1 = hostBuilders.mkCloudHost "cloud" "s1.cloud.ptre.es";
       };
 
       homeConfigurations = {
