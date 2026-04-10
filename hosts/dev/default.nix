@@ -1,5 +1,5 @@
 # Proxmox VM: headless dev server
-{ config, pkgs, lib, inputs, ... }:
+{ inputs, ... }:
 
 {
   imports = [
@@ -8,7 +8,7 @@
 
   networking = {
     hostName = "dev";
-    firewall.enable = lib.mkForce false;
+    firewall.allowedTCPPorts = [ 8000 8080 9090 9093 ];
   };
 
   services.qemuGuest.enable = true;

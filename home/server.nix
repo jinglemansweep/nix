@@ -8,5 +8,4 @@
     ../modules/home/shell/docker.nix
     ../modules/home/shell/development.nix
   ];
-
 }

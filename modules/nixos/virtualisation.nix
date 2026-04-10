@@ -11,9 +11,6 @@
     };
   };
 
-  # Ensure docker starts on boot (workaround for proxmox image)
-  systemd.services.docker.wantedBy = [ "multi-user.target" ];
-
   virtualisation.podman = {
     enable = true;
     dockerCompat = false;

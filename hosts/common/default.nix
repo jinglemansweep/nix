@@ -66,7 +66,6 @@
   programs.nix-ld.enable = true;
 
   services = {
-    openvpn.servers = { };
     openssh = {
       enable = true;
       settings = {
@@ -77,6 +76,11 @@
     tailscale.enable = true;
   };
 
+  # Ensure docker starts on boot (workaround for Proxmox images)
+  systemd.services.docker = lib.mkIf config.virtualisation.docker.enable {
+    wantedBy = [ "multi-user.target" ];
+  };
+
   hardware.bluetooth.settings = {
     General = {
       Class = "0x002540";
@@ -84,10 +88,12 @@
   };
 
   # Disable bluetooth HID input plugin (prevents conflicts with other input methods)
-  systemd.services.bluetooth.serviceConfig.ExecStart = [
-    "" # Clear existing ExecStart
-    "${pkgs.bluez}/libexec/bluetooth/bluetoothd -P input"
-  ];
+  systemd.services.bluetooth = lib.mkIf config.hardware.bluetooth.enable {
+    serviceConfig.ExecStart = [
+      ""
+      "${pkgs.bluez}/libexec/bluetooth/bluetoothd -P input"
+    ];
+  };
 
   users.users.${userConfig.username} = {
     isNormalUser = true;

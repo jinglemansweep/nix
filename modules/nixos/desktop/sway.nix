@@ -6,12 +6,12 @@
     programs.sway = {
       enable = true;
       wrapperFeatures.gtk = true;
-      extraPackages = with pkgs; [
-        swaylock
-        swayidle
-        swaybg
-        wmenu
-        wofi
+      extraPackages = [
+        pkgs.swaylock
+        pkgs.swayidle
+        pkgs.swaybg
+        pkgs.wmenu
+        pkgs.wofi
       ];
     };
 
@@ -25,15 +25,15 @@
       WLR_RENDER_NO_EXPLICIT_SYNC = "1";
     };
 
-    environment.systemPackages = with pkgs; [
-      grim
-      slurp
-      wl-clipboard
-      mako
-      kanshi
-      pavucontrol
-      networkmanagerapplet
-      brightnessctl
+    environment.systemPackages = [
+      pkgs.grim
+      pkgs.slurp
+      pkgs.wl-clipboard
+      pkgs.mako
+      pkgs.kanshi
+      pkgs.pavucontrol
+      pkgs.networkmanagerapplet
+      pkgs.brightnessctl
     ];
 
     security.polkit.enable = true;

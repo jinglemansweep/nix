@@ -1,1 +1,5 @@
 result
+result-*
+.direnv/
+keys.txt
+*.age

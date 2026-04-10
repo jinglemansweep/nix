@@ -1,15 +1,12 @@
 # HP EliteDesk 800 G2 Mini: desktop HTPC with Intel graphics and Bluetooth
-{ config, pkgs, lib, inputs, ... }:
+{ pkgs, ... }:
 
 {
   imports = [
     ./hardware-configuration.nix
   ];
 
-  networking = {
-    hostName = "lounge";
-    firewall.enable = lib.mkForce false;
-  };
+  networking.hostName = "lounge";
 
   desktop.enable = true;
 
