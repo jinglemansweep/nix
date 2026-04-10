@@ -22,14 +22,7 @@
           ms-python.black-formatter
           hashicorp.terraform
           redhat.vscode-yaml
-        ]
-        ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
-          {
-            name = "claude-code";
-            publisher = "anthropic";
-            version = "2.0.65";
-            sha256 = "17g3r715p80jqdh0ifvifb3ly0sg5i21cjrs0dqig0448l844xlw";
-          }
+          (anthropic.claude-code.overrideAttrs (_: rec { src = pkgs.fetchurl { inherit (anthropic.claude-code.src) url name; hash = "sha256-f+6xXZVb5sYrmrH7eoon6/QoQaTnBuTnb+YnvszqyKA="; }; }))
         ];
 
       userSettings = {
@@ -48,7 +41,7 @@
         "git.autofetch" = true;
         "update.showReleaseNotes" = false;
         "claudeCode.preferredLocation" = "panel";
-        "claudeCode.claudeProcessWrapper" = "/etc/profiles/per-user/${config.home.username}/bin/claude";
+        "claudeCode.claudeProcessWrapper" = "${config.home.profileDirectory}/bin/claude";
         "nix.serverPath" = "nixd";
       };
     };
