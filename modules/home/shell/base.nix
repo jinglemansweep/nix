@@ -88,7 +88,7 @@
       enable = true;
       prefix = "C-a";
       terminal = "screen-256color";
-      historyLimit = 10000;
+      historyLimit = 100000;
       escapeTime = 0;
       baseIndex = 1;
       keyMode = "vi";
@@ -113,6 +113,7 @@
         set -g mouse on
         set-option -g allow-rename on
         set-option -g aggressive-resize on
+        set -ga terminal-overrides ",*256col*:Tc"
 
         # Status bar styling
         set -g status-position bottom
@@ -173,6 +174,9 @@
     bash = {
       enable = true;
       enableCompletion = true;
+      historySize = 1000000;
+      historyFileSize = 2000000;
+      historyControl = [ "ignoredups" "ignorespace" ];
       sessionVariables = {
         # Fix unreadable colors for world-writable files (777 permissions)
         # Uses 256-color dark green (22) instead of default bright green
