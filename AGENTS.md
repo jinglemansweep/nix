@@ -55,6 +55,7 @@ modules/
       sway.nix         # Sway window manager module
     roles/
       cloud-server.nix # Cloud server role (firewall ports 80/443, QEMU guest agent)
+    secrets.nix        # NixOS-level SOPS secrets (user password hash)
     systemd/
       default.nix      # Systemd service imports
       nix-gc.nix       # Automated garbage collection
@@ -177,10 +178,11 @@ All hosts receive `{ inherit inputs userConfig projectLib; }` as specialArgs.
 
 ### Secrets Management
 
-**SOPS (age encryption)** - configured in `modules/home/secrets.nix`:
+**SOPS (age encryption)** - configured in `modules/home/secrets.nix` and `modules/nixos/secrets.nix`:
 - Secrets file: `secrets/secrets.yaml`
 - Age key: `~/.config/sops/age/keys.txt`
-- Managed secrets: `home_lab_nfs_host`, `home_lab_nfs_root`, `home_lab_traefik_domain`, `infisical_project_id`, `infisical_env`, `context7_api_key`, `zai_api_key`
+- NixOS-level secrets: `user_password_hash`
+- Home Manager secrets: `home_lab_nfs_host`, `home_lab_nfs_root`, `home_lab_traefik_domain`, `infisical_project_id`, `infisical_env`, `context7_api_key`, `zai_api_key`
 
 **Environment variables** - configured in `modules/home/env.nix`:
 - `LAB_NFS_HOST`, `LAB_NFS_ROOT`, `LAB_TRAEFIK_DOMAIN`

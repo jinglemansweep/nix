@@ -45,6 +45,7 @@
             ./hosts/common
             ./hosts/common/desktop.nix
             { nixpkgs.overlays = [ nur.overlays.default ]; }
+            sops-nix.nixosModules.sops
             home-manager.nixosModules.home-manager
             {
               home-manager = {
@@ -73,6 +74,7 @@
             ./modules/nixos/roles/cloud-server.nix
             ./modules/nixos/virtualisation.nix
             ./modules/nixos/systemd
+            sops-nix.nixosModules.sops
             home-manager.nixosModules.home-manager
             {
               home-manager = {
@@ -98,6 +100,7 @@
             ./hosts/common
             ./modules/nixos/virtualisation.nix
             ./modules/nixos/mounts.nix
+            sops-nix.nixosModules.sops
             home-manager.nixosModules.home-manager
             {
               home-manager = {

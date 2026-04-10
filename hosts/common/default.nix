@@ -3,6 +3,7 @@
 
 {
   imports = [
+    ../../modules/nixos/secrets.nix
     ../../modules/nixos/systemd
   ];
 
@@ -93,7 +94,7 @@
     description = userConfig.fullName;
     extraGroups = [ "networkmanager" "wheel" "docker" ];
     shell = pkgs.bash;
-    hashedPassword = "$6$/ZGKJRex3fGzQF7r$u/wtRd8LWjlpsSSSt1NcpNQCzI2Y0oLaVCgqUHCZY2HBTpnQrProXQo8ueiMHA/Nv8bdCmg2Ftp0AUaxHuvFA1";
+    hashedPasswordFile = config.sops.secrets.user_password_hash.path;
     openssh.authorizedKeys.keyFiles = [
       (builtins.fetchurl {
         url = "https://github.com/${userConfig.githubUsername}.keys";
