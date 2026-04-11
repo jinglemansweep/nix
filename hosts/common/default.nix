@@ -76,7 +76,6 @@
     tailscale.enable = true;
   };
 
-  # Ensure docker starts on boot (workaround for Proxmox images)
   systemd.services.docker = lib.mkIf config.virtualisation.docker.enable {
     wantedBy = [ "multi-user.target" ];
   };
