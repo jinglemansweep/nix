@@ -3,9 +3,12 @@
 {
   imports = [ ./hardware-configuration.nix ];
 
-  networking.firewall = {
-    allowedTCPPorts = [ 80 443 ];
-    allowedUDPPorts = [ 51820 ];
+  networking = {
+    hostName = "pt-s1";
+    firewall = {
+      allowedTCPPorts = [ 80 443 ];
+      allowedUDPPorts = [ 51820 ];
+    };
   };
 
   services.qemuGuest.enable = true;

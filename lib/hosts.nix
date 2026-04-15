@@ -47,19 +47,13 @@
       ];
     };
 
-  mkCloudHost = dir: fqdn:
-    let
-      parts = nixpkgs.lib.splitString "." fqdn;
-      hostName = builtins.head parts;
-      domain = nixpkgs.lib.concatStringsSep "." (builtins.tail parts);
-    in
+  mkCloudHost = dir:
     nixpkgs.lib.nixosSystem {
       inherit system;
       specialArgs = { inherit inputs userConfig projectLib; };
       modules = [
         ../hosts/${dir}
         ../hosts/common
-        { networking = { inherit hostName domain; }; }
         { environment.sessionVariables.NIX_INSTANCE_ID = dir; }
         ../modules/nixos/virtualisation.nix
         ../modules/nixos/systemd
