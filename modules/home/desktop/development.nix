@@ -11,7 +11,7 @@
       "dockerfile"
       "docker-compose"
       "github-actions"
-      "html"
+      "zhtml"
       "nix"
       "ruff"
       "terraform"

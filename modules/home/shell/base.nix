@@ -221,7 +221,7 @@
 
         nix-inst-rebuild() {
           if [ -d /run/current-system ]; then
-            sudo nixos-rebuild switch --flake .#$(hostname)
+            sudo nixos-rebuild switch --flake .#$NIX_INSTANCE_ID
           else
             home-manager switch --flake .#${userConfig.username}
           fi

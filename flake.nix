@@ -47,27 +47,9 @@
         latitude = hostBuilders.mkDesktopHost "latitude";
         lounge = hostBuilders.mkDesktopHost "lounge";
 
-        dev = nixpkgs.lib.nixosSystem {
-          inherit system;
-          specialArgs = { inherit inputs userConfig projectLib; };
-          modules = [
-            ./hosts/dev
-            ./hosts/common
-            ./modules/nixos/virtualisation.nix
-            ./modules/nixos/mounts.nix
-            sops-nix.nixosModules.sops
-            home-manager.nixosModules.home-manager
-            {
-              home-manager = {
-                useGlobalPkgs = true;
-                useUserPackages = true;
-                extraSpecialArgs = { inherit inputs userConfig projectLib; };
-                users.${userConfig.username} = import ./home/server.nix;
-              };
-            }
-          ];
-        };
-        s1 = hostBuilders.mkCloudHost "cloud" "s1.cloud.ptre.es";
+        dev = hostBuilders.mkDevHost "dev";
+        pt-s1 = hostBuilders.mkCloudHost "pt-s1" "s1.cloud.ptre.es";
+        ipnet-s1 = hostBuilders.mkCloudHost "ipnet-s1" "s1.cloud.ipnt.uk";
       };
 
       homeConfigurations = {
