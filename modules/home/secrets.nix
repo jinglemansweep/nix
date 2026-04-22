@@ -9,8 +9,6 @@
       "home_lab_nfs_host" = { };
       "home_lab_nfs_root" = { };
       "home_lab_traefik_domain" = { };
-      "infisical_project_id" = { };
-      "infisical_env" = { };
       "context7_api_key" = { };
       "zai_api_key" = { };
     };

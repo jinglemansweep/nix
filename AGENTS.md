@@ -182,11 +182,10 @@ All hosts receive `{ inherit inputs userConfig projectLib; }` as specialArgs.
 - Secrets file: `secrets/secrets.yaml`
 - Age key: `~/.config/sops/age/keys.txt`
 - NixOS-level secrets: `user_password_hash`
-- Home Manager secrets: `home_lab_nfs_host`, `home_lab_nfs_root`, `home_lab_traefik_domain`, `infisical_project_id`, `infisical_env`, `context7_api_key`, `zai_api_key`
+- Home Manager secrets: `home_lab_nfs_host`, `home_lab_nfs_root`, `home_lab_traefik_domain`, `context7_api_key`, `zai_api_key`
 
 **Environment variables** - configured in `modules/home/env.nix`:
 - `LAB_NFS_HOST`, `LAB_NFS_ROOT`, `LAB_TRAEFIK_DOMAIN`
-- `INFISICAL_PROJECT_ID`, `INFISICAL_ENV`
 - `CONTEXT7_API_KEY`, `ZAI_API_KEY`
 
 **Direnv helpers** - for environment variables:

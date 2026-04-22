@@ -9,6 +9,7 @@
     ./media.nix
     ./development.nix
     ./emulators.nix
+    ./vscode.nix
   ];
 
   # TODO: mtpaint broken in nixpkgs (incompatible with libpng 1.6.52)

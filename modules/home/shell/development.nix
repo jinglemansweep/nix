@@ -1,51 +1,7 @@
 # Development tools: languages, LSPs, build tools, DevOps, AI CLI, and embedded
-{ config, pkgs, lib, projectLib, ... }:
+{ pkgs, projectLib, ... }:
 
 {
-  programs.vscode = {
-    enable = true;
-    package = pkgs.vscode;
-
-    profiles.default = {
-      extensions =
-        with pkgs.vscode-extensions;
-        [
-          ms-vscode-remote.remote-containers
-          ms-vscode-remote.remote-ssh
-          ms-vscode-remote.remote-ssh-edit
-          ms-vscode-remote.remote-wsl
-          redhat.ansible
-          ms-azuretools.vscode-docker
-          github.vscode-github-actions
-          bbenoist.nix
-          ms-python.python
-          ms-python.black-formatter
-          hashicorp.terraform
-          redhat.vscode-yaml
-          (anthropic.claude-code.overrideAttrs (_: rec { src = pkgs.fetchurl { inherit (anthropic.claude-code.src) url name; hash = "sha256-f+6xXZVb5sYrmrH7eoon6/QoQaTnBuTnb+YnvszqyKA="; }; }))
-        ];
-
-      userSettings = {
-        "editor.fontSize" = 14;
-        "editor.fontFamily" = "'JetBrains Mono', 'Fira Code', monospace";
-        "editor.fontLigatures" = true;
-        "editor.tabSize" = 2;
-        "editor.formatOnSave" = true;
-        "editor.minimap.enabled" = false;
-        "files.autoSave" = "afterDelay";
-        "files.autoSaveDelay" = 1000;
-        "terminal.integrated.fontSize" = 13;
-        "terminal.integrated.suggest.enabled" = false;
-        "workbench.colorTheme" = "Default Dark+";
-        "workbench.startupEditor" = "none";
-        "git.autofetch" = true;
-        "update.showReleaseNotes" = false;
-        "claudeCode.preferredLocation" = "panel";
-        "claudeCode.claudeProcessWrapper" = "${config.home.profileDirectory}/bin/claude";
-        "nix.serverPath" = "nixd";
-      };
-    };
-  };
   home = {
     packages = [
       # Languages
@@ -61,7 +17,6 @@
       pkgs.rustc
       pkgs.cargo
       pkgs.go
-      pkgs.gotools
 
       # Language Servers
       pkgs.gopls
@@ -168,8 +123,6 @@
       source <(kubectl completion bash)
       complete -o default -F __start_kubectl k
 
-      # Infisical alias
-      alias secrets-infisical='infisical --silent --projectId ''${INFISICAL_PROJECT_ID} --env ''${INFISICAL_ENV}'
     '';
   };
 }
