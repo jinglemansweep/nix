@@ -54,7 +54,6 @@
       pkgs.kubectl
       pkgs.kubernetes-helm
       pkgs.k9s
-      pkgs.infisical
 
       # Database Clients
       pkgs.postgresql

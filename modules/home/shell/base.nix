@@ -53,6 +53,7 @@
     pkgs.usbutils
     pkgs.psmisc
     pkgs.keychain
+    pkgs.infisical
   ];
 
   programs = {
