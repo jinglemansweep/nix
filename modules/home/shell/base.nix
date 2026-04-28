@@ -46,6 +46,9 @@
     pkgs.rclone
     pkgs.restic
 
+    # Database
+    pkgs.pgcli
+
     # Misc
     pkgs.imagemagick
     pkgs.inkscape # CLI SVG manipulation
