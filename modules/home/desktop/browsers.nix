@@ -9,6 +9,7 @@
   programs.firefox = {
     enable = true;
     package = null; # System Firefox used
+    configPath = "${config.xdg.configHome}/mozilla/firefox";
     profiles.default = {
       isDefault = true;
       extensions.packages = [
