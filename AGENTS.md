@@ -160,7 +160,6 @@ All hosts receive `{ inherit inputs userConfig projectLib; }` as specialArgs.
 - **Tmux prefix**: Ctrl+a (not Ctrl+b)
 - **Git**: pull.rebase = false
 - **Docker**: Default container runtime (Podman also available)
-- **Claude Code**: Config deployed from `agent-resources` flake input via `modules/home/gitsources.nix` (updates via `nix flake update`)
 - **OpenCode**: Config deployed from `agent-resources` flake input via `modules/home/gitsources.nix` (updates via `nix flake update`)
 - **Direnv**: nix-direnv with custom `load_secrets` helpers
 - **Secrets**: SOPS with age encryption (`secrets/secrets.yaml`)
