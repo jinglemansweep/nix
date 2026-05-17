@@ -1,7 +1,11 @@
-# Development editors: Zed configuration
+# Development editors: Zed configuration and OpenCode desktop client
 { pkgs, ... }:
 
 {
+  home.packages = [
+    pkgs.opencode-desktop
+  ];
+
   programs.zed-editor = {
     enable = true;
 
