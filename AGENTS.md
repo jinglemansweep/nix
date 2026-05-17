@@ -90,6 +90,9 @@ home/                  # Home Manager entry points
 secrets/
   secrets.yaml         # Age-encrypted secrets (SOPS)
 
+docs/
+  plans/               # Implementation plans and task lists
+
 scripts/
   partition.sh         # Disk partitioning helper
 ```
@@ -111,7 +114,7 @@ scripts/
 
 All hosts receive `{ inherit inputs userConfig projectLib; }` as specialArgs.
 
-- **userConfig**: `{ username, fullName, email, githubUsername, nfsHost }`
+- **userConfig**: `{ username, fullName, email, githubUsername, nfsHost, gpgSigningKey }`
 - **projectLib**: Import of `lib/` — provides `files.mkFileMappings` for dotfile deployment
 
 ### Cloud Host Helper
@@ -196,9 +199,9 @@ load_secrets my-project    # Loads ~/.secrets/global.env + ~/.secrets/projects/m
 | Category | Location | Examples |
 |----------|----------|----------|
 | System packages | `hosts/common/default.nix` | vim, git, wget, curl, dnsutils, bubblewrap, openvpn, wireguard-tools, cifs-utils, nfs-utils |
-| Desktop apps (system) | `modules/nixos/desktop/common.nix` | Firefox, Chrome, LibreOffice, GIMP, Pinta, VLC, mpv, ffmpeg, Shotcut, Cura, Thonny, Tiled, Evince, Baobab, rxvt-unicode, rpi-imager |
-| Core CLI tools | `modules/home/shell/base.nix` | bat, eza, fd, ripgrep, tree, ncdu, dust, duf, glow, yazi, fzf, htop, btop, vim, screen, jq, yq, jless, delta, fastfetch, keychain, infisical, borgbackup, rclone, restic, imagemagick, inkscape |
-| Dev languages | `modules/home/shell/development.nix` | Python 3 (pip, virtualenv, pipx, pyyaml, poetry, uv, ruff), Node.js, Rust (rustc, cargo), Go (gotools), build tools (gcc, gnumake, cmake, pkg-config, autoconf, automake, libtool) |
+| Desktop apps (system) | `modules/nixos/desktop/common.nix` | Firefox, Chrome, Discord, LibreOffice, GIMP, Pinta, VLC, mpv, ffmpeg, Shotcut, Cura, Thonny, Tiled, Evince, Baobab, rxvt-unicode, rpi-imager |
+| Core CLI tools | `modules/home/shell/base.nix` | bat, eza, fd, ripgrep, tree, ncdu, dust, duf, glow, yazi, fzf, tldr, htop, btop, vim, screen, jq, yq, jless, delta, fastfetch, keychain, infisical, borgbackup, rclone, restic, imagemagick, inkscape, lsof, rsync, zip, unzip, gnutar, xz, bzip2, gzip, p7zip, usbutils, psmisc; programs: zoxide, direnv, neovim, gpg, ssh, gpg-agent |
+| Dev languages | `modules/home/shell/development.nix` | Python 3 (pip, virtualenv, pipx, pyyaml, poetry, uv, ruff), Node.js, Rust (rustc, cargo), Go, build tools (gcc, gnumake, cmake, pkg-config, autoconf, automake, libtool) |
 | Language servers | `modules/home/shell/development.nix` | gopls, nil, nixd, pyright, typescript-language-server, yaml-language-server, terraform-ls, dockerfile-language-server, bash-language-server, vscode-langservers-extracted |
 | Lint tools | `modules/home/shell/development.nix` | eslint, shellcheck, yamllint, markdownlint-cli |
 | AI CLI tools | `modules/home/shell/development.nix` | claude-code, codex, gemini-cli, opencode |
@@ -207,7 +210,7 @@ load_secrets my-project    # Loads ~/.secrets/global.env + ~/.secrets/projects/m
 | MicroPython tools | `modules/home/shell/development.nix` | picocom, esptool, picotool, mpremote, mosquitto, esphome |
 | Docker tools | `modules/home/shell/docker.nix` | lazydocker |
 | Browsers (user) | `modules/home/desktop/browsers.nix` | Firefox extensions (uBlock, Bitwarden), Chromium, bookmarks |
-| Development editors | `modules/home/desktop/development.nix` | Zed editor with extensions and AI agent config |
+| Development editors | `modules/home/desktop/development.nix` | Zed editor with extensions and AI agent config, OpenCode desktop client |
 | Emulators | `modules/home/desktop/emulators.nix` | fuse-emulator, zesarux (ZX Spectrum) |
 | Media | `modules/home/desktop/media.nix` | Kodi with PVR IPTV addon and NFS media sources |
 
@@ -227,7 +230,7 @@ Claude Code is configured via user settings (not an extension), pointing to the 
 
 ## Zed Editor
 
-Configured in `modules/home/desktop/development.nix` with extensions: basher, csv, dockerfile, docker-compose, github-actions, zhtml, nix, ruff, terraform, toml. Includes OpenCode agent server integration and Z.AI language model provider.
+Configured in `modules/home/desktop/development.nix` with extensions: basher, csv, dockerfile, docker-compose, github-actions, zhtml, nix, ruff, terraform, toml. Includes OpenCode agent server integration, Z.AI language model provider, and SSH connections to dev server. Also installs `opencode-desktop` package.
 
 ## Testing Changes
 

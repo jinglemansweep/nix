@@ -150,9 +150,9 @@ home-manager switch --flake .#louis
 
 **Desktop**: GNOME, Sway, Alacritty, Firefox (uBlock Origin, Bitwarden), Chromium
 
-**Apps**: LibreOffice, GIMP, VLC, mpv, Shotcut, Evince, Cura, Thonny, Tiled
+**Apps**: Discord, LibreOffice, GIMP, VLC, mpv, Shotcut, Evince, Cura, Thonny, Tiled
 
-**Editors**: Zed (with AI agent integration)
+**Editors**: Zed (with AI agent integration), OpenCode desktop client
 
 **Media**: Kodi (PVR IPTV, NFS sources)
 
