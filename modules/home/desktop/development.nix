@@ -29,6 +29,7 @@
       };
       vim_mode = false;
       format_on_save = "on";
+      languages.Nix.format_on_save = "off";
       agent_servers = {
         "OpenCode" = {
           type = "custom";
