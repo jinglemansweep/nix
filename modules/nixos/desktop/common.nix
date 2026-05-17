@@ -29,6 +29,7 @@
     programs.ssh.startAgent = false;
 
     environment.systemPackages = [
+      pkgs.discord
       pkgs.firefox
       pkgs.libreoffice
       pkgs.google-chrome
