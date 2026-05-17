@@ -208,6 +208,7 @@
         vim = "nvim";
         ".." = "cd ..";
         "..." = "cd ../..";
+        gpg-unlock = "echo test | gpg --clearsign > /dev/null 2>&1";
         tmain = "tmux attach -t main";
         ssh = "TERM=xterm-256color ssh";
       };
