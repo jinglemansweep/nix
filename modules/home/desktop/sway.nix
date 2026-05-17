@@ -12,6 +12,7 @@
       # Float media viewers by default
       for_window [app_id="mpv"] floating enable
       for_window [app_id="org.pwmt.zathura"] floating enable
+      for_window [title="Extension: .* — Mozilla Firefox"] floating enable
     '';
     config = {
       modifier = "Mod4";
