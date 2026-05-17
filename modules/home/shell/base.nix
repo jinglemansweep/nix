@@ -69,6 +69,7 @@
         user = {
           name = userConfig.fullName;
           inherit (userConfig) email;
+          signingkey = "5BDBEFD838F22323";
         };
         init.defaultBranch = "main";
         pull.rebase = false;
@@ -207,6 +208,9 @@
         ssh = "TERM=xterm-256color ssh";
       };
       initExtra = ''
+        # Ensure gpg-agent pinentry targets correct terminal
+        export GPG_TTY=$(tty)
+
         # Source global environment variables
         [ -f ~/.config/environment.d/50-nix.conf ] && set -a && source ~/.config/environment.d/50-nix.conf && set +a
 
@@ -332,6 +336,6 @@
     enable = true;
     defaultCacheTtl = 7200;
     maxCacheTtl = 28800;
-    pinentry.package = pkgs.pinentry-gnome3;
+    pinentry.package = lib.mkDefault pkgs.pinentry-curses;
   };
 }
