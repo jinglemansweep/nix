@@ -1,8 +1,12 @@
 # Base shell environment: core CLI tools, git, tmux, bash, neovim, GPG, and SSH
-{ config, pkgs, lib, userConfig, ... }:
+{ config
+, pkgs
+, lib
+, userConfig
+, ...
+}:
 
 {
-  xdg.configFile."direnv/direnvrc".source = ../../../dotfiles/direnv/direnvrc;
 
   home.packages = [
     # File utilities
@@ -141,7 +145,12 @@
           command = "printf '\\033]0;%s@%s:%s\\007' \"$USER\" \"$HOSTNAME\" \"$PWD\"";
           when = "true";
           format = "[$output]()";
-          shell = [ "bash" "--noprofile" "--norc" "-c" ];
+          shell = [
+            "bash"
+            "--noprofile"
+            "--norc"
+            "-c"
+          ];
         };
 
         character = {
@@ -177,7 +186,10 @@
       enableCompletion = true;
       historySize = 1000000;
       historyFileSize = 2000000;
-      historyControl = [ "ignoredups" "ignorespace" ];
+      historyControl = [
+        "ignoredups"
+        "ignorespace"
+      ];
       sessionVariables = {
         # Fix unreadable colors for world-writable files (777 permissions)
         # Uses 256-color dark green (22) instead of default bright green
@@ -292,12 +304,25 @@
         "*" = {
           extraOptions.AddKeysToAgent = "yes";
         };
-        "pvm?" = { user = "root"; };
-        "*.svc.ptre.es" = { user = "user"; };
-        "*.ptre.*" = { forwardAgent = true; };
-        "*.ipnt.uk" = { forwardAgent = true; };
-        "ds920p.*" = { user = "NASAdmin"; port = 50051; };
-        "dev" = { forwardAgent = true; };
+        "pvm?" = {
+          user = "root";
+        };
+        "*.svc.ptre.es" = {
+          user = "user";
+        };
+        "*.ptre.*" = {
+          forwardAgent = true;
+        };
+        "*.ipnt.uk" = {
+          forwardAgent = true;
+        };
+        "ds920p.*" = {
+          user = "NASAdmin";
+          port = 50051;
+        };
+        "dev" = {
+          forwardAgent = true;
+        };
       };
     };
   };

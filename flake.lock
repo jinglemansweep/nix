@@ -1,5 +1,21 @@
 {
   "nodes": {
+    "agent-resources": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1779022435,
+        "narHash": "sha256-KSto9/072B9/qQEjN+h3xO6FsR9oCtfv6ulyHminjJQ=",
+        "owner": "jinglemansweep",
+        "repo": "agent-resources",
+        "rev": "4e4fa2aa8087597a7303e4c1efb807be1c3d6181",
+        "type": "github"
+      },
+      "original": {
+        "owner": "jinglemansweep",
+        "repo": "agent-resources",
+        "type": "github"
+      }
+    },
     "flake-parts": {
       "inputs": {
         "nixpkgs-lib": [
@@ -95,11 +111,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1779010495,
-        "narHash": "sha256-DxO5Cal3JSG/7j1hlTIF/v5TMGB2bCqCFkHmoVnAcQY=",
+        "lastModified": 1779019060,
+        "narHash": "sha256-eu4Q0j4YdetDfUPoiml8novsLYxivYR25yDpFb5RzT0=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "1df6a4ef0e20d39a16367ea06788f47314f5f77e",
+        "rev": "a74eef7c5e7395a033f2b36f56ca1d81bcd19a72",
         "type": "github"
       },
       "original": {
@@ -110,6 +126,7 @@
     },
     "root": {
       "inputs": {
+        "agent-resources": "agent-resources",
         "home-manager": "home-manager",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs",

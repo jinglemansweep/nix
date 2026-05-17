@@ -18,9 +18,14 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    agent-resources = {
+      url = "github:jinglemansweep/agent-resources";
+      flake = false;
+    };
   };
 
-  outputs = { self, nixpkgs, home-manager, nixos-hardware, nur, sops-nix, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, nixos-hardware, nur, sops-nix, agent-resources, ... }@inputs:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs {

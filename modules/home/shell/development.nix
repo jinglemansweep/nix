@@ -96,21 +96,9 @@
 
     file = {
       ".npmrc".text = "prefix=~/.npm-global\n";
-      ".claude/CLAUDE.md".source = ../../../dotfiles/claude/CLAUDE.md;
-      ".claude/settings.json".source = ../../../dotfiles/claude/settings.json;
-      ".claude/mcp_settings.json".source = ../../../dotfiles/claude/mcp_settings.json;
-    }
-    // projectLib.files.mkFileMappings ../../../dotfiles/claude/commands ".claude/commands"
-    // projectLib.files.mkFileMappings ../../../dotfiles/claude/agents ".claude/agents"
-    // projectLib.files.mkFileMappings ../../../dotfiles/claude/skills ".claude/skills";
-  };
+    };
 
-  xdg.configFile = {
-    "opencode/opencode.json".source = ../../../dotfiles/opencode/opencode.json;
-  }
-  // projectLib.files.mkFileMappings ../../../dotfiles/opencode/commands "opencode/commands"
-  // projectLib.files.mkFileMappings ../../../dotfiles/opencode/agents "opencode/agents"
-  // projectLib.files.mkFileMappings ../../../dotfiles/opencode/skills "opencode/skills";
+  };
 
   programs.bash = {
     shellAliases = {
