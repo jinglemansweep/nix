@@ -13,8 +13,9 @@ This is a Nix Flakes-based configuration for NixOS and Home Manager.
 | File | Purpose |
 |------|---------|
 | `flake.nix` | Main entry point, defines all outputs |
-| `lib/default.nix` | Utility library (exports `files` module) |
+| `lib/default.nix` | Utility library (exports `files` and `hosts` modules) |
 | `lib/files.nix` | `mkFileMappings` helper for dotfile deployment |
+| `lib/hosts.nix` | Host builder functions (`mkDesktopHost`, `mkDevHost`, `mkCloudHost`) |
 | `.sops.yaml` | SOPS configuration |
 | `.github/workflows/nix-check.yml` | CI workflow for linting and flake checks |
 | `.pre-commit-config.yaml` | Pre-commit hooks for local linting |
@@ -35,17 +36,19 @@ This is a Nix Flakes-based configuration for NixOS and Home Manager.
   nix-check.yml        # Flake check, statix, and deadnix linting
 
 lib/                    # Utility library
-  default.nix          # Exports files module
+  default.nix          # Exports files and hosts modules
   files.nix            # mkFileMappings: recursive dir-to-home.file mapping
+  hosts.nix            # Host builder functions (mkDesktopHost, mkDevHost, mkCloudHost)
 
 hosts/                 # NixOS system configurations
   common/              # Shared across all NixOS hosts
     default.nix        # Base system configuration (networking, VPN, filesystem tools)
     desktop.nix        # Desktop additions (GUI, audio, printing, fonts, mounts)
-  cloud/               # Cloud Root server (Docker Swarm/Compose runner)
   dev/                 # Proxmox VM (headless server, nix-ld for VS Code Remote SSH)
+  ipnet-s1/            # Cloud server (Docker runner)
   latitude/            # Dell Latitude 7420
   lounge/              # HP EliteDesk 800 G2 Mini
+  pt-s1/               # Cloud server (Docker runner)
 
 modules/
   nixos/               # NixOS modules
@@ -53,8 +56,6 @@ modules/
       common.nix       # Shared desktop config (input devices, system packages, desktop.enable option)
       gnome.nix        # GNOME desktop module
       sway.nix         # Sway window manager module
-    roles/
-      cloud-server.nix # Cloud server role (firewall ports 80/443, QEMU guest agent)
     secrets.nix        # NixOS-level SOPS secrets (user password hash)
     systemd/
       default.nix      # Systemd service imports
@@ -74,6 +75,7 @@ modules/
       gnome.nix        # GNOME extensions, keyring, dconf settings
       media.nix        # Kodi with PVR IPTV addon and NFS media sources
       sway.nix         # Sway window manager configuration
+      vscode.nix       # VSCode editor with extensions and settings
     env.nix            # Environment variable configuration (SOPS-managed)
     gitsources.nix     # External git-sourced dotfiles (agent-resources flake input)
     secrets.nix        # SOPS secrets with age encryption
@@ -114,7 +116,7 @@ All hosts receive `{ inherit inputs userConfig projectLib; }` as specialArgs.
 
 ### Cloud Host Helper
 
-`mkCloudHost dir: fqdn` creates a NixOS config that automatically sets `hostName` and `domain` from the FQDN, and adds cloud-server role + virtualisation + systemd modules.
+`mkCloudHost dir` creates a NixOS config that adds virtualisation + systemd modules, using the `home/cloud.nix` entry point. Cloud hosts define their own firewall and QEMU guest settings inline.
 
 ## Configuration Targets
 
@@ -123,7 +125,8 @@ All hosts receive `{ inherit inputs userConfig projectLib; }` as specialArgs.
 | Dell Latitude 7420 | `sudo nixos-rebuild switch --flake .#latitude` |
 | HP EliteDesk 800 G2 Mini (Lounge) | `sudo nixos-rebuild switch --flake .#lounge` |
 | Proxmox VM (Dev Server) | `sudo nixos-rebuild switch --flake .#dev` |
-| Cloud Root Server | `sudo nixos-rebuild switch --flake .#s1` |
+| Cloud Server (PT-S1) | `sudo nixos-rebuild switch --flake .#pt-s1` |
+| Cloud Server (IPNet-S1) | `sudo nixos-rebuild switch --flake .#ipnet-s1` |
 | Standalone (WSL/ChromeOS) | `home-manager switch --flake .#louis` |
 
 ## Adding New Features
@@ -195,12 +198,12 @@ load_secrets my-project    # Loads ~/.secrets/global.env + ~/.secrets/projects/m
 |----------|----------|----------|
 | System packages | `hosts/common/default.nix` | vim, git, wget, curl, dnsutils, bubblewrap, openvpn, wireguard-tools, cifs-utils, nfs-utils |
 | Desktop apps (system) | `modules/nixos/desktop/common.nix` | Firefox, Chrome, LibreOffice, GIMP, Pinta, VLC, mpv, ffmpeg, Shotcut, Cura, Thonny, Tiled, Evince, Baobab, rxvt-unicode, rpi-imager |
-| Core CLI tools | `modules/home/shell/base.nix` | bat, eza, fd, ripgrep, tree, ncdu, dust, duf, glow, yazi, fzf, htop, btop, vim, screen, jq, yq, jless, delta, fastfetch, keychain, borgbackup, rclone, restic, imagemagick, inkscape |
+| Core CLI tools | `modules/home/shell/base.nix` | bat, eza, fd, ripgrep, tree, ncdu, dust, duf, glow, yazi, fzf, htop, btop, vim, screen, jq, yq, jless, delta, fastfetch, keychain, infisical, borgbackup, rclone, restic, imagemagick, inkscape |
 | Dev languages | `modules/home/shell/development.nix` | Python 3 (pip, virtualenv, pipx, pyyaml, poetry, uv, ruff), Node.js, Rust (rustc, cargo), Go (gotools), build tools (gcc, gnumake, cmake, pkg-config, autoconf, automake, libtool) |
 | Language servers | `modules/home/shell/development.nix` | gopls, nil, nixd, pyright, typescript-language-server, yaml-language-server, terraform-ls, dockerfile-language-server, bash-language-server, vscode-langservers-extracted |
 | Lint tools | `modules/home/shell/development.nix` | eslint, shellcheck, yamllint, markdownlint-cli |
 | AI CLI tools | `modules/home/shell/development.nix` | claude-code, codex, gemini-cli, opencode |
-| DevOps tools | `modules/home/shell/development.nix` | opentofu, terragrunt, awscli2, kubectl, kubernetes-helm, k9s, infisical, pre-commit, gh, github-copilot-cli, lazygit |
+| DevOps tools | `modules/home/shell/development.nix` | opentofu, terragrunt, awscli2, kubectl, kubernetes-helm, k9s, pre-commit, gh, github-copilot-cli, lazygit |
 | Database clients | `modules/home/shell/development.nix` | postgresql, mariadb, redis, sqlite |
 | MicroPython tools | `modules/home/shell/development.nix` | picocom, esptool, picotool, mpremote, mosquitto, esphome |
 | Docker tools | `modules/home/shell/docker.nix` | lazydocker |
@@ -211,10 +214,9 @@ load_secrets my-project    # Loads ~/.secrets/global.env + ~/.secrets/projects/m
 
 ## VSCode Extensions
 
-Managed in `modules/home/shell/development.nix`:
+Managed in `modules/home/desktop/vscode.nix`:
 - Remote (Containers, SSH, SSH Edit, WSL)
 - Ansible
-- Claude Code (Anthropic, from marketplace)
 - Docker
 - GitHub Actions
 - Nix
@@ -222,9 +224,11 @@ Managed in `modules/home/shell/development.nix`:
 - Terraform
 - YAML
 
+Claude Code is configured via user settings (not an extension), pointing to the Home Manager-wrapped `claude` binary.
+
 ## Zed Editor
 
-Configured in `modules/home/desktop/development.nix` with extensions: basher, csv, dockerfile, docker-compose, github-actions, html, nix, ruff, terraform, toml. Includes OpenCode agent server integration and Z.AI language model provider.
+Configured in `modules/home/desktop/development.nix` with extensions: basher, csv, dockerfile, docker-compose, github-actions, zhtml, nix, ruff, terraform, toml. Includes OpenCode agent server integration and Z.AI language model provider.
 
 ## Testing Changes
 

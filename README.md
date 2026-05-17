@@ -31,7 +31,8 @@ cd ~/nix
 sudo nixos-rebuild switch --flake .#latitude
 # or: sudo nixos-rebuild switch --flake .#lounge
 # or: sudo nixos-rebuild switch --flake .#dev
-# or: sudo nixos-rebuild switch --flake .#s1
+# or: sudo nixos-rebuild switch --flake .#pt-s1
+# or: sudo nixos-rebuild switch --flake .#ipnet-s1
 ```
 
 ## Updating
@@ -63,24 +64,24 @@ home-manager switch --flake .#louis
 ├── flake.nix                 # Main flake entry point
 ├── flake.lock
 ├── lib/                      # Utility library
-│   ├── default.nix           # Exports files module
-│   └── files.nix             # mkFileMappings helper for dotfile deployment
+│   ├── default.nix           # Exports files and hosts modules
+│   ├── files.nix             # mkFileMappings helper for dotfile deployment
+│   └── hosts.nix             # Host builder functions (mkDesktopHost, mkDevHost, mkCloudHost)
 ├── hosts/                    # NixOS host configurations
 │   ├── common/               # Shared NixOS configuration
 │   │   ├── default.nix       # Base system configuration (networking, VPN, filesystem tools)
 │   │   └── desktop.nix       # Desktop additions (GUI, audio, printing, fonts, mounts)
-│   ├── cloud/                # Cloud Root server (Docker Swarm/Compose runner)
 │   ├── dev/                  # Proxmox VM (headless, nix-ld for VS Code Remote SSH)
+│   ├── ipnet-s1/             # Cloud server (Docker runner)
 │   ├── latitude/             # Dell Latitude 7420
-│   └── lounge/               # HP EliteDesk 800 G2 Mini
+│   ├── lounge/               # HP EliteDesk 800 G2 Mini
+│   └── pt-s1/                # Cloud server (Docker runner)
 ├── modules/
 │   ├── nixos/                # NixOS system modules
 │   │   ├── desktop/
 │   │   │   ├── common.nix    # Shared desktop config, system packages, desktop.enable option
 │   │   │   ├── gnome.nix     # GNOME desktop module
 │   │   │   └── sway.nix      # Sway window manager module
-│   │   ├── roles/
-│   │   │   └── cloud-server.nix # Cloud server role (firewall, QEMU guest agent)
 │   │   ├── systemd/
 │   │   │   ├── default.nix   # Systemd service imports
 │   │   │   └── nix-gc.nix    # Automated garbage collection
@@ -98,7 +99,8 @@ home-manager switch --flake .#louis
 │       │   ├── emulators.nix # Retro gaming emulators (ZX Spectrum)
 │       │   ├── gnome.nix     # GNOME extensions and dconf settings
 │       │   ├── media.nix     # Kodi with PVR IPTV addon and NFS media sources
-│       │   └── sway.nix      # Sway window manager configuration
+│       │   ├── sway.nix      # Sway window manager configuration
+│       │   └── vscode.nix    # VSCode editor with extensions and settings
 │       ├── env.nix           # Environment variable configuration
 │       ├── gitsources.nix    # External git-sourced dotfiles (agent-resources flake input)
 │       └── secrets.nix       # SOPS secrets with age encryption
@@ -138,7 +140,7 @@ home-manager switch --flake .#louis
 
 **AI CLI**: claude-code, codex, gemini-cli, opencode
 
-**DevOps**: opentofu, terragrunt, awscli2, kubectl, helm, k9s, infisical, gh, lazygit
+**DevOps**: opentofu, terragrunt, awscli2, kubectl, helm, k9s, gh, lazygit
 
 **Databases**: PostgreSQL, MariaDB, Redis, SQLite
 
