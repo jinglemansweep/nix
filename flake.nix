@@ -40,6 +40,7 @@
         email = "jinglemansweep@gmail.com";
         githubUsername = "jinglemansweep";
         nfsHost = "ds920p.adm.ptre.es";
+        gpgSigningKey = "5BDBEFD838F22323";
       };
 
       hostBuilders = projectLib.hosts {

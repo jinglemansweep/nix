@@ -64,12 +64,16 @@
   programs = {
     git = {
       enable = true;
-      signing.format = "openpgp";
+      signing = {
+        format = "openpgp";
+        key = userConfig.gpgSigningKey;
+      };
       settings = {
+        commit.gpgSign = true;
+        tag.gpgSign = true;
         user = {
           name = userConfig.fullName;
           inherit (userConfig) email;
-          signingkey = "5BDBEFD838F22323";
         };
         init.defaultBranch = "main";
         pull.rebase = false;
@@ -334,8 +338,8 @@
 
   services.gpg-agent = {
     enable = true;
-    defaultCacheTtl = 7200;
-    maxCacheTtl = 28800;
+    defaultCacheTtl = 86400;
+    maxCacheTtl = 86400;
     pinentry.package = lib.mkDefault pkgs.pinentry-curses;
   };
 }
