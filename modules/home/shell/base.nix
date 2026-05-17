@@ -25,6 +25,7 @@
 
     # Interactive tools
     pkgs.fzf
+    pkgs.tldr
     pkgs.htop
     pkgs.btop
     pkgs.vim
