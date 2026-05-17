@@ -3,11 +3,11 @@
     "agent-resources": {
       "flake": false,
       "locked": {
-        "lastModified": 1779028237,
-        "narHash": "sha256-M/4bLbI2DMW6DI4Zrq+pTiwy95g6whS7BJ8mwbz03jY=",
+        "lastModified": 1779030237,
+        "narHash": "sha256-t34cEyF8j7KKhUJwLT2bqn/nCU9YTr/m4eQRjug0LII=",
         "owner": "jinglemansweep",
         "repo": "agent-resources",
-        "rev": "3d1eefd5bd68a22dafffe9c911eab1a83b39245a",
+        "rev": "9bd6e471c74c505ff4a58eda70e345ff6a4ba161",
         "type": "github"
       },
       "original": {
