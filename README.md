@@ -100,6 +100,7 @@ home-manager switch --flake .#louis
 │       │   ├── media.nix     # Kodi with PVR IPTV addon and NFS media sources
 │       │   └── sway.nix      # Sway window manager configuration
 │       ├── env.nix           # Environment variable configuration
+│       ├── gitsources.nix    # External git-sourced dotfiles (agent-resources flake input)
 │       └── secrets.nix       # SOPS secrets with age encryption
 ├── home/                     # Home Manager entry points
 │   ├── common/               # Shared home configuration (SOPS, XDG)
@@ -107,21 +108,6 @@ home-manager switch --flake .#louis
 │   ├── nixos.nix             # NixOS desktop (includes desktop modules)
 │   ├── server.nix            # NixOS server (shell + development tools)
 │   └── standalone.nix        # Standalone (ChromeOS/WSL, shell + development tools)
-├── dotfiles/
-│   ├── claude/               # Claude Code configuration
-│   │   ├── CLAUDE.md
-│   │   ├── commands/
-│   │   ├── agents/
-│   │   ├── skills/
-│   │   ├── settings.json
-│   │   └── mcp_settings.json
-│   ├── opencode/             # OpenCode configuration
-│   │   ├── opencode.json
-│   │   ├── commands/
-│   │   ├── agents/
-│   │   └── skills/
-│   └── direnv/
-│       └── direnvrc          # Custom load_secrets helpers
 ├── secrets/
 │   └── secrets.yaml          # Age-encrypted secrets (SOPS)
 └── scripts/

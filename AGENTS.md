@@ -75,6 +75,7 @@ modules/
       media.nix        # Kodi with PVR IPTV addon and NFS media sources
       sway.nix         # Sway window manager configuration
     env.nix            # Environment variable configuration (SOPS-managed)
+    gitsources.nix     # External git-sourced dotfiles (agent-resources flake input)
     secrets.nix        # SOPS secrets with age encryption
 
 home/                  # Home Manager entry points
@@ -83,22 +84,6 @@ home/                  # Home Manager entry points
   nixos.nix            # NixOS desktop entry (adds desktop modules)
   server.nix           # NixOS server entry (shell + development tools)
   standalone.nix       # Standalone entry (ChromeOS/WSL, shell + development tools)
-
-dotfiles/
-  claude/              # Claude Code configuration
-    CLAUDE.md          # Global Claude instructions
-    commands/          # Custom slash commands
-    agents/            # Custom agent definitions
-    skills/            # Custom skills
-    settings.json      # Claude settings
-    mcp_settings.json  # MCP server configuration
-  opencode/            # OpenCode configuration
-    opencode.json      # Server config and MCP servers
-    commands/          # Custom commands
-    agents/            # Custom agents
-    skills/            # Custom skills (dev-react, expert-testing, expert-security, etc.)
-  direnv/
-    direnvrc           # Custom direnv functions (load_secrets helpers)
 
 secrets/
   secrets.yaml         # Age-encrypted secrets (SOPS)
@@ -118,6 +103,7 @@ scripts/
 | `nixos-hardware` | NixOS | Hardware-specific configs |
 | `nur` | nix-community | Nix User Repo (Firefox extensions) |
 | `sops-nix` | Mic92 | Secrets management |
+| `agent-resources` | jinglemansweep | External dotfiles (OpenCode config) |
 
 ### specialArgs
 
@@ -158,9 +144,10 @@ All hosts receive `{ inherit inputs userConfig projectLib; }` as specialArgs.
 2. Generate `hardware-configuration.nix` on target hardware
 3. Add to `flake.nix` nixosConfigurations
 
-### New Dotfiles
-1. Add files under `dotfiles/<tool>/`
-2. Use `projectLib.files.mkFileMappings` in the relevant Home Manager module to deploy
+### New External Dotfiles (from flake input)
+1. Add repo as a flake input in `flake.nix` (set `flake = false` if it has no `flake.nix`)
+2. Add `xdg.configFile` or `home.file` entries in `modules/home/gitsources.nix`
+3. Run `nix flake update` to fetch and pin the repo
 
 ## Important Conventions
 
@@ -170,8 +157,8 @@ All hosts receive `{ inherit inputs userConfig projectLib; }` as specialArgs.
 - **Tmux prefix**: Ctrl+a (not Ctrl+b)
 - **Git**: pull.rebase = false
 - **Docker**: Default container runtime (Podman also available)
-- **Claude Code**: Dotfiles in `dotfiles/claude/` deployed via `projectLib.files.mkFileMappings`
-- **OpenCode**: Dotfiles in `dotfiles/opencode/` deployed via `projectLib.files.mkFileMappings`
+- **Claude Code**: Config deployed from `agent-resources` flake input via `modules/home/gitsources.nix` (updates via `nix flake update`)
+- **OpenCode**: Config deployed from `agent-resources` flake input via `modules/home/gitsources.nix` (updates via `nix flake update`)
 - **Direnv**: nix-direnv with custom `load_secrets` helpers
 - **Secrets**: SOPS with age encryption (`secrets/secrets.yaml`)
 - **Desktop toggle**: `desktop.enable` option in `modules/nixos/desktop/common.nix` — gate for desktop-only features
