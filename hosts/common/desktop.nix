@@ -42,7 +42,7 @@
     brscan4.enable = true;
   };
 
-  users.users.${userConfig.username}.extraGroups = [ "podman" "dialout" "scanner" "lp" "disk" ];
+  users.users.${userConfig.username}.extraGroups = [ "podman" "dialout" "scanner" "lp" "disk" "kvm" ];
 
   security.rtkit.enable = true;
   security.polkit.extraConfig = ''

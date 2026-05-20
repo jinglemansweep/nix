@@ -9,7 +9,7 @@
 
   networking = {
     hostName = "latitude";
-    firewall.allowedTCPPorts = [ 8000 8080 1883 9001 ];
+    firewall.allowedTCPPorts = [ 8000 8080 8081 1883 9001 ];
   };
 
   desktop.enable = true;
