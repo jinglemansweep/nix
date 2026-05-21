@@ -60,6 +60,7 @@
       pkgs.mariadb
       pkgs.redis
       pkgs.sqlite
+      pkgs.supabase-cli
       # pkgs.mongosh  # TODO: Broken in nixpkgs - npm cache out of sync
 
       # AI CLI Tools
