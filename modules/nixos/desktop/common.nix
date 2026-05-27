@@ -29,6 +29,7 @@
     programs.ssh.startAgent = false;
 
     environment.systemPackages = [
+      pkgs.android-studio
       pkgs.discord
       pkgs.firefox
       pkgs.libreoffice
@@ -47,5 +48,6 @@
       pkgs.rxvt-unicode
       pkgs.rpi-imager
     ];
+
   };
 }
