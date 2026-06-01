@@ -310,28 +310,28 @@
     ssh = {
       enable = true;
       enableDefaultConfig = false;
-      matchBlocks = {
+      settings = {
         "*" = {
-          extraOptions.AddKeysToAgent = "yes";
+          AddKeysToAgent = "yes";
         };
         "pvm?" = {
-          user = "root";
+          User = "root";
         };
         "*.svc.ptre.es" = {
-          user = "user";
+          User = "user";
         };
         "*.ptre.*" = {
-          forwardAgent = true;
+          ForwardAgent = true;
         };
         "*.ipnt.uk" = {
-          forwardAgent = true;
+          ForwardAgent = true;
         };
         "ds920p.*" = {
-          user = "NASAdmin";
-          port = 50051;
+          User = "NASAdmin";
+          Port = 50051;
         };
         "dev" = {
-          forwardAgent = true;
+          ForwardAgent = true;
         };
       };
     };
