@@ -20,7 +20,7 @@ in
 
     schedule = lib.mkOption {
       type = lib.types.str;
-      default = "*:0/15";
+      default = "hourly";
     };
 
     branch = lib.mkOption {
