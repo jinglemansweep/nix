@@ -56,7 +56,7 @@
         dev = hostBuilders.mkDevHost "dev";
         pt-s1 = hostBuilders.mkCloudHost "pt-s1";
         ipnet-s1 = hostBuilders.mkCloudHost "ipnet-s1";
-        svc-s1 = hostBuilders.mkCloudHost "svc-s1";
+        svc-s1 = hostBuilders.mkDockerHost "svc-s1";
       };
 
       homeConfigurations = {
