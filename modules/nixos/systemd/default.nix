@@ -4,5 +4,6 @@
 {
   imports = [
     ./nix-gc.nix
+    ./docker-stacks.nix
   ];
 }

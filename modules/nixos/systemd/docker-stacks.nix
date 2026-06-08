@@ -36,7 +36,7 @@ in
     ];
 
     sops.secrets.docker-stacks-deploy-key = {
-      sopsFile = ../../secrets/secrets.yaml;
+      sopsFile = ../../../secrets/secrets.yaml;
       key = "docker_stacks_deploy_key";
       path = "/root/.ssh/docker-stacks-deploy-key";
       owner = "root";
