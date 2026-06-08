@@ -85,6 +85,10 @@
         home-manager.nixosModules.home-manager
         {
           networking.firewall.trustedInterfaces = [ "tailscale0" "eth0" ];
+          virtualisation.docker.daemon.settings.hosts = [
+            "unix:///var/run/docker.sock"
+            "tcp://0.0.0.0:2375"
+          ];
           home-manager = {
             useGlobalPkgs = true;
             useUserPackages = true;
