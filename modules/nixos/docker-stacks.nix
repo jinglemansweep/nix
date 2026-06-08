@@ -48,13 +48,10 @@ in
       description = "Pull docker stacks from git";
       after = [ "network-online.target" ];
       wants = [ "network-online.target" ];
-      requires = [ "sops-nix.service" ];
-      serviceConfig = {
-        Type = "oneshot";
-        Environment = "GIT_SSH_COMMAND=ssh -i /root/.ssh/docker-stacks-deploy-key -o StrictHostKeyChecking=accept-new";
-      };
+      serviceConfig.Type = "oneshot";
       path = [ pkgs.git pkgs.openssh ];
       script = ''
+        export GIT_SSH_COMMAND="ssh -i /root/.ssh/docker-stacks-deploy-key -o StrictHostKeyChecking=accept-new"
         if [ -d "${cfg.path}/.git" ]; then
           git -C "${cfg.path}" pull
         else
