@@ -79,6 +79,7 @@
         ../hosts/common
         { environment.sessionVariables.NIX_INSTANCE_ID = dir; }
         ../modules/nixos/virtualisation.nix
+        ../modules/nixos/docker-paths.nix
         ../modules/nixos/systemd
         ../modules/nixos/mounts.nix
         sops-nix.nixosModules.sops
