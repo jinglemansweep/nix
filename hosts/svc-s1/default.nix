@@ -14,4 +14,6 @@
   };
 
   services.qemuGuest.enable = true;
+
+  custom.docker-stacks.enable = true;
 }
