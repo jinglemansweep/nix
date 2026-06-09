@@ -4,7 +4,7 @@
 {
   sops = {
     defaultSopsFile = ../../secrets/shared.yaml;
-    age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
+    age.keyFile = "/var/lib/sops-nix/host-age-key";
     secrets = {
       "home_lab_nfs_host" = { };
       "home_lab_nfs_root" = { };
