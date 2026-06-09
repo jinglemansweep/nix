@@ -2,15 +2,6 @@
 { config, pkgs, lib, ... }:
 
 {
-  # Create environment.d conf file from SOPS secrets
-  sops.templates."50-nix.conf" = {
-    content = ''
-      CONTEXT7_API_KEY=${config.sops.placeholder.context7_api_key}
-      ZAI_API_KEY=${config.sops.placeholder.zai_api_key}
-    '';
-    path = "${config.home.homeDirectory}/.config/environment.d/50-nix.conf";
-  };
-
-  # Ensure environment.d directory exists
+  # Ensure environment.d directory exists for SOPS templates
   xdg.configFile."environment.d/.keep".text = "";
 }

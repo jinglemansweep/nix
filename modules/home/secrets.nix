@@ -5,14 +5,7 @@
   sops = {
     defaultSopsFile = ../../secrets/common.yaml;
     age.keyFile = "/var/lib/sops-nix/host-age-key";
-    secrets = {
-      "context7_api_key" = {
-        sopsFile = ../../secrets/dev.yaml;
-      };
-      "zai_api_key" = {
-        sopsFile = ../../secrets/dev.yaml;
-      };
-    };
+    secrets = { };
   };
 
   home.packages = [
