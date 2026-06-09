@@ -3,10 +3,10 @@
 {
   sops.secrets = {
     "context7_api_key" = {
-      sopsFile = ../../secrets/dev.yaml;
+      sopsFile = ../../../secrets/dev.yaml;
     };
     "zai_api_key" = {
-      sopsFile = ../../secrets/dev.yaml;
+      sopsFile = ../../../secrets/dev.yaml;
     };
   };
 }
