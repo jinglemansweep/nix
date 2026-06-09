@@ -34,6 +34,7 @@ in
       tmpfiles.rules = [
         "d /mnt/docker/volumes 0777 root root -"
         "d /mnt/docker/stacks 0755 root root -"
+        "d /mnt/docker/env 0755 root root -"
       ];
 
       services.docker-stacks-pull = {
@@ -63,13 +64,28 @@ in
       };
     };
 
-    sops.secrets.docker-stacks-deploy-key = {
-      sopsFile = ../../../secrets/homelab.yaml;
-      key = "docker_stacks_deploy_key";
-      path = "/root/.ssh/docker-stacks-deploy-key";
-      owner = "root";
-      group = "root";
-      mode = "0600";
+    sops = {
+      secrets.docker-stacks-deploy-key = {
+        sopsFile = ../../../secrets/homelab.yaml;
+        key = "docker_stacks_deploy_key";
+        path = "/root/.ssh/docker-stacks-deploy-key";
+        owner = "root";
+        group = "root";
+        mode = "0600";
+      };
+
+      secrets.cloudflare-api-token = {
+        sopsFile = ../../../secrets/homelab.yaml;
+        key = "cloudflare_api_token";
+      };
+
+      templates."cloudflare.env" = {
+        content = ''
+          CLOUDFLARE_API_TOKEN=${config.sops.placeholder.cloudflare-api-token}
+        '';
+        path = "/mnt/docker/env/cloudflare.env";
+        mode = "0644";
+      };
     };
   };
 }
