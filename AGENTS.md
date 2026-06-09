@@ -171,13 +171,15 @@ All hosts receive `{ inherit inputs userConfig projectLib; }` as specialArgs.
 ### Secrets Management
 
 **SOPS (age encryption)** - configured in `modules/home/secrets.nix` and `modules/nixos/secrets.nix`:
-- Secrets file: `secrets/secrets.yaml`
+- Secrets files:
+  - `secrets/nixos.yaml` — NixOS-level secrets (`user_password_hash`), all hosts
+  - `secrets/common.yaml` — shared Home Manager secrets, all hosts
+  - `secrets/dev.yaml` — dev API keys (`context7_api_key`, `zai_api_key`), desktop+dev hosts only
 - Age key: `~/.config/sops/age/keys.txt`
 - NixOS-level secrets: `user_password_hash`
-- Home Manager secrets: `home_lab_nfs_host`, `home_lab_nfs_root`, `home_lab_traefik_domain`, `context7_api_key`, `zai_api_key`
+- Home Manager secrets: `context7_api_key`, `zai_api_key`
 
 **Environment variables** - configured in `modules/home/env.nix`:
-- `LAB_NFS_HOST`, `LAB_NFS_ROOT`, `LAB_TRAEFIK_DOMAIN`
 - `CONTEXT7_API_KEY`, `ZAI_API_KEY`
 
 **Direnv helpers** - for environment variables:

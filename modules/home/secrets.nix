@@ -3,14 +3,15 @@
 
 {
   sops = {
-    defaultSopsFile = ../../secrets/shared.yaml;
+    defaultSopsFile = ../../secrets/common.yaml;
     age.keyFile = "/var/lib/sops-nix/host-age-key";
     secrets = {
-      "home_lab_nfs_host" = { };
-      "home_lab_nfs_root" = { };
-      "home_lab_traefik_domain" = { };
-      "context7_api_key" = { };
-      "zai_api_key" = { };
+      "context7_api_key" = {
+        sopsFile = ../../secrets/dev.yaml;
+      };
+      "zai_api_key" = {
+        sopsFile = ../../secrets/dev.yaml;
+      };
     };
   };
 

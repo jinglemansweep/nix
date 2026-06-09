@@ -3,7 +3,7 @@
 
 {
   sops = {
-    defaultSopsFile = ../../secrets/shared.yaml;
+    defaultSopsFile = ../../secrets/nixos.yaml;
     age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
     secrets.user_password_hash = {
       neededForUsers = true;

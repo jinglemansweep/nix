@@ -11,19 +11,16 @@ keys:
   - &pt_s1 age1x8qwkar3k3wafk8hh0df32a6zwrhvsyc6k2wx9qajcjjhgk2aydqwhhvyh
 
 creation_rules:
+  - path_regex: secrets/nixos\.yaml$
+    key_groups:
+      - age: [*me, *dev, *latitude, *lounge, *svc_s1, *ipnet_s1, *pt_s1]
+  - path_regex: secrets/common\.yaml$
+    key_groups:
+      - age: [*me, *dev, *latitude, *lounge, *svc_s1, *ipnet_s1, *pt_s1]
+  - path_regex: secrets/dev\.yaml$
+    key_groups:
+      - age: [*me, *dev, *latitude, *lounge]
   - path_regex: secrets/homelab\.yaml$
     key_groups:
-      - age:
-          - *me
-          - *svc_s1
-  - path_regex: secrets/shared\.yaml$
-    key_groups:
-      - age:
-          - *me
-          - *dev
-          - *latitude
-          - *lounge
-          - *svc_s1
-          - *ipnet_s1
-          - *pt_s1
+      - age: [*me, *svc_s1]
 
