@@ -197,6 +197,7 @@
         "ignorespace"
       ];
       sessionVariables = {
+        EDITOR = "nvim";
         # Fix unreadable colors for world-writable files (777 permissions)
         # Uses 256-color dark green (22) instead of default bright green
         LS_COLORS = "ow=37;48;5;22:tw=37;48;5;22";
