@@ -63,7 +63,10 @@
   time.timeZone = "Europe/London";
   console.keyMap = "uk";
 
+  programs.nano.enable = false;
   programs.nix-ld.enable = true;
+
+  environment.variables.EDITOR = "nvim";
 
   services = {
     openssh = {
