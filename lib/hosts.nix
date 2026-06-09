@@ -69,4 +69,29 @@
         }
       ];
     };
+
+  mkDockerHost = dir:
+    nixpkgs.lib.nixosSystem {
+      inherit system;
+      specialArgs = { inherit inputs userConfig projectLib; };
+      modules = [
+        ../hosts/${dir}
+        ../hosts/common
+        { environment.sessionVariables.NIX_INSTANCE_ID = dir; }
+        ../modules/nixos/virtualisation.nix
+        ../modules/nixos/systemd
+        ../modules/nixos/mounts.nix
+        sops-nix.nixosModules.sops
+        home-manager.nixosModules.home-manager
+        {
+          networking.firewall.trustedInterfaces = [ "tailscale0" "eth0" ];
+          home-manager = {
+            useGlobalPkgs = true;
+            useUserPackages = true;
+            extraSpecialArgs = { inherit inputs userConfig projectLib; };
+            users.${userConfig.username} = import ../home/docker.nix;
+          };
+        }
+      ];
+    };
 }

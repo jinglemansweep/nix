@@ -333,6 +333,9 @@
         "dev" = {
           ForwardAgent = true;
         };
+        "svc*" = {
+          ForwardAgent = true;
+        };
       };
     };
   };
