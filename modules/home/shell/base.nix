@@ -221,7 +221,7 @@
         export GPG_TTY=$(tty)
 
         # Source global environment variables
-        [ -f ~/.config/environment.d/50-nix.conf ] && set -a && source ~/.config/environment.d/50-nix.conf && set +a
+        for f in ~/.config/environment.d/*.conf; do [ -f "$f" ] && set -a && source "$f" && set +a; done
 
         # Keychain for SSH keys (skip in GNOME which uses gnome-keyring)
         if [[ "$XDG_CURRENT_DESKTOP" != "GNOME" ]]; then
