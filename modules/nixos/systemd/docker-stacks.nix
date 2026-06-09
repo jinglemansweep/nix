@@ -64,7 +64,7 @@ in
     };
 
     sops.secrets.docker-stacks-deploy-key = {
-      sopsFile = ../../../secrets/shared.yaml;
+      sopsFile = ../../../secrets/homelab.yaml;
       key = "docker_stacks_deploy_key";
       path = "/root/.ssh/docker-stacks-deploy-key";
       owner = "root";
