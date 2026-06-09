@@ -30,44 +30,46 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    systemd.tmpfiles.rules = [
-      "d /mnt/docker/volumes 0777 root root -"
-      "d /mnt/docker/stacks 0755 root root -"
-    ];
+    systemd = {
+      tmpfiles.rules = [
+        "d /mnt/docker/volumes 0777 root root -"
+        "d /mnt/docker/stacks 0755 root root -"
+      ];
+
+      services.docker-stacks-pull = {
+        description = "Pull docker stacks from git";
+        after = [ "network-online.target" ];
+        wants = [ "network-online.target" ];
+        serviceConfig.Type = "oneshot";
+        path = [ pkgs.git pkgs.openssh ];
+        script = ''
+          export GIT_SSH_COMMAND="ssh -i /root/.ssh/docker-stacks-deploy-key -o StrictHostKeyChecking=accept-new"
+          if [ -d "${cfg.path}/.git" ]; then
+            git -C "${cfg.path}" pull
+          else
+            git clone -b "${cfg.branch}" "${cfg.repo}" "${cfg.path}"
+          fi
+        '';
+      };
+
+      timers.docker-stacks-pull = {
+        description = "Periodic docker stacks git pull";
+        wantedBy = [ "timers.target" ];
+        timerConfig = {
+          OnCalendar = cfg.schedule;
+          Persistent = true;
+          RandomizedDelaySec = "5min";
+        };
+      };
+    };
 
     sops.secrets.docker-stacks-deploy-key = {
-      sopsFile = ../../../secrets/secrets.yaml;
+      sopsFile = ../../../secrets/shared.yaml;
       key = "docker_stacks_deploy_key";
       path = "/root/.ssh/docker-stacks-deploy-key";
       owner = "root";
       group = "root";
       mode = "0600";
-    };
-
-    systemd.services.docker-stacks-pull = {
-      description = "Pull docker stacks from git";
-      after = [ "network-online.target" ];
-      wants = [ "network-online.target" ];
-      serviceConfig.Type = "oneshot";
-      path = [ pkgs.git pkgs.openssh ];
-      script = ''
-        export GIT_SSH_COMMAND="ssh -i /root/.ssh/docker-stacks-deploy-key -o StrictHostKeyChecking=accept-new"
-        if [ -d "${cfg.path}/.git" ]; then
-          git -C "${cfg.path}" pull
-        else
-          git clone -b "${cfg.branch}" "${cfg.repo}" "${cfg.path}"
-        fi
-      '';
-    };
-
-    systemd.timers.docker-stacks-pull = {
-      description = "Periodic docker stacks git pull";
-      wantedBy = [ "timers.target" ];
-      timerConfig = {
-        OnCalendar = cfg.schedule;
-        Persistent = true;
-        RandomizedDelaySec = "5min";
-      };
     };
   };
 }

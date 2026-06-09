@@ -3,8 +3,8 @@
 
 {
   sops = {
-    defaultSopsFile = ../../secrets/secrets.yaml;
-    age.keyFile = "/home/${userConfig.username}/.config/sops/age/keys.txt";
+    defaultSopsFile = ../../secrets/shared.yaml;
+    age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
     secrets.user_password_hash = {
       neededForUsers = true;
     };

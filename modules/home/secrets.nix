@@ -3,8 +3,8 @@
 
 {
   sops = {
-    defaultSopsFile = ../../secrets/secrets.yaml;
-    age.keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
+    defaultSopsFile = ../../secrets/shared.yaml;
+    age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
     secrets = {
       "home_lab_nfs_host" = { };
       "home_lab_nfs_root" = { };
