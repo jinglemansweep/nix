@@ -2,7 +2,7 @@
 { config, pkgs, lib, ... }:
 
 {
-  # Overwrite old unified template — dev env vars moved to modules/home/shell/env.nix
+  # Overwrite old unified template — dev env vars moved to modules/home/shell/dev.nix
   sops.templates."50-nix.conf" = {
     content = '''';
     path = "${config.home.homeDirectory}/.config/environment.d/50-nix.conf";

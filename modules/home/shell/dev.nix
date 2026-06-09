@@ -1,7 +1,24 @@
-# Development tools: languages, LSPs, build tools, DevOps, AI CLI, and embedded
-{ pkgs, projectLib, ... }:
+# Development tools: languages, LSPs, build tools, DevOps, AI CLI, embedded, and dev secrets
+{ config, pkgs, projectLib, ... }:
 
 {
+  sops.secrets = {
+    "context7_api_key" = {
+      sopsFile = ../../../secrets/dev.yaml;
+    };
+    "zai_api_key" = {
+      sopsFile = ../../../secrets/dev.yaml;
+    };
+  };
+
+  sops.templates."50-dev.conf" = {
+    content = ''
+      CONTEXT7_API_KEY=${config.sops.placeholder.context7_api_key}
+      ZAI_API_KEY=${config.sops.placeholder.zai_api_key}
+    '';
+    path = "${config.home.homeDirectory}/.config/environment.d/50-dev.conf";
+  };
+
   home = {
     packages = [
       # Languages

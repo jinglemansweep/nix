@@ -65,7 +65,7 @@ modules/
   home/                # Home Manager modules
     shell/
       base.nix         # Git, tmux, bash, starship, neovim, GPG, SSH, core CLI
-      development.nix  # Languages, LSPs, AI CLI, DevOps, database clients, VSCode
+      dev.nix          # Languages, LSPs, AI CLI, DevOps, database clients, dev secrets
       docker.nix       # Container management tools (lazydocker)
     desktop/
       default.nix      # Alacritty terminal, udiskie automount, imports other desktop modules
@@ -166,11 +166,12 @@ All hosts receive `{ inherit inputs userConfig projectLib; }` as specialArgs.
 - **OpenCode**: Config deployed from `agent-resources` flake input via `modules/home/gitsources.nix` (updates via `nix flake update`)
 - **Direnv**: nix-direnv with custom `load_secrets` helpers
 - **Secrets**: SOPS with age encryption (`secrets/secrets.yaml`)
+- **Work modules**: Self-contained modules that include their own secrets and env templates (e.g., `modules/home/shell/dev.nix`)
 - **Desktop toggle**: `desktop.enable` option in `modules/nixos/desktop/common.nix` — gate for desktop-only features
 
 ### Secrets Management
 
-**SOPS (age encryption)** - configured in `modules/nixos/secrets.nix`, `modules/home/secrets.nix`, and `modules/home/shell/secrets.nix`:
+**SOPS (age encryption)** - configured in `modules/nixos/secrets.nix`, `modules/home/secrets.nix`, and `modules/home/shell/dev.nix`:
 - Secrets files:
   - `secrets/nixos.yaml` — NixOS-level secrets (`user_password_hash`), all hosts
   - `secrets/common.yaml` — shared Home Manager secrets, all hosts
@@ -179,7 +180,7 @@ All hosts receive `{ inherit inputs userConfig projectLib; }` as specialArgs.
 - NixOS-level secrets: `user_password_hash`
 - Home Manager secrets: `context7_api_key`, `zai_api_key`
 
-**Environment variables** - configured in `modules/home/env.nix` and `modules/home/shell/env.nix`:
+**Environment variables** - configured in `modules/home/env.nix` and `modules/home/shell/dev.nix`:
 - `CONTEXT7_API_KEY`, `ZAI_API_KEY`
 
 **Direnv helpers** - for environment variables:
@@ -203,13 +204,13 @@ load_secrets my-project    # Loads ~/.secrets/global.env + ~/.secrets/projects/m
 | System packages | `hosts/common/default.nix` | vim, git, wget, curl, dnsutils, bubblewrap, openvpn, wireguard-tools, cifs-utils, nfs-utils |
 | Desktop apps (system) | `modules/nixos/desktop/common.nix` | Firefox, Chrome, Discord, LibreOffice, GIMP, Pinta, VLC, mpv, ffmpeg, Shotcut, Cura, Thonny, Tiled, Evince, Baobab, rxvt-unicode, rpi-imager |
 | Core CLI tools | `modules/home/shell/base.nix` | bat, eza, fd, ripgrep, tree, ncdu, dust, duf, glow, yazi, fzf, tldr, htop, btop, vim, screen, jq, yq, jless, delta, fastfetch, keychain, infisical, borgbackup, rclone, restic, imagemagick, inkscape, lsof, rsync, zip, unzip, gnutar, xz, bzip2, gzip, p7zip, usbutils, psmisc; programs: zoxide, direnv, neovim, gpg, ssh, gpg-agent |
-| Dev languages | `modules/home/shell/development.nix` | Python 3 (pip, virtualenv, pipx, pyyaml, poetry, uv, ruff), Node.js, Rust (rustc, cargo), Go, build tools (gcc, gnumake, cmake, pkg-config, autoconf, automake, libtool) |
-| Language servers | `modules/home/shell/development.nix` | gopls, nil, nixd, pyright, typescript-language-server, yaml-language-server, terraform-ls, dockerfile-language-server, bash-language-server, vscode-langservers-extracted |
-| Lint tools | `modules/home/shell/development.nix` | eslint, shellcheck, yamllint, markdownlint-cli |
-| AI CLI tools | `modules/home/shell/development.nix` | claude-code, codex, gemini-cli, opencode |
-| DevOps tools | `modules/home/shell/development.nix` | opentofu, terragrunt, awscli2, kubectl, kubernetes-helm, k9s, pre-commit, gh, github-copilot-cli, lazygit |
-| Database clients | `modules/home/shell/development.nix` | postgresql, mariadb, redis, sqlite |
-| MicroPython tools | `modules/home/shell/development.nix` | picocom, esptool, picotool, mpremote, mosquitto, esphome |
+| Dev languages | `modules/home/shell/dev.nix` | Python 3 (pip, virtualenv, pipx, pyyaml, poetry, uv, ruff), Node.js, Rust (rustc, cargo), Go, build tools (gcc, gnumake, cmake, pkg-config, autoconf, automake, libtool) |
+| Language servers | `modules/home/shell/dev.nix` | gopls, nil, nixd, pyright, typescript-language-server, yaml-language-server, terraform-ls, dockerfile-language-server, bash-language-server, vscode-langservers-extracted |
+| Lint tools | `modules/home/shell/dev.nix` | eslint, shellcheck, yamllint, markdownlint-cli |
+| AI CLI tools | `modules/home/shell/dev.nix` | claude-code, codex, gemini-cli, opencode |
+| DevOps tools | `modules/home/shell/dev.nix` | opentofu, terragrunt, awscli2, kubectl, kubernetes-helm, k9s, pre-commit, gh, github-copilot-cli, lazygit |
+| Database clients | `modules/home/shell/dev.nix` | postgresql, mariadb, redis, sqlite |
+| MicroPython tools | `modules/home/shell/dev.nix` | picocom, esptool, picotool, mpremote, mosquitto, esphome |
 | Docker tools | `modules/home/shell/docker.nix` | lazydocker |
 | Browsers (user) | `modules/home/desktop/browsers.nix` | Firefox extensions (uBlock, Bitwarden), Chromium, bookmarks |
 | Development editors | `modules/home/desktop/development.nix` | Zed editor with extensions and AI agent config, OpenCode desktop client |
@@ -276,11 +277,11 @@ inputs.nur.url = "github:nix-community/NUR";
 ```
 
 ### VSCode Extension SHA Mismatch
-Update sha256 in `modules/home/shell/development.nix` when versions change.
+Update sha256 in `modules/home/shell/dev.nix` when versions change.
 
 ### Hardware Config Missing
 Generate on target: `nixos-generate-config --show-hardware-config`
 
 ### Broken Packages
-- `mongosh`: Commented out in development.nix (npm cache issue)
+- `mongosh`: Commented out in dev.nix (npm cache issue)
 - `mtpaint`: Removed (incompatible with libpng 1.6.52)

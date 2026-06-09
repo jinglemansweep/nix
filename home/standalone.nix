@@ -6,9 +6,7 @@
     ./common
     ../modules/home/shell/base.nix
     ../modules/home/shell/docker.nix
-    ../modules/home/shell/development.nix
-    ../modules/home/shell/secrets.nix
-    ../modules/home/shell/env.nix
+    ../modules/home/shell/dev.nix
   ];
 
   targets.genericLinux.enable = true;
