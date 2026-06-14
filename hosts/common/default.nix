@@ -64,7 +64,13 @@
   console.keyMap = "uk";
 
   programs.nano.enable = false;
-  programs.nix-ld.enable = true;
+  programs.nix-ld = {
+    enable = true;
+    libraries = with pkgs; [
+      zlib # numpy
+      libgcc # sqlalchemy
+    ];
+  };
 
   environment.variables.EDITOR = "nvim";
 

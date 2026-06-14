@@ -3,11 +3,11 @@
     "agent-resources": {
       "flake": false,
       "locked": {
-        "lastModified": 1781359300,
-        "narHash": "sha256-7Jy31Jxn1pciAmwnbBbSDcfbAqx2vi5fkxkQSjuK9F0=",
+        "lastModified": 1781374151,
+        "narHash": "sha256-1fU9uLLjHq4/Y/rqSt3Y7wE4O1RIbJxLN8JcGQ3Ms+8=",
         "owner": "jinglemansweep",
         "repo": "agent-resources",
-        "rev": "a406f6df6b2ee06ce3b849bbb5b577aca6d0ab5b",
+        "rev": "68882f861bf3ad518b091f3836530c45e0a0a3b7",
         "type": "github"
       },
       "original": {
@@ -44,11 +44,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1781305496,
-        "narHash": "sha256-g8Vv4Qfc7n+lgov97REu3X6BeJtvYY0hlSUZR1GrGQQ=",
+        "lastModified": 1781365335,
+        "narHash": "sha256-zqDBhXMzfbdlO7F2bGHe7MOtB3xngd/+4ieMHDC+ZXo=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "c87a39aa979acc4848016d2220c6238390d84779",
+        "rev": "5b6f5733726a1b2ccafb5dec6ac4ca7299fad66c",
         "type": "github"
       },
       "original": {
@@ -128,11 +128,11 @@
         "nixpkgs": "nixpkgs_3"
       },
       "locked": {
-        "lastModified": 1781355852,
-        "narHash": "sha256-rv3hrVM2lyH0ebdIu3BVC79r7IOA/vzN4x4Na7EaybY=",
+        "lastModified": 1781373340,
+        "narHash": "sha256-btkNgbI+/MydPO5lz5jR6a8H1GKxPVppIF4HZoYtOtc=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "6dedb495804a0bfbd9a641a2e888f295b94943b1",
+        "rev": "4d39bb217d99aff751273cdc11b80acb02fa92f8",
         "type": "github"
       },
       "original": {
