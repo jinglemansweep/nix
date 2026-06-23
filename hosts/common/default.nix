@@ -92,6 +92,12 @@
     tailscale.enable = true;
   };
 
+  # Serial devices: make USB/ACM serial ports world-accessible on all hosts
+  services.udev.extraRules = ''
+    KERNEL=="ttyUSB[0-9]*", MODE="0666"
+    KERNEL=="ttyACM[0-9]*", MODE="0666"
+  '';
+
   systemd.services.docker = lib.mkIf config.virtualisation.docker.enable {
     wantedBy = [ "multi-user.target" ];
   };
