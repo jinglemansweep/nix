@@ -38,7 +38,7 @@
     networkmanager.enable = true;
     wireguard.enable = true;
     firewall = {
-      enable = true;
+      enable = lib.mkDefault false;
       trustedInterfaces = [ "tailscale0" ];
       allowedTCPPorts = [ 22 ];
       allowedUDPPorts = [ config.services.tailscale.port ];

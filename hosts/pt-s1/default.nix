@@ -6,6 +6,7 @@
   networking = {
     hostName = "pt-s1";
     firewall = {
+      enable = true;
       allowedTCPPorts = [ 80 443 ];
       allowedUDPPorts = [ 51820 ];
     };
