@@ -6,10 +6,7 @@
     ./hardware-configuration.nix
   ];
 
-  networking = {
-    hostName = "dev";
-    firewall.allowedTCPPorts = [ 1883 4096 8000 8080 9090 9093 ];
-  };
+  networking.hostName = "dev";
 
   services.qemuGuest.enable = true;
 }

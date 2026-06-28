@@ -5,13 +5,7 @@
     ./hardware-configuration.nix
   ];
 
-  networking = {
-    hostName = "svc-s1";
-    firewall = {
-      allowedTCPPorts = [ 22 80 443 ];
-      allowedUDPPorts = [ 51820 ];
-    };
-  };
+  networking.hostName = "svc-s1";
 
   services.qemuGuest.enable = true;
 
